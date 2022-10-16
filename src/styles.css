@@ -2,3 +2,127 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+html *{
+  font-family: 'Lato', sans-serif !important;
+}
+
+.h1-custom{
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: 700;
+}
+.h2-custom{
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 700;
+}
+.h3-custom{
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+}
+.h3-5-custom{
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 700;
+}
+.h4-custom{
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+}
+.h5-custom{
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 900;
+}
+.h6-custom{
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 900;
+}
+
+
+.text-body-xlg{
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: normal;
+}
+.text-body-lg{
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: normal;
+}
+.text-body-reg{
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+}
+.text-body-sm{
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: normal;
+}
+.text-body-sm-alt{
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}
+.text-label{
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 900;
+}
+.text-hint{
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 700; /* should be semibold - 800 */
+}
+
+
+.link-lg{
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.link-reg {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-sm{
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 900;
+}
+.strikethrough-reg{
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 900;
+  text-decoration: line-through;
+}
+.strikethrough-sm{
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 900;
+  text-decoration: line-through;
+}
+.pill-reg{
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.pill-sm{
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
