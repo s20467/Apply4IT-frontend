@@ -1,0 +1,13 @@
+.burger-icon{
+  width: 40px;
+  height: 36px;
+}
+
+.burger-icon *{
+  @apply stroke-primary-700;
+  @apply stroke-[30px];
+}
+
+.shdw{
+  box-shadow: 5px 10px #888888;
+}

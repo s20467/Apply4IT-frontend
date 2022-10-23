@@ -1,0 +1,3 @@
+.main-menu-link *{
+  @apply stroke-gray-700
+}
