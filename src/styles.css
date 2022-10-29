@@ -1,9 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Hairline.ttf);
+  font-weight: 100;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-HairlineItalic.ttf);
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Thin.ttf);
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-ThinItalic.ttf);
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Light.ttf);
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-LightItalic.ttf);
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Regular.ttf);
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Medium.ttf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-MediumItalic.ttf);
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Semibold.ttf);
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-SemiboldItalic.ttf);
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Bold.ttf);
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-BoldItalic.ttf);
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Heavy.ttf);
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-HeavyItalic.ttf);
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-Black.ttf);
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url(src/assets/fonts/Lato/Lato-BlackItalic.ttf);
+  font-weight: 900;
+  font-style: italic;
+}
 
 html *{
   font-family: 'Lato', sans-serif !important;
@@ -37,39 +134,44 @@ html *{
 .h5-custom{
   font-size: 16px;
   /*line-height: 20px;*/
-  font-weight: 900;
+  font-weight: 900;/*todo or 800*/
 }
 .h6-custom{
   font-size: 12px;
   /*line-height: 12px;*/
-  font-weight: 900;
+  font-weight: 900;/*todo or 800*/
 }
 
 
 .text-body-xlg{
   font-size: 24px;
   /*line-height: 28px;*/
-  font-weight: normal;
+  font-weight: 400;
 }
 .text-body-lg{
   font-size: 20px;
   /*line-height: 24px;*/
-  font-weight: normal;
+  font-weight: 400;
 }
 .text-body-reg{
   font-size: 16px;
   /*line-height: 20px;*/
-  font-weight: normal;
+  font-weight: 400;
 }
 .text-body-reg-bold{
   font-size: 16px;
   /*line-height: 20px;*/
   font-weight: 700;
 }
+.text-body-reg-semibold{
+  font-size: 16px;
+  /*line-height: 20px;*/
+  font-weight: 600;
+}
 .text-body-sm{
   font-size: 12px;
   /*line-height: 16px;*/
-  font-weight: normal;
+  font-weight: 400;
 }
 .text-body-sm-alt{
   font-size: 12px;
@@ -84,7 +186,7 @@ html *{
 .text-hint{
   font-size: 10px;
   /*line-height: 16px;*/
-  font-weight: 700; /* should be semibold - 800 */
+  font-weight: 600;
 }
 
 
