@@ -1,3 +1,19 @@
+.main-menu-link {
+  @apply block py-2 w-full pl-6 pr-10;
+}
+
 .main-menu-link *{
-  @apply stroke-gray-700
+  @apply stroke-gray-700;
+}
+
+.main-menu-link li{
+  @apply flex items-end gap-2;
+}
+
+.main-menu-link:hover{
+  @apply text-primary-800 bg-primary-100 cursor-pointer;
+}
+
+.main-menu-link:hover *{
+  @apply stroke-primary-800;
 }

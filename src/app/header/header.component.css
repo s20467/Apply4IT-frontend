@@ -8,6 +8,18 @@
   @apply stroke-[30px];
 }
 
-.shdw{
-  box-shadow: 5px 10px #888888;
+.main-menu-open-button{
+  @apply col-start-12 justify-self-end;
+}
+
+.main-menu-open-button:hover{
+  @apply col-start-12 justify-self-end;
+}
+
+.main-menu-open-button:hover .burger-icon{
+  @apply border-2 border-primary-300 rounded-md;
+}
+
+.main-menu-open-button:hover .burger-icon *{
+  @apply stroke-primary-500;
 }
