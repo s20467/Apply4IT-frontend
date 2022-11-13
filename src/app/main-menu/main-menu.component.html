@@ -109,7 +109,7 @@
         </div>
         Zarejestruj firmę
       </li></a>
-      <a class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a *ngIf="!usersService.isLoggedIn()" [routerLink]="['/login']" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--          <rect width="256" height="256" fill="none"></rect>-->
           <polyline points="94 170 136 128 94 86" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
@@ -118,7 +118,7 @@
         </svg>
         Zaloguj się
       </li></a>
-      <a class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a *ngIf="usersService.isLoggedIn()" (click)="logout()" class="main-menu-link"><li>
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--          <rect width="256" height="256" fill="none"></rect>-->
           <polyline points="174 86 216 128 174 170" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
@@ -127,7 +127,7 @@
         </svg>
         Wyloguj się
       </li></a>
-      <a class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a *ngIf="!usersService.isLoggedIn()" [routerLink]="['/register']" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--          <rect width="256" height="256" fill="none"></rect>-->
           <line x1="200" y1="136" x2="248" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {MainMenuToggleService} from "../shared/main-menu-toggle.service";
+import { MainMenuToggleService } from "../shared/service/main-menu-toggle.service";
+import { UsersService } from "../shared/service/users.service";
 
 @Component({
   selector: 'app-main-menu',
@@ -8,12 +9,19 @@ import {MainMenuToggleService} from "../shared/main-menu-toggle.service";
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor(public mainMenuToggleService: MainMenuToggleService) { }
+  constructor(public mainMenuToggleService: MainMenuToggleService, public usersService: UsersService) { }
 
   ngOnInit(): void {
   }
 
   public toggleMainMenuOpen() {
-    this.mainMenuToggleService.emitMainMenuToggleChanged()
+    this.mainMenuToggleService.emitMainMenuToggleChanged();
   }
+
+  public logout() {
+    console.log('logout')
+    this.usersService.logout();
+    this.toggleMainMenuOpen();
+  }
+
 }

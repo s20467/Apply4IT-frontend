@@ -233,3 +233,8 @@ html *{
   font-weight: 700;
   text-transform: uppercase;
 }
+
+
+input {
+  --tw-ring-shadow: 0 0 #000 !important;
+}

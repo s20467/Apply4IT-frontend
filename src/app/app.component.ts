@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MainMenuToggleService} from "./shared/main-menu-toggle.service";
+import { Component, OnInit } from '@angular/core';
+import { MainMenuToggleService } from "./shared/service/main-menu-toggle.service";
 
 @Component({
   selector: 'app-root',

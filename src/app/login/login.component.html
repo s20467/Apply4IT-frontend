@@ -1,0 +1,19 @@
+<div class="w-[750px] max-w-[90vw] mx-auto mt-48 flex flex-col">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Zaloguj się</div>
+  <div class="bg-white p-16">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col gap-16">
+      <div class="border-b-4 border-primary-400 flex flex-col">
+        <label class="h4-custom text-gray-500" for="email-input">Email:</label>
+        <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="email-input" type="text" formControlName="email" autofocus>
+      </div>
+      <div class="border-b-4 border-primary-400 flex flex-col">
+        <label class="h4-custom text-gray-500" for="password-input">Hasło:</label>
+        <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="password-input" type="password" formControlName="password" autofocus>
+      </div>
+      <div>
+        <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zaloguj się</button>
+        <p class="mt-1 text-gray-500 text-body-reg">Nie posiadasz jeszcze konta? <a class="text-primary-500 link-reg cursor-pointer hover:text-primary-400">Zarejestruj się.</a></p>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="fixed left-0 h-full min-w-max bg-white z-40 pt-6 px-8">
+  <div class="h4-custom my-6 text-gray-800">Filtry</div>
+  <form [formGroup]="filtersForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 text-body-reg">
+    <div>
+      <p class="text-gray-700 mb-2">Kategorie:</p>
+      <div class="max-h-[20rem] overflow-auto">
+        <div class="flex flex-row ml-4 mb-1" formArrayName="categories" *ngFor="let category of categoriesFormArray.controls; let i = index">
+          <input id="category-checkbox-{{ i }}" class="cursor-pointer border-2 rounded-sm border-gray-600 w-[22px] h-[22px] mr-2" type="checkbox" [formControlName]="i">
+          <label for="category-checkbox-{{ i }}" class="text-gray-800 max-w-[150px]">{{ categories[i].title }}</label>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="text-gray-700 mb-2">Lokalizacje:</p>
+      <div class="max-h-[20rem] overflow-auto">
+        <div class="flex flex-row ml-4 mb-1" formArrayName="localizations" *ngFor="let localization of localizationsFormArray.controls; let i = index">
+          <input id="category-checkbox-{{ i }}" class="cursor-pointer border-2 rounded-sm border-gray-600 w-[22px] h-[22px] mr-2" type="checkbox" [formControlName]="i">
+          <label for="category-checkbox-{{ i }}" class="text-gray-800 max-w-[150px]">{{ localizations[i].name }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row mb-[-10px]">
+      <input id="first-job-possibility-input" class="cursor-pointer border-2 rounded-sm border-gray-600 w-[22px] h-[22px] mr-2" type="checkbox" [formControlName]="'firstJobPossibility'">
+      <label for="first-job-possibility-input" class="text-gray-700">Pierwsza praca</label>
+    </div>
+    <div class="flex flex-row">
+      <input id="remote-job-possibility-input" class="cursor-pointer border-2 rounded-sm border-gray-600 w-[22px] h-[22px] mr-2" type="checkbox" [formControlName]="'remoteJobPossibility'">
+      <label for="remote-job-possibility-input" class="text-gray-700">Praca zdalna</label>
+    </div>
+    <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Filtruj</button>
+  </form>
+</div>
