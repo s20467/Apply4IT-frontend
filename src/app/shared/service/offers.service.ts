@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { OfferMinimalDto } from "../model/offer-minimal-dto.model";
 import { Page } from "../model/page.model";
+import {OfferSearchSpecification} from "../model/offer-search-specification.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class OffersService {
   getOffers(pageNumber: number) {
     let params = new HttpParams().set('page', pageNumber);
     return this.http.get<Page<OfferMinimalDto>>(this.urlBase + "offers", { params: params });
+  }
+
+  searchOffers(searchObject: OfferSearchSpecification | null, pageNumber: number) {
+    let params = new HttpParams().set('page', pageNumber);
+    return this.http.post<Page<OfferMinimalDto>>(this.urlBase + "offers/search", searchObject, { params: params });
   }
 
   emitOffersChanged() {

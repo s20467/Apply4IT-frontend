@@ -134,12 +134,17 @@ html *{
 .h5-custom{
   font-size: 16px;
   /*line-height: 20px;*/
-  font-weight: 900;/*todo or 800*/
+  font-weight: 900;
+}
+.h5-custom-700{
+  font-size: 16px;
+  /*line-height: 20px;*/
+  font-weight: 700;
 }
 .h6-custom{
   font-size: 12px;
   /*line-height: 12px;*/
-  font-weight: 900;/*todo or 800*/
+  font-weight: 900;
 }
 
 

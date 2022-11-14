@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {LocalizationFullDto} from "../../../shared/model/localization-full-dto.model";
 import {CategoryFullDto} from "../../../shared/model/category-full-dto.model";
 import {CategoriesService} from "../../../shared/service/categories.service";
 import {LocalizationsService} from "../../../shared/service/localizations.service";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Subject} from "rxjs";
+import {OfferFilters} from "../../../shared/model/offer-filters.model";
 
 @Component({
   selector: 'app-offers-filters',
@@ -11,6 +13,8 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./offers-filters.component.css']
 })
 export class OffersFiltersComponent implements OnInit {
+
+  @Output('offerFiltersChanged') offerFiltersChanged = new Subject<OfferFilters>()
 
   categories: CategoryFullDto[] = [];
   localizations: LocalizationFullDto[] = [];
@@ -63,6 +67,13 @@ export class OffersFiltersComponent implements OnInit {
 
     let firstJobPossibilityChecked = this.filtersForm.value["firstJobPossibility"];
     let remoteJobPossibilityChecked = this.filtersForm.value["remoteJobPossibility"];
+
+    this.offerFiltersChanged.next({
+      categoriesIds: selectedCategoriesIds,
+      localizationsIds: selectedLocalizationsIds,
+      firstJobPossibility: firstJobPossibilityChecked ? true : null,
+      remoteJobPossibility: remoteJobPossibilityChecked ? true : null,
+    })
   }
 
 }
