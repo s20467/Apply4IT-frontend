@@ -4,6 +4,7 @@ import { OfferMinimalDto } from "../../shared/model/offer-minimal-dto.model";
 import { Subscription } from "rxjs";
 import {OfferSearchSpecification} from "../../shared/model/offer-search-specification.model";
 import {OfferFilters} from "../../shared/model/offer-filters.model";
+import {PaginationObject} from "../../shared/model/pagination-object.model";
 
 @Component({
   selector: 'app-offers-list',
@@ -13,8 +14,9 @@ import {OfferFilters} from "../../shared/model/offer-filters.model";
 export class OffersListComponent implements OnInit, OnDestroy {
 
   offers: OfferMinimalDto[] = [];
+  paginationObject: PaginationObject;
   offersChangedSub: Subscription;
-  pageNumber: number = 0;
+  offersPaginationChangedSub: Subscription;
 
   searchObject: OfferSearchSpecification = {
     stringSearchSection: null,
@@ -24,17 +26,29 @@ export class OffersListComponent implements OnInit, OnDestroy {
     firstJobPossibilityEqual: null
   }
 
-  constructor(private offersService: OffersService) { }
+  constructor(private offersService: OffersService) {
+    this.paginationObject = {
+      currentPage: 0,
+      numberOfPages: 1
+    }
+  }
 
   ngOnInit(): void {
-    this.offersService.getOffers(this.pageNumber).subscribe((offersPage) => {
+    this.offersService.getOffers(this.paginationObject.currentPage).subscribe((offersPage) => {
       this.offers = offersPage.content;
+      this.paginationObject.numberOfPages = offersPage.totalPages;
+      this.offersService.emitOffersPaginationChanged();
     });
    this.offersChangedSub = this.offersService.offersChanged.subscribe(() => {
-     console.log(this.searchObject);
-      this.offersService.searchOffers(this.searchObject, this.pageNumber).subscribe((offersPage) => {
+      this.offersService.searchOffers(this.searchObject, this.paginationObject.currentPage).subscribe((offersPage) => {
         this.offers = offersPage.content;
-        console.log(this.offers)
+        this.paginationObject.numberOfPages = offersPage.totalPages;
+      });
+    });
+    this.offersPaginationChangedSub = this.offersService.offersPaginationChanged.subscribe(() => {
+      this.offersService.searchOffers(this.searchObject, this.paginationObject.currentPage).subscribe((offersPage) => {
+        this.offers = offersPage.content;
+        this.paginationObject.numberOfPages = offersPage.totalPages;
       });
     });
   }
@@ -54,7 +68,7 @@ export class OffersListComponent implements OnInit, OnDestroy {
         anyCategoryNameLike: searchString
       }
     }
-    this.pageNumber = 0;
+    this.paginationObject.currentPage = 0;
     this.offersService.emitOffersChanged();
   }
 
@@ -71,12 +85,13 @@ export class OffersListComponent implements OnInit, OnDestroy {
       this.searchObject.anyCategoryIdEqual = offerFilters.categoriesIds;
       this.searchObject.anyLocalizationIdEqual = offerFilters.localizationsIds;
     }
-    this.pageNumber = 0;
+    this.paginationObject.currentPage = 0;
     this.offersService.emitOffersChanged();
   }
 
   ngOnDestroy() {
     this.offersChangedSub.unsubscribe();
+    this.offersPaginationChangedSub.unsubscribe();
   }
 
 

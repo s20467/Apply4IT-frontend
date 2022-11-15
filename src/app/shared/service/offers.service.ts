@@ -14,6 +14,7 @@ export class OffersService {
   private urlBase: string = environment.apiUrlBase + "api/v1/";
 
   offersChanged = new Subject<any>();
+  offersPaginationChanged = new Subject<any>();
 
   constructor(private http: HttpClient) { }
 
@@ -29,5 +30,10 @@ export class OffersService {
 
   emitOffersChanged() {
     this.offersChanged.next(null);
+    this.emitOffersPaginationChanged();
+  }
+
+  emitOffersPaginationChanged() {
+    this.offersPaginationChanged.next(null);
   }
 }

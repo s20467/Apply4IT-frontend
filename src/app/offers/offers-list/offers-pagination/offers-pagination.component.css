@@ -1,0 +1,16 @@
+.pagination-caret-icon {
+  @apply rounded-full w-9 h-9 cursor-pointer;
+}
+
+.pagination-caret-icon *{
+  @apply stroke-primary-700;
+  stroke-width: 40;
+}
+
+.pagination-caret-icon:hover {
+  @apply bg-primary-200;
+}
+
+.pagination-caret-icon:hover *{
+  @apply stroke-primary-600;
+}

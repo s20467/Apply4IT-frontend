@@ -15,6 +15,7 @@ import { JwtRefreshInterceptor } from './shared/service/jwt-refresh-interceptor.
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { OffersSearchBarComponent } from './offers/offers-list/offers-search-bar/offers-search-bar.component';
+import { OffersPaginationComponent } from './offers/offers-list/offers-pagination/offers-pagination.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { OffersSearchBarComponent } from './offers/offers-list/offers-search-bar
     OffersListItemComponent,
     OffersFiltersComponent,
     LoginComponent,
-    OffersSearchBarComponent
+    OffersSearchBarComponent,
+    OffersPaginationComponent
   ],
   imports: [
     BrowserModule,
