@@ -41,7 +41,7 @@ export class OffersPaginationComponent implements OnInit, OnDestroy {
       this.paginationNumbers.push(0, -1, this.paginationObject.currentPage-1, this.paginationObject.currentPage)
     }
 
-    if(this.paginationObject.numberOfPages - this.paginationObject.currentPage <= 2) {
+    if(this.paginationObject.numberOfPages - this.paginationObject.currentPage <= 3) {
       for(let i=this.paginationObject.currentPage+1; i<this.paginationObject.numberOfPages; i++) {
         this.paginationNumbers.push(i)
       }
