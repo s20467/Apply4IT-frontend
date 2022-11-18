@@ -243,3 +243,7 @@ html *{
 input {
   --tw-ring-shadow: 0 0 #000 !important;
 }
+
+.validation-message {
+  @apply text-red-500 text-body-reg-bold;
+}
