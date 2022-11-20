@@ -1,8 +1,7 @@
-import { CompanyMinimalDto } from "./company-minimal-dto.model";
-import { Address } from "./address.model";
+import {Address} from "./address.model";
+import {CompanyMinimalDto} from "./company-minimal-dto.model";
 
-
-export class OfferMinimalDto{
+export class OfferFullDto{
   id: number;
   title: string;
   description: string;
@@ -15,6 +14,9 @@ export class OfferMinimalDto{
   maxSalaryPln: number;
   firstJobPossibility: boolean;
   categories: string[];
+  expectations: string[];
+  offerAdvantages: string[];
+  applicationsNumber: number | null;
   remotePossibility: boolean;
   isSavedByCurrentUser: boolean;
 }

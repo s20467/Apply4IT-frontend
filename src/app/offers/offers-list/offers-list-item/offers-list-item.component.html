@@ -1,55 +1,65 @@
-<div class="bg-white drop-shadow-md py-6 px-8 rounded">
-  <a class="flex flex-col">
+<div (click)="onClick()" class="bg-white drop-shadow-md rounded flex flex-col py-6 px-8 cursor-pointer">
     <div class="w-full items-start grid auto-rows-auto grid-cols-[max-content_auto] gap-x-6">
       <img class="row-span-1 col-span-1 row-start-1 col-start-1 w-[8rem]" src="data:image/png;base64,{{ offer.company.logoPhoto }}">
-      <div id="offer-details-container" class="self-end row-span-1 col-span-1 row-start-1 col-start-2 flex flex-col border-b-[1px] border-gray-300 gap-1.5 w-full pb-3">
-        <div class="h3-custom text-gray-700">Junior java developer</div>
-        <div class="flex flex-row justify-between">
-          <div class="flex flex-row gap-1">
-            <svg class="offer-company-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+      <div id="offer-details-container" class="self-end row-span-1 h-full col-span-1 row-start-1 col-start-2 flex flex-col justify-between border-b-[1px] border-gray-300 gap-1.5 w-full pb-3">
+        <div class="flex flex-row justify-between items-start">
+          <div class="h3-custom text-gray-700 w-5/6">{{ offer.title }}</div>
+          <button class="save-button" (click)="saveUnsaveOffer($event)" [ngClass]="{
+          'saved': offer.isSavedByCurrentUser }">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
               <!--          <rect width="256" height="256" fill="none"></rect>-->
-              <line x1="16" y1="216" x2="240" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-              <path d="M144,216V40a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8V216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-              <path d="M224,216V104a8,8,0,0,0-8-8H144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-              <line x1="64" y1="72" x2="96" y2="72" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-              <line x1="80" y1="136" x2="112" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-              <line x1="64" y1="176" x2="96" y2="176" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-              <line x1="176" y1="176" x2="192" y2="176" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-              <line x1="176" y1="136" x2="192" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+              <path d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
             </svg>
-            <a class="link-reg text-gray-500 cursor-pointer">{{ offer.company.name }}</a>
-          </div>
-          <div class="text-gray-500 text-body-reg-semibold">8500zł - 12000zł</div>
+          </button>
         </div>
-        <div class="flex flex-row justify-between items-end">
-          <div class="flex flex-row items-center gap-1">
-            <svg class="offer-localization-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-              <!--          <rect width="256" height="256" fill="none"></rect>-->
-              <circle cx="128" cy="104" r="32" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle>
-              <path d="M208,104c0,72-80,128-80,128S48,176,48,104a80,80,0,0,1,160,0Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-            </svg>
-            <div class="text-gray-500 text-body-reg-semibold">{{ offer.localization }}</div>
-          </div>
-          <div class="flex flex-row gap-4">
-            <div *ngIf="offer.firstJobPossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
-              <svg class="first-job-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
-<!--                <rect width="256" height="256" fill="none"></rect>-->
-                <line x1="32" y1="64" x2="32" y2="144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                <path d="M54.2,216a88.1,88.1,0,0,1,147.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-                <polygon points="224 64 128 96 32 64 128 32 224 64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polygon>
-                <path d="M169.3,82.2a56,56,0,1,1-82.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <div class="flex flex-col gap-1.5">
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-row gap-1">
+              <svg class="offer-company-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                <!--          <rect width="256" height="256" fill="none"></rect>-->
+                <line x1="16" y1="216" x2="240" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <path d="M144,216V40a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8V216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                <path d="M224,216V104a8,8,0,0,0-8-8H144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                <line x1="64" y1="72" x2="96" y2="72" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <line x1="80" y1="136" x2="112" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <line x1="64" y1="176" x2="96" y2="176" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <line x1="176" y1="176" x2="192" y2="176" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <line x1="176" y1="136" x2="192" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
               </svg>
-              Pierwsza praca
+              <a [routerLink]="['/companies', offer.company.id]" class="link-reg text-gray-500 cursor-pointer">{{ offer.company.name }}</a>
             </div>
-            <div *ngIf="offer.remotePossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
-              <svg class="first-job-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
-                <!--                <rect width="256" height="256" fill="none"></rect>-->
-                <line x1="32" y1="64" x2="32" y2="144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                <path d="M54.2,216a88.1,88.1,0,0,1,147.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-                <polygon points="224 64 128 96 32 64 128 32 224 64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polygon>
-                <path d="M169.3,82.2a56,56,0,1,1-82.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+            <div class="text-gray-500 text-body-reg-semibold">{{ offer.minSalaryPln }}zł - {{ offer.maxSalaryPln }}zł</div>
+          </div>
+          <div class="flex flex-row justify-between items-end">
+            <div class="flex flex-row items-center gap-1">
+              <svg class="offer-localization-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                <!--          <rect width="256" height="256" fill="none"></rect>-->
+                <circle cx="128" cy="104" r="32" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle>
+                <path d="M208,104c0,72-80,128-80,128S48,176,48,104a80,80,0,0,1,160,0Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
               </svg>
-              Praca zdalna
+              <div class="text-gray-500 text-body-reg-semibold">{{ offer.localization }}</div>
+            </div>
+            <div class="flex flex-row gap-4">
+              <div *ngIf="offer.firstJobPossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
+                <svg class="first-job-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+  <!--                <rect width="256" height="256" fill="none"></rect>-->
+                  <line x1="32" y1="64" x2="32" y2="144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                  <path d="M54.2,216a88.1,88.1,0,0,1,147.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                  <polygon points="224 64 128 96 32 64 128 32 224 64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polygon>
+                  <path d="M169.3,82.2a56,56,0,1,1-82.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                </svg>
+                Pierwsza praca
+              </div>
+              <div *ngIf="offer.remotePossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
+                <svg class="first-job-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <!--                <rect width="256" height="256" fill="none"></rect>-->
+                  <line x1="32" y1="64" x2="32" y2="144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                  <path d="M54.2,216a88.1,88.1,0,0,1,147.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                  <polygon points="224 64 128 96 32 64 128 32 224 64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polygon>
+                  <path d="M169.3,82.2a56,56,0,1,1-82.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                </svg>
+                Praca zdalna
+              </div>
             </div>
           </div>
         </div>
@@ -58,6 +68,5 @@
         <div *ngFor="let category of offer.categories" class="px-4 py-0.5 h5-custom-700 bg-primary-700 text-gray-50 rounded-full">{{ category }}</div>
       </div>
     </div>
-  </a>
 </div>
 

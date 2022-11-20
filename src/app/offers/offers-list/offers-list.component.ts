@@ -34,7 +34,7 @@ export class OffersListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.offersService.getOffers(this.paginationObject.currentPage).subscribe((offersPage) => {
+    this.offersService.searchOffers(null, this.paginationObject.currentPage).subscribe((offersPage) => {
       this.offers = offersPage.content;
       this.paginationObject.numberOfPages = offersPage.totalPages;
       this.offersService.emitOffersPaginationChanged();

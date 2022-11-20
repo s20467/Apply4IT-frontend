@@ -18,7 +18,7 @@ export class OffersPaginationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadPaginationNumbers();
-    this.offersService.offersPaginationChanged.subscribe(() => {
+    this.offersPaginationChangedSub = this.offersService.offersPaginationChanged.subscribe(() => {
       this.loadPaginationNumbers();
       window.scroll({
         top: 0,

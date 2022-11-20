@@ -1,0 +1,148 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16 bg-white p-12 relative">
+  <div class="flex flex-row gap-2 absolute right-4 top-4">
+    <button class="save-button" (click)="saveUnsaveOffer()" [ngClass]="{
+          'saved': offer.isSavedByCurrentUser }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+        <!--          <rect width="256" height="256" fill="none"></rect>-->
+        <path d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+      </svg>
+    </button>
+    <button *ngIf="usersService.isLoggedIn() && isAuthor" class="edit-button" (click)="editOffer()" [ngClass]="{
+          'saved': offer.isSavedByCurrentUser }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+<!--        <rect width="256" height="256" fill="none"></rect>-->
+        <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+    </button>
+    <button *ngIf="usersService.isLoggedIn() && isAuthor" class="delete-button" (click)="deleteOffer()" [ngClass]="{
+          'saved': offer.isSavedByCurrentUser }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+<!--        <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="flex flex-col">
+    <div class="w-full flex flex-row gap-6 items-start">
+      <img class="w-[8rem]" src="data:image/png;base64,{{ offer.company.logoPhoto }}">
+      <div id="offer-details-container" class="self-end  flex flex-col border-b-[1px] border-gray-300 gap-1.5 w-full pb-3">
+        <div class="flex flex-row justify-between items-start">
+          <div class="h3-custom text-gray-700 w-5/6">{{ offer.title }}</div>
+  <!--        <button class="save-button" (click)="saveUnsaveOffer($event)" [ngClass]="{-->
+  <!--          'saved': offer.isSavedByCurrentUser }">-->
+  <!--          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">-->
+  <!--            &lt;!&ndash;          <rect width="256" height="256" fill="none"></rect>&ndash;&gt;-->
+  <!--            <path d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>-->
+  <!--          </svg>-->
+  <!--        </button>-->
+        </div>
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-row gap-1">
+            <svg class="offer-company-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+              <!--          <rect width="256" height="256" fill="none"></rect>-->
+              <line x1="16" y1="216" x2="240" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+              <path d="M144,216V40a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8V216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+              <path d="M224,216V104a8,8,0,0,0-8-8H144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+              <line x1="64" y1="72" x2="96" y2="72" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+              <line x1="80" y1="136" x2="112" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+              <line x1="64" y1="176" x2="96" y2="176" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+              <line x1="176" y1="176" x2="192" y2="176" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+              <line x1="176" y1="136" x2="192" y2="136" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+            </svg>
+            <a [routerLink]="['/companies', offer.company.id]" class="link-reg text-gray-500 cursor-pointer">{{ offer.company.name }}</a>
+          </div>
+          <div class="text-gray-500 text-body-reg-semibold">{{ offer.minSalaryPln }}zł - {{ offer.maxSalaryPln }}zł</div>
+        </div>
+        <div class="flex flex-row justify-between items-end">
+          <div class="flex flex-row items-center gap-1">
+            <svg class="offer-localization-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+              <!--          <rect width="256" height="256" fill="none"></rect>-->
+              <circle cx="128" cy="104" r="32" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle>
+              <path d="M208,104c0,72-80,128-80,128S48,176,48,104a80,80,0,0,1,160,0Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+            </svg>
+            <div class="text-gray-500 text-body-reg-semibold">{{ offer.localization }}</div>
+          </div>
+          <div class="flex flex-row gap-2">
+            <div *ngIf="offer.firstJobPossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
+              <svg class="first-job-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+                <!--                <rect width="256" height="256" fill="none"></rect>-->
+                <line x1="32" y1="64" x2="32" y2="144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <path d="M54.2,216a88.1,88.1,0,0,1,147.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                <polygon points="224 64 128 96 32 64 128 32 224 64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polygon>
+                <path d="M169.3,82.2a56,56,0,1,1-82.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+              </svg>
+              Pierwsza praca
+            </div>
+            <div *ngIf="offer.remotePossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
+              <svg class="first-job-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+                <!--                <rect width="256" height="256" fill="none"></rect>-->
+                <line x1="32" y1="64" x2="32" y2="144" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <path d="M54.2,216a88.1,88.1,0,0,1,147.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                <polygon points="224 64 128 96 32 64 128 32 224 64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polygon>
+                <path d="M169.3,82.2a56,56,0,1,1-82.6,0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+              </svg>
+              Praca zdalna
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    <div class="flex flex-row flex-wrap gap-2 pt-3 w-full">
+      <div *ngFor="let category of offer.categories" class="px-4 py-0.5 h5-custom-700 bg-primary-700 text-gray-50 rounded-full">{{ category }}</div>
+    </div>
+    <div class="flex flex-col gap-8 mt-8">
+      <div class="text-body-reg text-gray-900">{{ offer.description }}</div>
+      <div>
+        <div class="h4-custom text-gray-600 mb-2">Wymagania:</div>
+        <div class="flex flex-col gap-2">
+          <div *ngFor="let expectation of offer.expectations" class="flex flex-row items-start gap-2">
+            <div>
+              <svg class="expectation-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+    <!--            <rect width="256" height="256" fill="none"></rect>-->
+                <line x1="96" y1="152" x2="160" y2="152" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <line x1="96" y1="120" x2="160" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                <path d="M160,40h40a8,8,0,0,1,8,8V216a8,8,0,0,1-8,8H56a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8H96" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                <path d="M88,72V64a40,40,0,0,1,80,0v8Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+              </svg>
+            </div>
+            <div>{{ expectation }}</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="h4-custom text-gray-600 mb-2">Korzyści:</div>
+        <div class="flex flex-col gap-2">
+          <div *ngFor="let advantage of offer.offerAdvantages" class="flex flex-row items-start gap-2">
+            <div>
+              <svg class="advantage-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+  <!--              <rect width="256" height="256" fill="none"></rect>-->
+                <path d="M132.4,190.7l50.4,32c6.5,4.1,14.5-2,12.6-9.5l-14.6-57.4a8.7,8.7,0,0,1,2.9-8.8l45.2-37.7c5.9-4.9,2.9-14.8-4.8-15.3l-59-3.8a8.3,8.3,0,0,1-7.3-5.4l-22-55.4a8.3,8.3,0,0,0-15.6,0l-22,55.4a8.3,8.3,0,0,1-7.3,5.4L31.9,94c-7.7.5-10.7,10.4-4.8,15.3L72.3,147a8.7,8.7,0,0,1,2.9,8.8L61.7,209c-2.3,9,7.3,16.3,15,11.4l46.9-29.7A8.2,8.2,0,0,1,132.4,190.7Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+              </svg>
+            </div>
+            <div>{{ advantage }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div>
+          <p class="h4-custom text-gray-600">Przybliżona lokalizacja:</p>
+          <p class="text-body-reg text-gray-900">{{ offer.localization }}</p>
+        </div>
+        <div>
+          <p class="h4-custom text-gray-600">Dokładna lokalizacja:</p>
+          <p class="text-body-reg text-gray-900">{{ offer.address.country + ', ' + offer.address.city + ', ' + offer.address.zip + ', ' + offer.address.street }}</p>
+        </div>
+      </div>
+      <div *ngIf="usersService.isLoggedIn() && offer.applicationsNumber != null">
+        <p class="h4-custom text-gray-600 mb-[-0.3rem]">Liczba kandydatów: {{ offer.applicationsNumber }}</p>
+        <a class="link-reg text-primary-400 cursor-pointer hover:text-primary-300">Przejdź do listy kandydatów></a>
+      </div>
+    </div>
+  </div>
+  <button (click)="goToApplyForm()" class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300">Aplikuj</button>
+</div>

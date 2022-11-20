@@ -247,3 +247,33 @@ input {
 .validation-message {
   @apply text-red-500 text-body-reg-bold;
 }
+
+.offer-company-icon *{
+  @apply stroke-gray-500;
+}
+
+.offer-localization-icon *{
+  @apply stroke-gray-500;
+}
+
+.first-job-icon *{
+  @apply stroke-gray-600;
+  stroke-width: 25;
+}
+
+.save-button *{
+  @apply stroke-gray-500;
+  stroke-width: 20;
+}
+
+.save-button:hover *{
+  @apply stroke-primary-500;
+}
+
+.save-button.saved *{
+  @apply fill-primary-400 stroke-primary-500;
+}
+
+.save-button.saved:hover *{
+  @apply fill-primary-300 stroke-primary-400;
+}
