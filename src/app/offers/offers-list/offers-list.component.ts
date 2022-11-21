@@ -5,6 +5,8 @@ import { Subscription } from "rxjs";
 import {OfferSearchSpecification} from "../../shared/model/offer-search-specification.model";
 import {OfferFilters} from "../../shared/model/offer-filters.model";
 import {PaginationObject} from "../../shared/model/pagination-object.model";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {OfferFullDto} from "../../shared/model/offer-full-dto.model";
 
 @Component({
   selector: 'app-offers-list',
@@ -26,7 +28,7 @@ export class OffersListComponent implements OnInit, OnDestroy {
     firstJobPossibilityEqual: null
   }
 
-  constructor(private offersService: OffersService) {
+  constructor(private offersService: OffersService, private router: Router, private activatedRoute: ActivatedRoute) {
     this.paginationObject = {
       currentPage: 0,
       numberOfPages: 1

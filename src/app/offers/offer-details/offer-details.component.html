@@ -7,7 +7,7 @@
         <path d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
       </svg>
     </button>
-    <button *ngIf="usersService.isLoggedIn() && isAuthor" class="edit-button" (click)="editOffer()" [ngClass]="{
+    <button *ngIf="(usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()" class="edit-button" (click)="editOffer()" [ngClass]="{
           'saved': offer.isSavedByCurrentUser }">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--        <rect width="256" height="256" fill="none"></rect>-->
@@ -15,7 +15,7 @@
         <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
       </svg>
     </button>
-    <button *ngIf="usersService.isLoggedIn() && isAuthor" class="delete-button" (click)="deleteOffer()" [ngClass]="{
+    <button *ngIf="(usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()" class="delete-button" (click)="deleteOffer()" [ngClass]="{
           'saved': offer.isSavedByCurrentUser }">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--        <rect width="256" height="256" fill="none"></rect>-->

@@ -63,6 +63,13 @@ export class UsersService {
     return !!this.currentUser;
   }
 
+  isAdmin(){
+    if(this.currentUser == null) {
+      return false;
+    }
+    return this.currentUser.authorities.includes("ROLE_ADMIN");
+  }
+
   emitAuthenticationStatusChanged(){
     this.authenticationStatusChanged.next(!!this.currentUser);
   }
