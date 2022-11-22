@@ -7,6 +7,8 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Subject} from "rxjs";
 import {OfferFilters} from "../../../shared/model/offer-filters.model";
 import {OfferSearchSpecification} from "../../../shared/model/offer-search-specification.model";
+import {OffersService} from "../../../shared/service/offers.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-offers-filters',
@@ -14,9 +16,6 @@ import {OfferSearchSpecification} from "../../../shared/model/offer-search-speci
   styleUrls: ['./offers-filters.component.css']
 })
 export class OffersFiltersComponent implements OnInit {
-
-  @Output('offerFiltersChanged') offerFiltersChanged = new Subject<OfferFilters>()
-  @Input('searchObject') searchObject: OfferSearchSpecification;
 
   categories: CategoryFullDto[] = [];
   localizations: LocalizationFullDto[] = [];
@@ -26,6 +25,9 @@ export class OffersFiltersComponent implements OnInit {
   constructor(
     private categoriesService: CategoriesService,
     private localizationsService: LocalizationsService,
+    private offersService: OffersService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder
   ) { }
 
@@ -38,7 +40,7 @@ export class OffersFiltersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filtersForm = this.formBuilder.group({
+    this.filtersForm = new FormGroup({
       categories: new FormArray([]),
       localizations: new FormArray([]),
       firstJobPossibility: new FormControl(false),
@@ -47,16 +49,83 @@ export class OffersFiltersComponent implements OnInit {
 
     this.categoriesService.getCategories().subscribe((categories) => {
       this.categories = categories;
-      this.categories.forEach((category) =>
-        this.categoriesFormArray.push(new FormControl(this.searchObject.anyCategoryIdEqual?.includes(category.id))));
+
+      this.categories.forEach(() =>
+        this.categoriesFormArray.push(new FormControl(false)));
+
+      this.fillFiltersForm();
     });
 
     this.localizationsService.getLocalizations().subscribe((localizations) => {
       this.localizations = localizations;
-      this.localizations.forEach((localization) =>
-        this.localizationsFormArray.push(new FormControl(this.searchObject.anyLocalizationIdEqual?.includes(localization.id))));
+
+      this.localizations.forEach(() =>
+        this.localizationsFormArray.push(new FormControl(false)));
+
+      this.fillFiltersForm();
     });
+
   }
+
+  fillFiltersForm() {
+    if(this.categories.length == 0 || this.localizations.length == 0) {
+      return;
+    }
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      let offerFilters = this.offersService.getOfferFiltersFromParams(params);
+
+      let newFiltersFormValue = {
+        categories: <boolean[]>[],
+        localizations: <boolean[]>[],
+        firstJobPossibility: false,
+        remoteJobPossibility: false
+      }
+
+      if (offerFilters != null) {
+        this.categories.forEach((category) =>
+          newFiltersFormValue.categories.push(offerFilters!.categoriesIds.includes(category.id)));
+
+        this.localizations.forEach((localization) =>
+          newFiltersFormValue.localizations.push(offerFilters!.localizationsIds.includes(localization.id)));
+
+        newFiltersFormValue.firstJobPossibility = offerFilters.firstJobPossibility == null ? false : offerFilters.firstJobPossibility;
+
+        newFiltersFormValue.remoteJobPossibility = offerFilters.remoteJobPossibility == null ? false : offerFilters.remoteJobPossibility;
+      }
+
+      this.filtersForm.patchValue(newFiltersFormValue);
+    });
+
+  }
+
+    // if(offerFilters != null) {
+    //
+    //   this.filtersForm.addControl("categories", new FormArray([]));
+    //   this.categories.forEach((category) =>
+    //     this.categoriesFormArray.push(new FormControl(offerFilters?.categoriesIds.includes(category.id))));
+    //
+    //   this.filtersForm.addControl("localizations", new FormArray([]));
+    //   this.localizations.forEach((localization) =>
+    //     this.localizationsFormArray.push(new FormControl(offerFilters?.localizationsIds.includes(localization.id))));
+    //
+    //   this.filtersForm.addControl("firstJobPossibility", new FormControl(offerFilters.firstJobPossibility == null ? false : offerFilters.firstJobPossibility));
+    //
+    //   this.filtersForm.addControl("remoteJobPossibility", new FormControl(offerFilters.remoteJobPossibility == null ? false : offerFilters.remoteJobPossibility));
+    // }
+    // else {
+    //   this.filtersForm.addControl("categories", new FormArray([]));
+    //   this.categories.forEach((category) =>
+    //     this.categoriesFormArray.push(new FormControl(false)));
+    //
+    //   this.filtersForm.addControl("localizations", new FormArray([]));
+    //   this.localizations.forEach((localization) =>
+    //     this.localizationsFormArray.push(new FormControl(false)));
+    //
+    //   this.filtersForm.addControl("firstJobPossibility", new FormControl(false))
+    //
+    //   this.filtersForm.addControl("remoteJobPossibility", new FormControl(false))
+    // }
 
   onSubmit() {
     let selectedCategoriesIds = this.filtersForm.value.categories
@@ -70,12 +139,17 @@ export class OffersFiltersComponent implements OnInit {
     let firstJobPossibilityChecked = this.filtersForm.value["firstJobPossibility"];
     let remoteJobPossibilityChecked = this.filtersForm.value["remoteJobPossibility"];
 
-    this.offerFiltersChanged.next({
-      categoriesIds: selectedCategoriesIds,
-      localizationsIds: selectedLocalizationsIds,
-      firstJobPossibility: firstJobPossibilityChecked ? true : null,
-      remoteJobPossibility: remoteJobPossibilityChecked ? true : null,
-    })
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.offersService.paramsPlusOfferFilters(
+        this.activatedRoute.snapshot.queryParams,
+        {
+          categoriesIds: selectedCategoriesIds,
+          localizationsIds: selectedLocalizationsIds,
+          firstJobPossibility: firstJobPossibilityChecked ? true : null,
+          remoteJobPossibility: remoteJobPossibilityChecked ? true : null,
+        })
+    });
   }
 
 }

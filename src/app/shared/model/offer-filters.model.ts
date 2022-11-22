@@ -1,8 +1,8 @@
 
 
 export class OfferFilters {
-  categoriesIds: number[] | null
-  localizationsIds: number[] | null
+  categoriesIds: number[]
+  localizationsIds: number[]
   firstJobPossibility: boolean | null
   remoteJobPossibility: boolean | null
 }

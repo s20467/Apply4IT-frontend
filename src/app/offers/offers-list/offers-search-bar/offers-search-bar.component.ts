@@ -20,7 +20,6 @@ export class OffersSearchBarComponent implements OnInit {
       'searchString': new FormControl(null)
     });
     this.activatedRoute.queryParams.subscribe((params) => {
-      console.log(params);
       if(params["stringSearchSection"] != null) {
         this.searchForm.get("searchString")?.setValue(params["stringSearchSection"]);
       }

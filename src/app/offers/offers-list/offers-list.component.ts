@@ -58,7 +58,6 @@ export class OffersListComponent implements OnInit, OnDestroy {
   }
 
   onOfferFiltersChanged(offerFilters: OfferFilters | null) {
-    console.log(this.searchObject)
     if(offerFilters == null) {
       this.searchObject.firstJobPossibilityEqual = null;
       this.searchObject.remotePossibilityEqual = null;
@@ -72,9 +71,7 @@ export class OffersListComponent implements OnInit, OnDestroy {
       this.searchObject.anyLocalizationIdEqual = offerFilters.localizationsIds;
     }
     this.paginationObject.currentPage = 0;
-    console.log(this.searchObject)
     this.reloadParams();
-    console.log(this.searchObject)
   }
 
   reloadParams() {

@@ -10,6 +10,7 @@ import {Params} from "@angular/router";
 import {OfferFilters} from "../model/offer-filters.model";
 import {PaginationObject} from "../model/pagination-object.model";
 import {OfferParams} from "../model/offer-params.model";
+import {FormControl} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -85,8 +86,11 @@ export class OffersService {
 
 
 
-  getOfferFiltersFromParams(params: Params): OfferFilters {
-    let offerParams: OfferParams = JSON.parse(params["offersParams"]);
+  getOfferFiltersFromParams(params: Params): OfferFilters | null {
+    if(!Object.keys(params).includes("offerParams")) {
+      return null;
+    }
+    let offerParams: OfferParams = JSON.parse(params["offerParams"]);
     return {
       categoriesIds: offerParams.anyCategoryIdEqual,
       localizationsIds: offerParams.anyLocalizationIdEqual,
@@ -96,31 +100,34 @@ export class OffersService {
   }
 
   getCurrentPageFromParams(params: Params): number {
-    let offerParams: OfferParams = JSON.parse(params["offersParams"]);
+    let offerParams: OfferParams = JSON.parse(params["offerParams"]);
     return offerParams.currentPage;
   }
 
   getSearchStringFromParams(params: Params): string | null {
-    let offerParams: OfferParams = JSON.parse(params["offersParams"]);
+    let offerParams: OfferParams = JSON.parse(params["offerParams"]);
     return offerParams.searchString;
   }
 
-  addOfferFiltersToParams(params: Params, filters: OfferFilters): Params {
-    let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
+  paramsPlusOfferFilters(params: Params, filters: OfferFilters): Params {
+    let currentOfferParams: OfferParams = new OfferParams();
+    if(Object.keys(params).includes("offerParams")) {
+      let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
+    }
     currentOfferParams.anyCategoryIdEqual = filters.categoriesIds;
     currentOfferParams.anyLocalizationIdEqual = filters.localizationsIds;
     currentOfferParams.firstJobPossibilityEqual = filters.firstJobPossibility;
     currentOfferParams.remotePossibilityEqual = filters.remoteJobPossibility;
-    return { offerParams: currentOfferParams }
+    return { offerParams: JSON.stringify(currentOfferParams) }
   }
 
-  addCurrentPageToParams(params: Params, currentPage: number): Params {
+  paramsPlusCurrentPage(params: Params, currentPage: number): Params {
     let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
     currentOfferParams.currentPage = currentPage;
     return { offerParams: currentOfferParams }
   }
 
-  addSearchStringToParams(params: Params, searchString: string | null): Params {
+  paramsPlusSearchString(params: Params, searchString: string | null): Params {
     let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
     currentOfferParams.searchString = searchString;
     return { offerParams: currentOfferParams }
