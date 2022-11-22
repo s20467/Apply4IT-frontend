@@ -1,6 +1,6 @@
 <app-offers-filters></app-offers-filters>
 <div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16">
-  <app-offers-search-bar (searchStringChanged)="onSearchStringChanged($event)"></app-offers-search-bar>
+  <app-offers-search-bar></app-offers-search-bar>
   <div class="h1-custom text-gray-600 border-b-4 border-primary-500">Opublikowane ogłoszenia</div>
   <div class="flex flex-col gap-6">
     <div *ngFor="let offer of offers">

@@ -100,11 +100,17 @@ export class OffersService {
   }
 
   getCurrentPageFromParams(params: Params): number {
+    if(!Object.keys(params).includes("offerParams")) {
+      return 0;
+    }
     let offerParams: OfferParams = JSON.parse(params["offerParams"]);
     return offerParams.currentPage;
   }
 
   getSearchStringFromParams(params: Params): string | null {
+    if(!Object.keys(params).includes("offerParams")) {
+      return null;
+    }
     let offerParams: OfferParams = JSON.parse(params["offerParams"]);
     return offerParams.searchString;
   }
@@ -112,7 +118,7 @@ export class OffersService {
   paramsPlusOfferFilters(params: Params, filters: OfferFilters): Params {
     let currentOfferParams: OfferParams = new OfferParams();
     if(Object.keys(params).includes("offerParams")) {
-      let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
+      currentOfferParams = JSON.parse(params["offerParams"]);
     }
     currentOfferParams.anyCategoryIdEqual = filters.categoriesIds;
     currentOfferParams.anyLocalizationIdEqual = filters.localizationsIds;
@@ -122,15 +128,21 @@ export class OffersService {
   }
 
   paramsPlusCurrentPage(params: Params, currentPage: number): Params {
-    let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
+    let currentOfferParams: OfferParams = new OfferParams();
+    if(Object.keys(params).includes("offerParams")) {
+      currentOfferParams = JSON.parse(params["offerParams"]);
+    }
     currentOfferParams.currentPage = currentPage;
-    return { offerParams: currentOfferParams }
+    return { offerParams: JSON.stringify(currentOfferParams) }
   }
 
   paramsPlusSearchString(params: Params, searchString: string | null): Params {
-    let currentOfferParams: OfferParams = JSON.parse(params["offerParams"]);
+    let currentOfferParams: OfferParams = new OfferParams();
+    if(Object.keys(params).includes("offerParams")) {
+      currentOfferParams = JSON.parse(params["offerParams"]);
+    }
     currentOfferParams.searchString = searchString;
-    return { offerParams: currentOfferParams }
+    return { offerParams: JSON.stringify(currentOfferParams) }
   }
 
 
