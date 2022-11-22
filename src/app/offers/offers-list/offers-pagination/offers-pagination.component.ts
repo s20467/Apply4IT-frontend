@@ -13,10 +13,14 @@ export class OffersPaginationComponent implements OnInit, OnDestroy {
   @Input('paginationObject') paginationObject: PaginationObject;
   paginationNumbers: number[] = []
   offersPaginationChangedSub: Subscription;
+  offersPaginationInitializedSub: Subscription;
 
   constructor(private offersService: OffersService) { }
 
   ngOnInit(): void {
+    this.offersPaginationInitializedSub = this.offersService.offersPaginationInitialized.subscribe(() => {
+      this.loadPaginationNumbers();
+    })
     this.loadPaginationNumbers();
     this.offersPaginationChangedSub = this.offersService.offersPaginationChanged.subscribe(() => {
       this.loadPaginationNumbers();
@@ -68,6 +72,7 @@ export class OffersPaginationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.offersPaginationChangedSub.unsubscribe();
+    this.offersPaginationInitializedSub.unsubscribe();
   }
 
 }

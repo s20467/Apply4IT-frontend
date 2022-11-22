@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {LocalizationFullDto} from "../../../shared/model/localization-full-dto.model";
 import {CategoryFullDto} from "../../../shared/model/category-full-dto.model";
 import {CategoriesService} from "../../../shared/service/categories.service";
@@ -6,6 +6,7 @@ import {LocalizationsService} from "../../../shared/service/localizations.servic
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Subject} from "rxjs";
 import {OfferFilters} from "../../../shared/model/offer-filters.model";
+import {OfferSearchSpecification} from "../../../shared/model/offer-search-specification.model";
 
 @Component({
   selector: 'app-offers-filters',
@@ -15,6 +16,7 @@ import {OfferFilters} from "../../../shared/model/offer-filters.model";
 export class OffersFiltersComponent implements OnInit {
 
   @Output('offerFiltersChanged') offerFiltersChanged = new Subject<OfferFilters>()
+  @Input('searchObject') searchObject: OfferSearchSpecification;
 
   categories: CategoryFullDto[] = [];
   localizations: LocalizationFullDto[] = [];
@@ -46,13 +48,13 @@ export class OffersFiltersComponent implements OnInit {
     this.categoriesService.getCategories().subscribe((categories) => {
       this.categories = categories;
       this.categories.forEach((category) =>
-        this.categoriesFormArray.push(new FormControl(false)));
+        this.categoriesFormArray.push(new FormControl(this.searchObject.anyCategoryIdEqual?.includes(category.id))));
     });
 
     this.localizationsService.getLocalizations().subscribe((localizations) => {
       this.localizations = localizations;
       this.localizations.forEach((localization) =>
-        this.localizationsFormArray.push(new FormControl(false)));
+        this.localizationsFormArray.push(new FormControl(this.searchObject.anyLocalizationIdEqual?.includes(localization.id))));
     });
   }
 

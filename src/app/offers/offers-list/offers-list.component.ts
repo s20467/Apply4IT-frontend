@@ -17,8 +17,8 @@ export class OffersListComponent implements OnInit, OnDestroy {
 
   offers: OfferMinimalDto[] = [];
   paginationObject: PaginationObject;
-  offersChangedSub: Subscription;
   offersPaginationChangedSub: Subscription;
+
 
   searchObject: OfferSearchSpecification = {
     stringSearchSection: null,
@@ -29,29 +29,19 @@ export class OffersListComponent implements OnInit, OnDestroy {
   }
 
   constructor(private offersService: OffersService, private router: Router, private activatedRoute: ActivatedRoute) {
-    this.paginationObject = {
-      currentPage: 0,
-      numberOfPages: 1
-    }
   }
 
   ngOnInit(): void {
-    this.offersService.searchOffers(null, this.paginationObject.currentPage).subscribe((offersPage) => {
-      this.offers = offersPage.content;
-      this.paginationObject.numberOfPages = offersPage.totalPages;
-      this.offersService.emitOffersPaginationChanged();
-    });
-   this.offersChangedSub = this.offersService.offersChanged.subscribe(() => {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.setOfferSearchDetailsFromQueryParams(params);
       this.offersService.searchOffers(this.searchObject, this.paginationObject.currentPage).subscribe((offersPage) => {
         this.offers = offersPage.content;
         this.paginationObject.numberOfPages = offersPage.totalPages;
+        this.offersService.emitOffersPaginationInitialized();
       });
     });
     this.offersPaginationChangedSub = this.offersService.offersPaginationChanged.subscribe(() => {
-      this.offersService.searchOffers(this.searchObject, this.paginationObject.currentPage).subscribe((offersPage) => {
-        this.offers = offersPage.content;
-        this.paginationObject.numberOfPages = offersPage.totalPages;
-      });
+      this.reloadParams();
     });
   }
 
@@ -61,20 +51,14 @@ export class OffersListComponent implements OnInit, OnDestroy {
       this.searchObject.stringSearchSection = null;
     }
     else {
-      this.searchObject.stringSearchSection = {
-        titleLike: searchString,
-        descriptionLike: searchString,
-        anyExpectationLike: searchString,
-        anyOfferAdvantageLike: searchString,
-        companyNameLike: searchString,
-        anyCategoryNameLike: searchString
-      }
+      this.searchObject.stringSearchSection = searchString;
     }
     this.paginationObject.currentPage = 0;
-    this.offersService.emitOffersChanged();
+    this.reloadParams();
   }
 
   onOfferFiltersChanged(offerFilters: OfferFilters | null) {
+    console.log(this.searchObject)
     if(offerFilters == null) {
       this.searchObject.firstJobPossibilityEqual = null;
       this.searchObject.remotePossibilityEqual = null;
@@ -88,13 +72,64 @@ export class OffersListComponent implements OnInit, OnDestroy {
       this.searchObject.anyLocalizationIdEqual = offerFilters.localizationsIds;
     }
     this.paginationObject.currentPage = 0;
-    this.offersService.emitOffersChanged();
+    console.log(this.searchObject)
+    this.reloadParams();
+    console.log(this.searchObject)
+  }
+
+  reloadParams() {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.offerSearchDetailsToQueryParams()
+    });
+  }
+
+  offerSearchDetailsToQueryParams(): Params{
+    return {
+      anyCategoryIdEqual: this.arrayToString(this.searchObject.anyCategoryIdEqual),
+      anyLocalizationIdEqual: this.arrayToString(this.searchObject.anyLocalizationIdEqual),
+      stringSearchSection: this.searchObject.stringSearchSection,
+      remotePossibilityEqual: this.searchObject.remotePossibilityEqual,
+      firstJobPossibilityEqual: this.searchObject.firstJobPossibilityEqual,
+      currentPage: this.paginationObject.currentPage
+    };
+  }
+
+  setOfferSearchDetailsFromQueryParams(params: Params) {
+    this.searchObject.anyCategoryIdEqual = params["anyCategoryIdEqual"] == null ? null : this.stringToArray(params["anyCategoryIdEqual"]);
+    this.searchObject.anyLocalizationIdEqual = params["anyLocalizationIdEqual"] == null ? null : this.stringToArray(params["anyLocalizationIdEqual"]);
+    this.searchObject.stringSearchSection = params["stringSearchSection"] == null ? null : params["stringSearchSection"];
+    this.searchObject.remotePossibilityEqual = params["remotePossibilityEqual"] == null ? null : params["remotePossibilityEqual"];
+    this.searchObject.firstJobPossibilityEqual = params["firstJobPossibilityEqual"] == null ? null : params["firstJobPossibilityEqual"];
+    if(this.paginationObject == null) {
+      this.paginationObject = {
+        currentPage: 0,
+        numberOfPages: 1
+      }
+    }
+    if(params["currentPage"] != null) {
+      this.paginationObject.currentPage = +params["currentPage"]
+    }
+  }
+
+  arrayToString(arr: number[] | null) {
+    if(arr == null) {
+      return "[]"
+    }
+    return "[" + arr.join(",") + "]"
+  }
+
+  stringToArray(str: string): number[] | null{
+    if(str == "[]") {
+      return null;
+    }
+    return str.trim()
+      .substring(1, str.length - 1)
+      .split(",")
+      .map((numStr) => { return +numStr })
   }
 
   ngOnDestroy() {
-    this.offersChangedSub.unsubscribe();
     this.offersPaginationChangedSub.unsubscribe();
   }
-
-
 }
