@@ -1,7 +1,7 @@
 
 
 export class OfferSearchSpecification {
-  stringSearchSection: OfferSearchSpecificationStringSearchSection | null | string;
+  stringSearchSection: OfferSearchSpecificationStringSearchSection | null;
   remotePossibilityEqual: boolean | null;
   anyCategoryIdEqual: number[] | null;
   anyLocalizationIdEqual: number[] | null;

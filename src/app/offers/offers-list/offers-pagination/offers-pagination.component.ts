@@ -1,7 +1,8 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PaginationObject } from "../../../shared/model/pagination-object.model";
 import { OffersService } from "../../../shared/service/offers.service";
-import {Subscription} from "rxjs";
+import { Subscription} from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-offers-pagination',
@@ -10,25 +11,20 @@ import {Subscription} from "rxjs";
 })
 export class OffersPaginationComponent implements OnInit, OnDestroy {
 
-  @Input('paginationObject') paginationObject: PaginationObject;
+  paginationObject: PaginationObject = {
+    currentPage: 0,
+    numberOfPages: 1
+  };
   paginationNumbers: number[] = []
-  offersPaginationChangedSub: Subscription;
-  offersPaginationInitializedSub: Subscription;
+  offersNumberOfPagesInitializedSub: Subscription;
 
-  constructor(private offersService: OffersService) { }
+  constructor(private offersService: OffersService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.offersPaginationInitializedSub = this.offersService.offersPaginationInitialized.subscribe(() => {
+    this.offersNumberOfPagesInitializedSub = this.offersService.offersNumberOfPagesInitialized.subscribe(numberOfPages => {
+      this.paginationObject.currentPage = this.offersService.getCurrentPageFromParams(this.activatedRoute.snapshot.queryParams)
+      this.paginationObject.numberOfPages = numberOfPages;
       this.loadPaginationNumbers();
-    })
-    this.loadPaginationNumbers();
-    this.offersPaginationChangedSub = this.offersService.offersPaginationChanged.subscribe(() => {
-      this.loadPaginationNumbers();
-      window.scroll({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
     })
   }
 
@@ -53,26 +49,39 @@ export class OffersPaginationComponent implements OnInit, OnDestroy {
     else {
       this.paginationNumbers.push(this.paginationObject.currentPage+1, -1, this.paginationObject.numberOfPages-1)
     }
+
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   pageBack() {
-    this.paginationObject.currentPage = Math.max(0, this.paginationObject.currentPage-1);
-    this.offersService.emitOffersPaginationChanged();
+    let newCurrentPage = Math.max(0, this.paginationObject.currentPage-1);
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.offersService.paramsPlusCurrentPage(this.activatedRoute.snapshot.queryParams, newCurrentPage)
+    });
   }
 
   pageForward() {
-    this.paginationObject.currentPage = Math.min(this.paginationObject.currentPage+1, this.paginationObject.numberOfPages-1);
-    this.offersService.emitOffersPaginationChanged();
+    let newCurrentPage = Math.min(this.paginationObject.currentPage+1, this.paginationObject.numberOfPages-1);
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.offersService.paramsPlusCurrentPage(this.activatedRoute.snapshot.queryParams, newCurrentPage)
+    });
   }
 
   changePage(targetPageNumber: number) {
-    this.paginationObject.currentPage = targetPageNumber;
-    this.offersService.emitOffersPaginationChanged();
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.offersService.paramsPlusCurrentPage(this.activatedRoute.snapshot.queryParams, targetPageNumber)
+    });
   }
 
   ngOnDestroy() {
-    this.offersPaginationChangedSub.unsubscribe();
-    this.offersPaginationInitializedSub.unsubscribe();
+    this.offersNumberOfPagesInitializedSub.unsubscribe();
   }
 
 }

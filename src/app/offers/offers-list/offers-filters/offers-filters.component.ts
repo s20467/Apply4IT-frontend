@@ -141,7 +141,7 @@ export class OffersFiltersComponent implements OnInit {
 
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: this.offersService.paramsPlusOfferFilters(
+      queryParams: this.offersService.paramsPlusOfferFiltersWithCurrentPageReset(
         this.activatedRoute.snapshot.queryParams,
         {
           categoriesIds: selectedCategoriesIds,

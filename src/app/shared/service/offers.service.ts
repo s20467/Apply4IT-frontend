@@ -4,7 +4,10 @@ import {Subject} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {OfferMinimalDto} from "../model/offer-minimal-dto.model";
 import {Page} from "../model/page.model";
-import {OfferSearchSpecification} from "../model/offer-search-specification.model";
+import {
+  OfferSearchSpecification,
+  OfferSearchSpecificationStringSearchSection
+} from "../model/offer-search-specification.model";
 import {OfferFullDto} from "../model/offer-full-dto.model";
 import {Params} from "@angular/router";
 import {OfferFilters} from "../model/offer-filters.model";
@@ -21,7 +24,7 @@ export class OffersService {
 
   offersChanged = new Subject<any>();
   offersPaginationChanged = new Subject<any>();
-  offersPaginationInitialized = new Subject<any>();
+  offersNumberOfPagesInitialized = new Subject<number>();
 
   constructor(private http: HttpClient) { }
 
@@ -79,10 +82,9 @@ export class OffersService {
     this.offersPaginationChanged.next(null);
   }
 
-  emitOffersPaginationInitialized() {
-    this.offersPaginationInitialized.next(null);
+  emitOffersNumberOfPagesInitialized(numberOfPages: number) {
+    this.offersNumberOfPagesInitialized.next(numberOfPages);
   }
-
 
 
 
@@ -115,7 +117,32 @@ export class OffersService {
     return offerParams.searchString;
   }
 
-  paramsPlusOfferFilters(params: Params, filters: OfferFilters): Params {
+  getOfferSearchSpecificationFromParams(params: Params): OfferSearchSpecification | null{
+    if(!Object.keys(params).includes("offerParams")) {
+      return null;
+    }
+    let offerParams: OfferParams = JSON.parse(params["offerParams"])
+    let offerSearchSpecification: OfferSearchSpecification = {
+      remotePossibilityEqual: offerParams.remotePossibilityEqual,
+      firstJobPossibilityEqual: offerParams.firstJobPossibilityEqual,
+      anyCategoryIdEqual: offerParams.anyCategoryIdEqual,
+      anyLocalizationIdEqual: offerParams.anyLocalizationIdEqual,
+      stringSearchSection: null,
+    };
+    if(offerParams.searchString != null && offerParams.searchString.length != 0) {
+      offerSearchSpecification.stringSearchSection = {
+        titleLike: offerParams.searchString,
+        descriptionLike: offerParams.searchString,
+        anyExpectationLike: offerParams.searchString,
+        anyOfferAdvantageLike: offerParams.searchString,
+        companyNameLike: offerParams.searchString,
+        anyCategoryNameLike: offerParams.searchString
+      };
+    }
+    return offerSearchSpecification;
+  }
+
+  paramsPlusOfferFiltersWithCurrentPageReset(params: Params, filters: OfferFilters): Params {
     let currentOfferParams: OfferParams = new OfferParams();
     if(Object.keys(params).includes("offerParams")) {
       currentOfferParams = JSON.parse(params["offerParams"]);
@@ -124,6 +151,7 @@ export class OffersService {
     currentOfferParams.anyLocalizationIdEqual = filters.localizationsIds;
     currentOfferParams.firstJobPossibilityEqual = filters.firstJobPossibility;
     currentOfferParams.remotePossibilityEqual = filters.remoteJobPossibility;
+    currentOfferParams.currentPage = 0;
     return { offerParams: JSON.stringify(currentOfferParams) }
   }
 
@@ -136,12 +164,13 @@ export class OffersService {
     return { offerParams: JSON.stringify(currentOfferParams) }
   }
 
-  paramsPlusSearchString(params: Params, searchString: string | null): Params {
+  paramsPlusSearchStringWithCurrentPageReset(params: Params, searchString: string | null): Params {
     let currentOfferParams: OfferParams = new OfferParams();
     if(Object.keys(params).includes("offerParams")) {
       currentOfferParams = JSON.parse(params["offerParams"]);
     }
     currentOfferParams.searchString = searchString;
+    currentOfferParams.currentPage = 0;
     return { offerParams: JSON.stringify(currentOfferParams) }
   }
 

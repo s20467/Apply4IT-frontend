@@ -7,16 +7,14 @@
         <path d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
       </svg>
     </button>
-    <button *ngIf="(usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()" class="edit-button" (click)="editOffer()" [ngClass]="{
-          'saved': offer.isSavedByCurrentUser }">
+    <button *ngIf="(usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()" class="edit-button" (click)="editOffer()">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--        <rect width="256" height="256" fill="none"></rect>-->
         <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
         <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
       </svg>
     </button>
-    <button *ngIf="(usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()" class="delete-button" (click)="deleteOffer()" [ngClass]="{
-          'saved': offer.isSavedByCurrentUser }">
+    <button *ngIf="(usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()" class="delete-button" (click)="deleteOffer()">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--        <rect width="256" height="256" fill="none"></rect>-->
         <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
@@ -33,13 +31,6 @@
       <div id="offer-details-container" class="self-end  flex flex-col border-b-[1px] border-gray-300 gap-1.5 w-full pb-3">
         <div class="flex flex-row justify-between items-start">
           <div class="h3-custom text-gray-700 w-5/6">{{ offer.title }}</div>
-  <!--        <button class="save-button" (click)="saveUnsaveOffer($event)" [ngClass]="{-->
-  <!--          'saved': offer.isSavedByCurrentUser }">-->
-  <!--          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">-->
-  <!--            &lt;!&ndash;          <rect width="256" height="256" fill="none"></rect>&ndash;&gt;-->
-  <!--            <path d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>-->
-  <!--          </svg>-->
-  <!--        </button>-->
         </div>
         <div class="flex flex-row justify-between">
           <div class="flex flex-row gap-1">

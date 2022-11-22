@@ -28,7 +28,7 @@ export class OffersSearchBarComponent implements OnInit {
     let searchString = this.searchForm.value['searchString'];
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: this.offersService.paramsPlusSearchString(
+      queryParams: this.offersService.paramsPlusSearchStringWithCurrentPageReset(
         this.activatedRoute.snapshot.queryParams,
         searchString
       )
