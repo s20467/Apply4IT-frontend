@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         this.location.back();
       },
       error: (error: HttpErrorResponse) => {
-        console.log(error);
+        this.loginForm.setErrors({'InvalidFormContent': true})
       }})
     }
   }
