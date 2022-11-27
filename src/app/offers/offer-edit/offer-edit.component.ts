@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChildren} from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 import { CompaniesService } from "../../shared/service/companies.service";
 import { CompanyMinimalDto } from "../../shared/model/company-minimal-dto.model";
 import { UsersService } from "../../shared/service/users.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { LocalizationsService } from "../../shared/service/localizations.service";
 import { LocalizationFullDto } from "../../shared/model/localization-full-dto.model";
 import { CategoryFullDto } from "../../shared/model/category-full-dto.model";
 import { CategoriesService } from "../../shared/service/categories.service";
 import { OffersService } from "../../shared/service/offers.service";
-import { HttpErrorResponse } from "@angular/common/http";
 import {ExpectationMinimalDto} from "../../shared/model/expectation-minimal-dto.model";
 import {OfferAdvantageMinimalDto} from "../../shared/model/offer-advantage-minimal-dto.model";
+import {HttpErrorResponse} from "@angular/common/http";
+import {OfferCreationRequestDto} from "../../shared/model/offer-creation-request-dto.model";
 
 @Component({
   selector: 'app-offer-edit',
@@ -20,7 +21,8 @@ import {OfferAdvantageMinimalDto} from "../../shared/model/offer-advantage-minim
 })
 export class OfferEditComponent implements OnInit {
 
-  editingMode = false;
+  isEditMode = false;
+  editedOfferId: number;
   companies: CompanyMinimalDto[] = [];
   localizations: LocalizationFullDto[] = [];
   categories: CategoryFullDto[] = [];
@@ -45,7 +47,10 @@ export class OfferEditComponent implements OnInit {
     private localizationsService: LocalizationsService,
     private categoriesService: CategoriesService,
     private usersService: UsersService,
-    private router: Router) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private elem: ElementRef
+  ) { }
 
   ngOnInit(): void {
     this.offerEditForm = new FormGroup({
@@ -80,6 +85,57 @@ export class OfferEditComponent implements OnInit {
     this.categoriesService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
+
+    let offerId: number = +this.activatedRoute.snapshot.params['offerId'];
+    if(offerId) {
+      this.isEditMode = true;
+      this.editedOfferId = offerId
+      this.offersService.getOfferById(offerId).subscribe((offer) => {
+        offer.categories.forEach(category => {
+          this.categoriesFormArray.push(
+            new FormControl(category.id, [Validators.required])
+          )
+        });
+        offer.expectations.forEach(expectation => {
+          this.expectationsFormArray.push(
+            new FormGroup({
+              description: new FormControl(expectation.description, [Validators.required, Validators.maxLength(1000)]),
+              required: new FormControl(expectation.required)
+            })
+          )
+        });
+        offer.offerAdvantages.forEach(offerAdvantage => {
+          this.offerAdvantagesFormArray.push(
+            new FormControl(offerAdvantage.description, [Validators.required, Validators.maxLength(1000)])
+          )
+        });
+        this.offerEditForm.patchValue({
+          title: offer.title,
+          description: offer.description,
+          company: offer.company.id,
+          localization: offer.localization.id,
+          closingDate: offer.closingDate,
+          minSalaryPln: offer.minSalaryPln,
+          maxSalaryPln: offer.maxSalaryPln,
+          country: offer.address.country,
+          city: offer.address.city,
+          zip: offer.address.zip,
+          street: offer.address.street,
+          firstJobPossibility: offer.firstJobPossibility,
+          remoteJobPossibility: offer.remotePossibility
+        })
+        this.refreshTextAreas()
+      })
+    }
+  }
+
+  async refreshTextAreas() {
+    await new Promise(f => setTimeout(f, 1)); //todo not async
+    let textareas = this.elem.nativeElement.querySelectorAll('textarea');
+    textareas.forEach((textarea: any) => {
+      textarea.style.height = "0px";
+      textarea.style.height = (textarea.scrollHeight)+"px";
+    })
   }
 
   addCategorySlot() {
@@ -130,7 +186,35 @@ export class OfferEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.offerEditForm.valid) {
+      if(!this.isEditMode) {
+        this.offersService.createOffer(this.getOfferCreationRequestDtoFromForm()).subscribe({
+          next: (newOfferId: number) => {
+            this.offersService.emitOffersChanged();
+            this.router.navigate(["/offers", newOfferId, "details"])
+          },
+          error: (error: HttpErrorResponse) => {
+            this.offerEditForm.setErrors({"UnknownServerError": true});
+          }
+        });
+      }
+      else {
+        this.offersService.updateOffer(this.getOfferCreationRequestDtoFromForm(), this.editedOfferId).subscribe({
+          next: (updatedOfferId: number) => {
+            this.offersService.emitOffersChanged();
+            this.router.navigate(["/offers", updatedOfferId, "details"])
+          },
+          error: (error: HttpErrorResponse) => {
+            this.offerEditForm.setErrors({"UnknownServerError": true});
+          }
+        });
+      }
+    }
+  }
+
+  getOfferCreationRequestDtoFromForm(): OfferCreationRequestDto {
     let formValue = this.offerEditForm.value;
+
     let expectations = formValue["expectations"].map((expectation: ExpectationMinimalDto, index: number) => {
       expectation.orderNumber = index;
       return expectation;
@@ -141,34 +225,26 @@ export class OfferEditComponent implements OnInit {
         description: offerAdvantage
       };
     });
-    if(this.offerEditForm.valid) {
-      this.offersService.createOffer({
-        title: formValue["title"],
-        description: formValue["description"],
-        companyId: formValue["company"],
-        localizationId: formValue["localization"],
-        closingDate: formValue["closingDate"],
-        expectations: expectations,
-        offerAdvantages: offerAdvantages,
-        categoryIds: formValue["categories"],
-        firstJobPossibility: formValue["firstJobPossibility"],
-        remotePossibility: formValue["remoteJobPossibility"],
-        minSalaryPln: formValue["minSalaryPln"],
-        maxSalaryPln: formValue["maxSalaryPln"],
-        address: {
-          country: formValue["country"],
-          city: formValue["city"],
-          zip: formValue["zip"],
-          street: formValue["street"]
-        }
-      }).subscribe({
-        next: (newOfferId) => {
-          this.router.navigate(["/offers", newOfferId, "details"])
-        },
-        error: (error: HttpErrorResponse) => {
-          this.offerEditForm.setErrors({"UnknownServerError": true});
-        }
-      });
+
+    return {
+      title: formValue["title"],
+      description: formValue["description"],
+      companyId: formValue["company"],
+      localizationId: formValue["localization"],
+      closingDate: formValue["closingDate"],
+      expectations: expectations,
+      offerAdvantages: offerAdvantages,
+      categoryIds: formValue["categories"],
+      firstJobPossibility: formValue["firstJobPossibility"],
+      remotePossibility: formValue["remoteJobPossibility"],
+      minSalaryPln: formValue["minSalaryPln"],
+      maxSalaryPln: formValue["maxSalaryPln"],
+      address: {
+        country: formValue["country"],
+        city: formValue["city"],
+        zip: formValue["zip"],
+        street: formValue["street"]
+      }
     }
   }
 

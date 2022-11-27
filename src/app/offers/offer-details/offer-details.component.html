@@ -56,7 +56,7 @@
               <circle cx="128" cy="104" r="32" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle>
               <path d="M208,104c0,72-80,128-80,128S48,176,48,104a80,80,0,0,1,160,0Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
             </svg>
-            <div class="text-gray-500 text-body-reg-semibold">{{ offer.localization }}</div>
+            <div class="text-gray-500 text-body-reg-semibold">{{ offer.localization.name }}</div>
           </div>
           <div class="flex flex-row gap-2">
             <div *ngIf="offer.firstJobPossibility" class="items-center flex flex-row gap-1 px-4 py-0.5 h5-custom bg-secondary-300 text-gray-600 rounded-full">
@@ -84,7 +84,7 @@
       </div>
       </div>
     <div class="flex flex-row flex-wrap gap-2 pt-3 w-full">
-      <div *ngFor="let category of offer.categories" class="px-4 py-0.5 h5-custom-700 bg-primary-700 text-gray-50 rounded-full">{{ category }}</div>
+      <div *ngFor="let category of offer.categories" class="px-4 py-0.5 h5-custom-700 bg-primary-700 text-gray-50 rounded-full">{{ category.title }}</div>
     </div>
     <div class="flex flex-col gap-8 mt-8">
       <div class="text-body-reg text-gray-900">{{ offer.description }}</div>
@@ -122,7 +122,7 @@
       <div class="flex flex-col gap-4">
         <div>
           <p class="h4-custom text-gray-600">Przybliżona lokalizacja:</p>
-          <p class="text-body-reg text-gray-900">{{ offer.localization }}</p>
+          <p class="text-body-reg text-gray-900">{{ offer.localization.name }}</p>
         </div>
         <div>
           <p class="h4-custom text-gray-600">Dokładna lokalizacja:</p>

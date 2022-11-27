@@ -10,9 +10,11 @@ const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'offers', component: OffersComponent, children:[
+      {path: '', component: OffersListComponent},
       {path: 'list', component: OffersListComponent},
       {path: 'create', component: OfferEditComponent},
-      {path: ':offerId/details', component: OfferDetailsComponent}
+      {path: ':offerId/details', component: OfferDetailsComponent},
+      {path: ':offerId/edit', component: OfferEditComponent}
     ]}
 ];
 

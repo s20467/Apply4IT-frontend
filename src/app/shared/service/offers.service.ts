@@ -56,6 +56,9 @@ export class OffersService {
     return this.http.post<number>(this.urlBase + "offers", offer);
   }
 
+  updateOffer(offer: OfferCreationRequestDto, offerId: number) {
+    return this.http.put<number>(this.urlBase + "offers/" + offerId, offer)
+  }
 
 
   emitOffersChanged() {
@@ -158,7 +161,5 @@ export class OffersService {
     currentOfferParams.currentPage = 0;
     return { offerParams: JSON.stringify(currentOfferParams) }
   }
-
-
 
 }

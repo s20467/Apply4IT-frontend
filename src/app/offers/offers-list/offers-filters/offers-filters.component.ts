@@ -75,7 +75,7 @@ export class OffersFiltersComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       let offerFilters = this.offersService.getOfferFiltersFromParams(params);
 
-      let newFiltersFormValue = {
+      let newFiltersFormValue = { //todo chande to setValue
         categories: <boolean[]>[],
         localizations: <boolean[]>[],
         firstJobPossibility: false,
