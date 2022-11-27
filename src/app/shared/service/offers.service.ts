@@ -8,12 +8,11 @@ import {
   OfferSearchSpecification,
   OfferSearchSpecificationStringSearchSection
 } from "../model/offer-search-specification.model";
-import {OfferFullDto} from "../model/offer-full-dto.model";
-import {Params} from "@angular/router";
-import {OfferFilters} from "../model/offer-filters.model";
-import {PaginationObject} from "../model/pagination-object.model";
-import {OfferParams} from "../model/offer-params.model";
-import {FormControl} from "@angular/forms";
+import { OfferFullDto } from "../model/offer-full-dto.model";
+import { Params } from "@angular/router";
+import { OfferFilters } from "../model/offer-filters.model";
+import { OfferParams } from "../model/offer-params.model";
+import { OfferCreationRequestDto } from "../model/offer-creation-request-dto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,24 +27,7 @@ export class OffersService {
 
   constructor(private http: HttpClient) { }
 
-  getOffers(pageNumber: number) {
-    let params = new HttpParams().set('page', pageNumber);
-    return this.http.get<Page<OfferMinimalDto>>(this.urlBase + "offers", { params: params });
-  }
-
   searchOffers(searchObject: OfferSearchSpecification | null, pageNumber: number) {
-    if(typeof(searchObject?.stringSearchSection) == 'string'){
-      let searchString = searchObject.stringSearchSection;
-      searchObject = JSON.parse(JSON.stringify(searchObject)) as OfferSearchSpecification
-      searchObject.stringSearchSection = {
-        titleLike: searchString,
-        descriptionLike: searchString,
-        anyExpectationLike: searchString,
-        anyOfferAdvantageLike: searchString,
-        companyNameLike: searchString,
-        anyCategoryNameLike: searchString
-      }
-    }
     let params = new HttpParams().set('page', pageNumber);
     return this.http.post<Page<OfferMinimalDto>>(this.urlBase + "offers/search", searchObject, { params: params });
   }
@@ -70,6 +52,9 @@ export class OffersService {
     return this.http.get<boolean>(this.urlBase + "offers/" + offerId + "/am-i-author");
   }
 
+  createOffer(offer: OfferCreationRequestDto) {
+    return this.http.post<number>(this.urlBase + "offers", offer);
+  }
 
 
 

@@ -19,7 +19,6 @@ export class MainMenuComponent implements OnInit {
   }
 
   public logout() {
-    console.log('logout')
     this.usersService.logout();
     this.toggleMainMenuOpen();
   }

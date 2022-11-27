@@ -1,0 +1,285 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">{{ editingMode ? "Edytowanie oferty" : "Tworzenie oferty" }}</div>
+  <div class="bg-white p-16">
+    <form [formGroup]="offerEditForm" (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col gap-20">
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('title')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('title')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="title-input">Tytuł:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="title-input" type="text" [formControlName]="'title'" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="offerEditForm.get('title')?.hasError('required')" class="validation-message">*Tytuł nie może być pusty</p>
+          <p *ngIf="offerEditForm.get('title')?.hasError('minlength')" class="validation-message">*Tytuł musi się składać z co najmniej 5 znaków</p>
+          <p *ngIf="offerEditForm.get('title')?.hasError('maxlength')" class="validation-message">*Tytuł musi się składać z maksymalnie 35 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('company')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('company')?.invalid) }">
+          <label class="h4-custom text-gray-500" for="company-input">Firma:</label>
+          <select class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="company-input" [formControlName]="'company'">
+            <option *ngFor="let company of companies" [ngValue]="company.id">{{ company.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="offerEditForm.get('company')?.hasError('required')" class="validation-message">*Musisz wybrać firmę</p>
+        </div>
+      </div>
+      <div>
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('description')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('description')?.invalid) }">
+          <label class="h4-custom text-gray-500" for="description-input">Opis:</label>
+          <textarea (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'"></textarea>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="offerEditForm.get('description')?.hasError('maxlength')" class="validation-message">*Opis musi się składać z maksymalnie 2000 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-row justify-between items-start">
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-col border-b-4" [ngClass]="{
+              'border-red-400': (form.submitted && offerEditForm.get('minSalaryPln')?.invalid),
+              'border-primary-400': !(form.submitted && offerEditForm.get('minSalaryPln')?.invalid) }">
+            <label for="min-salary-input" class="h4-custom text-gray-500">Minimalne zarobki:</label>
+            <input id="min-salary-input" type="number" class="w-[11rem] text-body-reg-bold text-gray-700 border-none bg-transparent" [formControlName]="'minSalaryPln'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="offerEditForm.get('minSalaryPln')?.hasError('required')" class="validation-message w-[11rem]">*Kwota nie może być pusta</p>
+            <p *ngIf="offerEditForm.get('minSalaryPln')?.hasError('min')" class="validation-message w-[11rem]">*Kwota musi być z przedziału 0zł - 100000zł</p>
+            <p *ngIf="offerEditForm.get('minSalaryPln')?.hasError('max')" class="validation-message w-[11rem]">*Kwota musi być z przedziału 0zł - 100000zł</p>
+          </div>
+        </div>
+        <div class="border-b-4 border-primary-400 mt-12 w-6"></div>
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-col border-b-4" [ngClass]="{
+              'border-red-400': (form.submitted && offerEditForm.get('maxSalaryPln')?.invalid),
+              'border-primary-400': !(form.submitted && offerEditForm.get('maxSalaryPln')?.invalid) }">
+            <label for="max-salary-input" class="h4-custom text-gray-500">Maksymalne zarobki:</label>
+            <input id="max-salary-input" type="number" class="w-[12rem] text-body-reg-bold text-gray-700 border-none bg-transparent" [formControlName]="'maxSalaryPln'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="offerEditForm.get('maxSalaryPln')?.hasError('required')" class="validation-message w-[11rem]">*Pole nie może być puste</p>
+            <p *ngIf="offerEditForm.get('maxSalaryPln')?.hasError('min')" class="validation-message w-[11rem]">*Kwota musi być z przedziału 0zł - 100000zł</p>
+            <p *ngIf="offerEditForm.get('maxSalaryPln')?.hasError('max')" class="validation-message w-[11rem]">*Kwota musi być z przedziału 0zł - 100000zł</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="flex flex-col border-primary-400 gap-2 mb-2">
+          <div class="flex flex-row justify-between items-baseline">
+            <label class="h4-custom text-gray-500">Benefity / Zalety:</label>
+          </div>
+          <div *ngFor="let offerAdvantageControl of offerAdvantagesFormArray.controls; let i = index" [formArrayName]="'offerAdvantages'">
+            <div class="flex flex-col gap-1">
+              <div class="border-b-4 flex flex-row justify-stretch items-center gap-2 pr-2" [ngClass]="{
+                'border-red-400': (form.submitted && offerAdvantagesFormArray.at(i).invalid),
+                'border-primary-400': !(form.submitted && offerAdvantagesFormArray.at(i).invalid) }">
+                <textarea (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent w-full" type="text" [formControlName]="i"></textarea>
+                <button (click)="removeOfferAdvantageSlot(offerAdvantageControl)" type="button" class="delete-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#000000" viewBox="0 0 256 256">
+                    <!--                <rect width="256" height="256" fill="none"></rect>-->
+                    <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                    <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                  </svg>
+                </button>
+              </div>
+              <div *ngIf="form.submitted" class="flex flex-col">
+                <p *ngIf="offerAdvantagesFormArray.at(i)?.hasError('required')" class="validation-message">*Pole nie może być puste</p>
+                <p *ngIf="offerAdvantagesFormArray.at(i)?.hasError('maxlength')" class="validation-message">*Pole musi się składać z maksymalnie 1000 znaków</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button (click)="addOfferAdvantageSlot()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+          <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+            <!--            <rect width="256" height="256" fill="none"></rect>-->
+            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+            <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          </svg>
+          <p>Dodaj benefit / zaletę</p>
+        </button>
+      </div>
+      <div>
+        <div class="flex flex-col border-primary-400 gap-2 mb-2">
+          <div class="flex flex-row justify-between items-baseline">
+            <label class="h4-custom text-gray-500">Oczekiwania:</label>
+            <p class="h5-custom text-gray-500">Wymagane:</p>
+          </div>
+          <div *ngFor="let expectationControl of expectationsFormArray.controls; let i = index" [formArrayName]="'expectations'">
+            <div class="flex flex-col gap-1">
+              <div class="border-b-4 flex flex-row justify-stretch items-center gap-2 pr-2" [formGroupName]="i" [ngClass]="{
+                'border-red-400': (form.submitted && expectationsFormArray.at(i).get('description')?.invalid),
+                'border-primary-400': !(form.submitted && expectationsFormArray.at(i).get('description')?.invalid) }">
+                <textarea (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent w-full" type="text" [formControlName]="'description'"></textarea>
+                <button (click)="removeExpectationSlot(expectationControl)" type="button" class="delete-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#000000" viewBox="0 0 256 256">
+                    <!--                <rect width="256" height="256" fill="none"></rect>-->
+                    <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                    <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                  </svg>
+                </button>
+                <input class="cursor-pointer border-[2.5px] rounded-sm border-gray-400 w-[21px] h-[21px]" type="checkbox" [formControlName]="'required'">
+              </div>
+              <div *ngIf="form.submitted" class="flex flex-col">
+                <p *ngIf="expectationsFormArray.at(i)?.get('description')?.hasError('required')" class="validation-message">*Pole nie może być puste</p>
+                <p *ngIf="expectationsFormArray.at(i)?.get('description')?.hasError('maxlength')" class="validation-message">*Pole musi się składać z maksymalnie 1000 znaków</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button (click)="addExpectationSlot()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+          <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+            <!--            <rect width="256" height="256" fill="none"></rect>-->
+            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+            <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          </svg>
+          <p>Dodaj oczekiwaną umiejętność / wymaganie</p>
+        </button>
+      </div>
+      <div>
+        <div class="flex flex-col border-primary-400 gap-2 mb-2">
+          <label class="h4-custom text-gray-500">Kategorie:</label>
+          <div *ngFor="let categoryControl of categoriesFormArray.controls; let i = index" [formArrayName]="'categories'">
+            <div class="flex flex-col gap-1">
+              <div class="border-b-4 flex flex-row justify-stretch pr-2" [ngClass]="{
+                'border-red-400': (form.submitted && categoriesFormArray.at(i).invalid),
+                'border-primary-400': !(form.submitted && categoriesFormArray.at(i).invalid) }">
+                <select class="text-body-reg-bold text-gray-700 border-none bg-transparent w-full" [formControlName]="i">
+                  <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.title }}</option>
+                </select>
+                <button (click)="removeCategorySlot(categoryControl)" type="button" class="delete-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#000000" viewBox="0 0 256 256">
+    <!--                <rect width="256" height="256" fill="none"></rect>-->
+                    <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                    <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                    <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                  </svg>
+                </button>
+              </div>
+              <div *ngIf="form.submitted" class="flex flex-col">
+                <p *ngIf="categoriesFormArray.at(i)?.hasError('required')" class="validation-message">*Pole nie może być puste</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button (click)="addCategorySlot()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+          <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+<!--            <rect width="256" height="256" fill="none"></rect>-->
+            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+            <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          </svg>
+          <p>Dodaj kategorię</p>
+        </button>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('closingDate')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('closingDate')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="closing-date-input">Aktywna do:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="closing-date-input" type="date" [formControlName]="'closingDate'" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="offerEditForm.get('closingDate')?.hasError('required')" class="validation-message">*Musisz wybrać datę zamknięcia ogłoszenia</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('localization')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('localization')?.invalid) }">
+          <label class="h4-custom text-gray-500" for="localization-input">Przybliżona lokalizacja:</label>
+          <select class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="localization-input" [formControlName]="'localization'">
+            <option *ngFor="let localization of localizations" [ngValue]="localization.id">{{ localization.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="offerEditForm.get('localization')?.hasError('required')" class="validation-message">*Lokalizacja nie może być pusta</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <p class="h4-custom text-gray-500">Dokładna lokalizacja:</p>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('country')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('country')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="country-input">Kraj:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="offerEditForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
+            <p *ngIf="offerEditForm.get('country')?.hasError('minlength')" class="validation-message">*Kraj musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="offerEditForm.get('country')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 60 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('city')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('city')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="offerEditForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
+            <p *ngIf="offerEditForm.get('city')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('zip')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('zip')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="offerEditForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
+            <p *ngIf="offerEditForm.get('zip')?.hasError('minlength')" class="validation-message">*ZIP musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="offerEditForm.get('zip')?.hasError('maxlength')" class="validation-message">*ZIP musi się składać z maksymalnie 15 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && offerEditForm.get('street')?.invalid),
+            'border-primary-400': !(form.submitted && offerEditForm.get('street')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="offerEditForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>
+            <p *ngIf="offerEditForm.get('street')?.hasError('maxlength')" class="validation-message">*Ulica musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-row">
+          <input id="first-job-possibility-input" class="cursor-pointer border-[3px] rounded-sm border-primary-400 w-7 h-7 mr-2" type="checkbox" [formControlName]="'firstJobPossibility'">
+          <label for="first-job-possibility-input" class="h4-custom text-gray-500">Możliwość pierwszej pracy</label>
+        </div>
+        <div class="flex flex-row">
+          <input id="remote-job-possibility-input" class="cursor-pointer border-[3px] rounded-sm border-primary-400 w-7 h-7 mr-2" type="checkbox" [formControlName]="'remoteJobPossibility'">
+          <label for="remote-job-possibility-input" class="h4-custom text-gray-500">Możliwość pracy zdalnej</label>
+        </div>
+      </div>
+      <div>
+        <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zatwierdź</button>
+        <p *ngIf="offerEditForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+      </div>
+    </form>
+  </div>
+</div>

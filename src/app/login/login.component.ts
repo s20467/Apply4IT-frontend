@@ -33,7 +33,15 @@ export class LoginComponent implements OnInit {
         this.location.back();
       },
       error: (error: HttpErrorResponse) => {
-        this.loginForm.setErrors({'InvalidFormContent': true})
+        if(error.status >= 400 && error.status < 500) {
+          this.loginForm.setErrors({"InvalidFormContent": true});
+        }
+        else if(error.status >= 500 && error.status < 600){
+          this.loginForm.setErrors({"UnknownServerError": true});
+        }
+        else {
+          console.log(error)
+        }
       }})
     }
   }

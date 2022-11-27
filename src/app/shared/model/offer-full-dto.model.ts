@@ -1,5 +1,7 @@
-import {Address} from "./address.model";
-import {CompanyMinimalDto} from "./company-minimal-dto.model";
+import { Address } from "./address.model";
+import { CompanyMinimalDto } from "./company-minimal-dto.model";
+import { ExpectationMinimalDto } from "./expectation-minimal-dto.model";
+import {OfferAdvantageMinimalDto} from "./offer-advantage-minimal-dto.model";
 
 export class OfferFullDto{
   id: number;
@@ -14,8 +16,8 @@ export class OfferFullDto{
   maxSalaryPln: number;
   firstJobPossibility: boolean;
   categories: string[];
-  expectations: string[];
-  offerAdvantages: string[];
+  expectations: ExpectationMinimalDto[];
+  offerAdvantages: OfferAdvantageMinimalDto[];
   applicationsNumber: number | null;
   remotePossibility: boolean;
   isSavedByCurrentUser: boolean;

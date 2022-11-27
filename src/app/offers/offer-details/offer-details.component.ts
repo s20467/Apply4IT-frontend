@@ -27,7 +27,9 @@ export class OfferDetailsComponent implements OnInit {
         this.offer = offer;
         this.offersService.checkIfAuthorOfByOfferId(offer.id).subscribe((isAuthor: boolean) => {
           this.isAuthor = isAuthor;
-        })
+        });
+        this.offer.expectations.sort((o1, o2) => o1.orderNumber - o2.orderNumber);
+        this.offer.offerAdvantages.sort((o1, o2) => o1.orderNumber - o2.orderNumber);
       })
     })
   }

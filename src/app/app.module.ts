@@ -17,6 +17,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { OffersSearchBarComponent } from './offers/offers-list/offers-search-bar/offers-search-bar.component';
 import { OffersPaginationComponent } from './offers/offers-list/offers-pagination/offers-pagination.component';
 import { OfferDetailsComponent } from './offers/offer-details/offer-details.component';
+import { OfferEditComponent } from './offers/offer-edit/offer-edit.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { OfferDetailsComponent } from './offers/offer-details/offer-details.comp
     LoginComponent,
     OffersSearchBarComponent,
     OffersPaginationComponent,
-    OfferDetailsComponent
+    OfferDetailsComponent,
+    OfferEditComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
 
   title = 'Apply4IT-front';
 
-  isMainMenuOpen = true;
+  isMainMenuOpen = false;
 
   constructor(public mainMenuToggleService: MainMenuToggleService) {
   }

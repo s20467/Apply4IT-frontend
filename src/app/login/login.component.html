@@ -13,7 +13,7 @@
         <div *ngIf="form.submitted" class="flex flex-col">
           <p *ngIf="loginForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
           <p *ngIf="loginForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
-          <p *ngIf="loginForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z co nawyżej 20 znaków</p>
+          <p *ngIf="loginForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 20 znaków</p>
           <p *ngIf="loginForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
         </div>
       </div>
@@ -37,6 +37,7 @@
         <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zaloguj się</button>
         <p class="mt-1 text-gray-500 text-body-reg">Nie posiadasz jeszcze konta? <a class="text-primary-500 link-reg cursor-pointer hover:text-primary-400">Zarejestruj się.</a></p>
         <p *ngIf="loginForm.hasError('InvalidFormContent')" class="validation-message">*Niewłaściwy email lub hasło</p>
+        <p *ngIf="loginForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
       </div>
     </form>
   </div>
