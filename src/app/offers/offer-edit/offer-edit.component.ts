@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChildren} from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import { CompaniesService } from "../../shared/service/companies.service";
 import { CompanyMinimalDto } from "../../shared/model/company-minimal-dto.model";
 import { UsersService } from "../../shared/service/users.service";
@@ -13,6 +13,9 @@ import {ExpectationMinimalDto} from "../../shared/model/expectation-minimal-dto.
 import {OfferAdvantageMinimalDto} from "../../shared/model/offer-advantage-minimal-dto.model";
 import {HttpErrorResponse} from "@angular/common/http";
 import {OfferCreationRequestDto} from "../../shared/model/offer-creation-request-dto.model";
+import {maxSalSmallerThanMinSalValidator} from "../../shared/validators/max-sal-smaller-than-min-sal.directive";
+import {offerClosingDateTooEarly} from "../../shared/validators/offer-closing-date-too-early.directive";
+import {offerClosingDateTooLate} from "../../shared/validators/offer-closing-date-too-late.directive";
 
 @Component({
   selector: 'app-offer-edit',
@@ -60,7 +63,7 @@ export class OfferEditComponent implements OnInit {
       expectations: new FormArray([]),
       offerAdvantages: new FormArray([]),
       categories: new FormArray([]),
-      closingDate: new FormControl(null, [Validators.required]),
+      closingDate: new FormControl(null, [Validators.required, offerClosingDateTooEarly, offerClosingDateTooLate]),
       minSalaryPln: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100000)]),
       maxSalaryPln: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100000)]),
       localization: new FormControl(null, [Validators.required]),
@@ -70,7 +73,7 @@ export class OfferEditComponent implements OnInit {
       street: new FormControl(null, [Validators.required, Validators.maxLength(200)]),
       firstJobPossibility: new FormControl(),
       remoteJobPossibility: new FormControl(),
-    });
+    }, { validators: maxSalSmallerThanMinSalValidator });
 
 
     if(!this.usersService.isLoggedIn()) {
@@ -186,6 +189,7 @@ export class OfferEditComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.offerEditForm)
     if(this.offerEditForm.valid) {
       if(!this.isEditMode) {
         this.offersService.createOffer(this.getOfferCreationRequestDtoFromForm()).subscribe({

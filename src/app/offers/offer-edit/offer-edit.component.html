@@ -57,8 +57,8 @@
         <div class="border-b-4 border-primary-400 mt-12 w-6"></div>
         <div class="flex flex-col gap-1">
           <div class="flex flex-col border-b-4" [ngClass]="{
-              'border-red-400': (form.submitted && offerEditForm.get('maxSalaryPln')?.invalid),
-              'border-primary-400': !(form.submitted && offerEditForm.get('maxSalaryPln')?.invalid) }">
+              'border-red-400': (form.submitted && (offerEditForm.get('maxSalaryPln')?.invalid || offerEditForm.hasError('maxSalarySmaller'))),
+              'border-primary-400': !(form.submitted && (offerEditForm.get('maxSalaryPln')?.invalid || offerEditForm.hasError('maxSalarySmaller'))) }">
             <label for="max-salary-input" class="h4-custom text-gray-500">Maksymalne zarobki:</label>
             <input id="max-salary-input" type="number" class="w-[12rem] text-body-reg-bold text-gray-700 border-none bg-transparent" [formControlName]="'maxSalaryPln'">
           </div>
@@ -66,6 +66,7 @@
             <p *ngIf="offerEditForm.get('maxSalaryPln')?.hasError('required')" class="validation-message w-[11rem]">*Pole nie może być puste</p>
             <p *ngIf="offerEditForm.get('maxSalaryPln')?.hasError('min')" class="validation-message w-[11rem]">*Kwota musi być z przedziału 0zł - 100000zł</p>
             <p *ngIf="offerEditForm.get('maxSalaryPln')?.hasError('max')" class="validation-message w-[11rem]">*Kwota musi być z przedziału 0zł - 100000zł</p>
+            <p *ngIf="offerEditForm.hasError('maxSalarySmaller')" class="validation-message w-[11rem]">*Kwota maksymalna musi być większa od kwoty minimalnej</p>
           </div>
         </div>
       </div>
@@ -194,6 +195,8 @@
         </div>
         <div *ngIf="form.submitted" class="flex flex-col">
           <p *ngIf="offerEditForm.get('closingDate')?.hasError('required')" class="validation-message">*Musisz wybrać datę zamknięcia ogłoszenia</p>
+          <p *ngIf="offerEditForm.get('closingDate')?.hasError('closingDateTooEarly')" class="validation-message">*Data zamknięcia ogłoszenia musi być póżniejsza od daty dzisiejszej</p>
+          <p *ngIf="offerEditForm.get('closingDate')?.hasError('closingDateTooLate')" class="validation-message">*Ogłoszenie może być aktywne maksymalnie rok</p>
         </div>
       </div>
       <div class="flex flex-col gap-1">
