@@ -1,0 +1,9 @@
+<div>
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <input
+      class="border-none bg-white w-full drop-shadow-md text-body-reg-semibold text-gray-700 placeholder-gray-400"
+      type="text"
+      formControlName="searchString"
+      placeholder="Wyszukaj firmę">
+  </form>
+</div>

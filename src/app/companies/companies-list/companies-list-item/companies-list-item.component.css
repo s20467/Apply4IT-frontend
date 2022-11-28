@@ -1,0 +1,8 @@
+.go-to-company-icon *{
+  @apply stroke-secondary-500;
+  stroke-width: 25;
+}
+
+.company-list-item:hover *{
+  @apply stroke-secondary-400;
+}

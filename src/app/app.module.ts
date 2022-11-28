@@ -18,6 +18,11 @@ import { OffersSearchBarComponent } from './offers/offers-list/offers-search-bar
 import { OffersPaginationComponent } from './offers/offers-list/offers-pagination/offers-pagination.component';
 import { OfferDetailsComponent } from './offers/offer-details/offer-details.component';
 import { OfferEditComponent } from './offers/offer-edit/offer-edit.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { CompaniesListComponent } from './companies/companies-list/companies-list.component';
+import { CompaniesListItemComponent } from './companies/companies-list/companies-list-item/companies-list-item.component';
+import { CompaniesPaginationComponent } from './companies/companies-list/companies-pagination/companies-pagination.component';
+import { CompaniesSearchBarComponent } from './companies/companies-list/companies-search-bar/companies-search-bar.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,12 @@ import { OfferEditComponent } from './offers/offer-edit/offer-edit.component';
     OffersSearchBarComponent,
     OffersPaginationComponent,
     OfferDetailsComponent,
-    OfferEditComponent
+    OfferEditComponent,
+    CompaniesComponent,
+    CompaniesListComponent,
+    CompaniesListItemComponent,
+    CompaniesPaginationComponent,
+    CompaniesSearchBarComponent
   ],
   imports: [
     BrowserModule,
