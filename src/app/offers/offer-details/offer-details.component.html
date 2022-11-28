@@ -128,6 +128,10 @@
           <p class="h4-custom text-gray-600">Dokładna lokalizacja:</p>
           <p class="text-body-reg text-gray-900">{{ offer.address.country + ', ' + offer.address.city + ', ' + offer.address.zip + ', ' + offer.address.street }}</p>
         </div>
+        <div>
+          <p class="h4-custom text-gray-600">Ogłoszenie aktywne do:</p>
+          <p class="text-body-reg text-gray-900">{{ offer.closingDate }}</p>
+        </div>
       </div>
       <div *ngIf="usersService.isLoggedIn() && offer.applicationsNumber != null">
         <p class="h4-custom text-gray-600 mb-[-0.3rem]">Liczba kandydatów: {{ offer.applicationsNumber }}</p>
