@@ -105,6 +105,14 @@ export class OffersService {
     return offerParams.searchString;
   }
 
+  getCompanyIdFromParams(params: Params): number | null {
+    if(!Object.keys(params).includes("offerParams")) {
+      return null;
+    }
+    let offerParams: OfferParams = JSON.parse(params["offerParams"]);
+    return offerParams.companyIdEqual;
+  }
+
   getOfferSearchSpecificationFromParams(params: Params): OfferSearchSpecification | null{
     if(!Object.keys(params).includes("offerParams")) {
       return null;
@@ -115,6 +123,7 @@ export class OffersService {
       firstJobPossibilityEqual: offerParams.firstJobPossibilityEqual,
       anyCategoryIdEqual: offerParams.anyCategoryIdEqual,
       anyLocalizationIdEqual: offerParams.anyLocalizationIdEqual,
+      companyIdEqual: offerParams.companyIdEqual,
       stringSearchSection: null,
     };
     if(offerParams.searchString != null && offerParams.searchString.length != 0) {
@@ -128,6 +137,16 @@ export class OffersService {
       };
     }
     return offerSearchSpecification;
+  }
+
+  paramsPlusCompanyIdEqual(params: Params, companyIdEqual: number | null) {
+    let currentOfferParams: OfferParams = new OfferParams();
+    if(Object.keys(params).includes("offerParams")) {
+      currentOfferParams = JSON.parse(params["offerParams"]);
+    }
+    currentOfferParams.companyIdEqual = companyIdEqual;
+    currentOfferParams.currentPage = 0;
+    return { offerParams: JSON.stringify(currentOfferParams) }
   }
 
   paramsPlusOfferFiltersWithCurrentPageReset(params: Params, filters: OfferFilters): Params {

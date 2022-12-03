@@ -1,14 +1,11 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {LocalizationFullDto} from "../../../shared/model/localization-full-dto.model";
-import {CategoryFullDto} from "../../../shared/model/category-full-dto.model";
-import {CategoriesService} from "../../../shared/service/categories.service";
-import {LocalizationsService} from "../../../shared/service/localizations.service";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Subject} from "rxjs";
-import {OfferFilters} from "../../../shared/model/offer-filters.model";
-import {OfferSearchSpecification} from "../../../shared/model/offer-search-specification.model";
-import {OffersService} from "../../../shared/service/offers.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { LocalizationFullDto } from "../../../shared/model/localization-full-dto.model";
+import { CategoryFullDto } from "../../../shared/model/category-full-dto.model";
+import { CategoriesService } from "../../../shared/service/categories.service";
+import { LocalizationsService } from "../../../shared/service/localizations.service";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { OffersService } from "../../../shared/service/offers.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-offers-filters',
@@ -27,8 +24,7 @@ export class OffersFiltersComponent implements OnInit {
     private localizationsService: LocalizationsService,
     private offersService: OffersService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private formBuilder: FormBuilder
+    private router: Router
   ) { }
 
   get categoriesFormArray() {

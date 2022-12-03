@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {CompanyMinimalDto} from "../model/company-minimal-dto.model";
-import {Subject} from "rxjs";
-import {Page} from "../model/page.model";
-import {CompanyListItemDto} from "../model/company-list-item-dto.model";
-import {Params} from "@angular/router";
-import {CompanyParams} from "../model/company-params.model";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { CompanyMinimalDto } from "../model/company-minimal-dto.model";
+import { Subject } from "rxjs";
+import { Page } from "../model/page.model";
+import { CompanyListItemDto } from "../model/company-list-item-dto.model";
+import { Params } from "@angular/router";
+import { CompanyParams } from "../model/company-params.model";
+import { CompanyFullDto } from "../model/company-full-dto.model";
+import {UserMinimalDto} from "../model/user-minimal-dto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,10 @@ export class CompaniesService {
 
   constructor(private http: HttpClient) { }
 
+  getCompanyById(companyId: number) {
+    return this.http.get<CompanyFullDto>(this.urlBase + "companies/" + companyId);
+  }
+
   getCompaniesOwnedAndRecruiting() {
     return this.http.get<CompanyMinimalDto[]>(this.urlBase + "companies/owned-and-recruiting-for");
   }
@@ -28,6 +34,18 @@ export class CompaniesService {
     let params = new HttpParams().set('page', pageNumber);
     console.log({nameLike: companyName})
     return this.http.post<Page<CompanyListItemDto>>(this.urlBase + "companies/search", {nameLike: companyName}, { params: params });
+  }
+
+  getRecruiters(companyId: number) {
+    return this.http.get<UserMinimalDto[]>(this.urlBase + "companies/" + companyId + "/recruiters");
+  }
+
+  addRecruiter(companyId: number, email: string) {
+    return this.http.post(this.urlBase + "companies/" + companyId + "/recruiters/" + email, null);
+  }
+
+  removeRecruiter(companyId: number, email: string) {
+    return this.http.delete(this.urlBase + "companies/" + companyId + "/recruiters/" + email);
   }
 
 

@@ -13,7 +13,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { JwtInterceptor } from './shared/service/jwt-interceptor.service';
 import { JwtRefreshInterceptor } from './shared/service/jwt-refresh-interceptor.service';
 import { LoginComponent } from './login/login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { OffersSearchBarComponent } from './offers/offers-list/offers-search-bar/offers-search-bar.component';
 import { OffersPaginationComponent } from './offers/offers-list/offers-pagination/offers-pagination.component';
 import { OfferDetailsComponent } from './offers/offer-details/offer-details.component';
@@ -23,6 +23,10 @@ import { CompaniesListComponent } from './companies/companies-list/companies-lis
 import { CompaniesListItemComponent } from './companies/companies-list/companies-list-item/companies-list-item.component';
 import { CompaniesPaginationComponent } from './companies/companies-list/companies-pagination/companies-pagination.component';
 import { CompaniesSearchBarComponent } from './companies/companies-list/companies-search-bar/companies-search-bar.component';
+import { CompanyDetailsComponent } from './companies/company-details/company-details.component';
+import { LatestOffersListItemComponent } from './companies/company-details/latest-offers-list-item/latest-offers-list-item.component';
+import { RecruitersListItemComponent } from './companies/company-details/recruiters-list-item/recruiters-list-item.component';
+import { CompanyRecruitersListComponent } from './companies/company-recruiters-list/company-recruiters-list.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,11 @@ import { CompaniesSearchBarComponent } from './companies/companies-list/companie
     CompaniesListComponent,
     CompaniesListItemComponent,
     CompaniesPaginationComponent,
-    CompaniesSearchBarComponent
+    CompaniesSearchBarComponent,
+    CompanyDetailsComponent,
+    LatestOffersListItemComponent,
+    RecruitersListItemComponent,
+    CompanyRecruitersListComponent
   ],
   imports: [
     BrowserModule,

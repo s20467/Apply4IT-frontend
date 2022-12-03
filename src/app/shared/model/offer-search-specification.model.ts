@@ -6,6 +6,7 @@ export class OfferSearchSpecification {
   anyCategoryIdEqual: number[] | null;
   anyLocalizationIdEqual: number[] | null;
   firstJobPossibilityEqual: boolean | null;
+  companyIdEqual: number | null;
 }
 
 export class OfferSearchSpecificationStringSearchSection {

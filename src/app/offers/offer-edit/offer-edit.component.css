@@ -1,8 +1,3 @@
-.button-icon *{
-  @apply stroke-gray-50;
-  stroke-width: 30;
-}
-
 .delete-button * {
   @apply stroke-gray-500;
   stroke-width: 19;

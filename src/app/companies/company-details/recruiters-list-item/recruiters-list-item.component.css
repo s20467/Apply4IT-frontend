@@ -1,0 +1,8 @@
+.delete-recruiter-button *{
+  @apply stroke-gray-500;
+  stroke-width: 15;
+}
+
+.delete-recruiter-button:hover *{
+  @apply stroke-rose-500;
+}

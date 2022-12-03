@@ -6,5 +6,6 @@ export class OfferParams {
   anyCategoryIdEqual: number[];
   anyLocalizationIdEqual: number[];
   firstJobPossibilityEqual: boolean | null;
+  companyIdEqual: number | null;
   currentPage: number;
 }
