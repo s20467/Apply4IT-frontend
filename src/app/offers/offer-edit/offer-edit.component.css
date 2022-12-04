@@ -1,8 +1,0 @@
-.delete-button * {
-  @apply stroke-gray-500;
-  stroke-width: 19;
-}
-
-.delete-button:hover * {
-  @apply stroke-rose-500;
-}

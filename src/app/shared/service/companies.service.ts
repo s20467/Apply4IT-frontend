@@ -9,6 +9,7 @@ import { Params } from "@angular/router";
 import { CompanyParams } from "../model/company-params.model";
 import { CompanyFullDto } from "../model/company-full-dto.model";
 import {UserMinimalDto} from "../model/user-minimal-dto.model";
+import {Address} from "../model/address.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,18 @@ export class CompaniesService {
 
   removeRecruiter(companyId: number, email: string) {
     return this.http.delete(this.urlBase + "companies/" + companyId + "/recruiters/" + email);
+  }
+
+  editCompanyDescription(companyId: number, companyDescription: string) {
+    return this.http.post(this.urlBase + "companies/" + companyId + "/edit-description", {description: companyDescription});
+  }
+
+  editCompanyAddress(companyId: number, companyAddress: Address) {
+    return this.http.post(this.urlBase + "companies/" + companyId + "/edit-address", companyAddress);
+  }
+
+  deleteCompany(companyId: number) {
+    return this.http.delete(this.urlBase + "companies/" + companyId);
   }
 
 
@@ -94,4 +107,5 @@ export class CompaniesService {
     currentCompanyParams.currentPage = 0;
     return { companyParams: JSON.stringify(currentCompanyParams) }
   }
+
 }

@@ -1,12 +1,129 @@
 <div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16 bg-white drop-shadow-md p-12 relative">
+  <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" class="delete-button absolute top-8 right-12" (click)="deleteCompany()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+      <!--        <rect width="256" height="256" fill="none"></rect>-->
+      <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+      <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+    </svg>
+  </button>
   <div class="flex flex-row gap-6 items-center">
-    <img class="w-[8rem]" src="data:image/png;base64,{{ company.logoPhoto }}">
+    <img class="w-[8rem]" src="data:image/png;base64,{{ company.logoPhoto }}" alt="Company logo">
     <p class="h3-custom text-gray-700">{{ company.name }}</p>
   </div>
-  <div class="text-body-reg text-gray-900">{{ company.description }}</div>
-  <div>
-    <p class="h4-custom text-gray-600">Lokalizacja siedziby:</p>
-    <p class="text-body-reg text-gray-900">{{ company.address.country + ', ' + company.address.city + ', ' + company.address.zip + ', ' + company.address.street }}</p>
+  <div class="text-body-reg text-gray-900 relative">
+    <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" (click)="toggleDescriptionEditMode()" class="edit-button absolute top-[-2rem] right-0">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+    </button>
+    <p *ngIf="!isDescriptionEditMode">{{ company.description }}</p>
+    <div *ngIf="isDescriptionEditMode">
+      <form [formGroup]="descriptionEditForm" (ngSubmit)="editDescription()" #form="ngForm" class="flex flex-col gap-2">
+        <div>
+          <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && descriptionEditForm.get('description')?.invalid),
+            'border-primary-400': !(form.submitted && descriptionEditForm.get('description')?.invalid) }">
+            <label class="h4-custom text-gray-500" for="description-input">Opis:</label>
+            <textarea #descriptionInput (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'"></textarea>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="descriptionEditForm.get('description')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 2000 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-row gap-2">
+          <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+            Zatwierdź
+          </button>
+          <button (click)="toggleDescriptionEditMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+            Odrzuć
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="relative">
+    <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" (click)="toggleAddressEditMode()" class="edit-button absolute top-0 right-0">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+    </button>
+    <div *ngIf="!isAddressEditMode">
+      <p class="h4-custom text-gray-600">Lokalizacja siedziby:</p>
+      <p class="text-body-reg text-gray-900">{{ company.address.country + ', ' + company.address.city + ', ' + company.address.zip + ', ' + company.address.street }}</p>
+    </div>
+    <div *ngIf="isAddressEditMode">
+      <form [formGroup]="addressEditForm" (ngSubmit)="editAddress()" #form="ngForm" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+                  'border-red-400': (form.submitted && addressEditForm.get('country')?.invalid),
+                  'border-primary-400': !(form.submitted && addressEditForm.get('country')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="country-input">Kraj:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="addressEditForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
+            <p *ngIf="addressEditForm.get('country')?.hasError('minlength')" class="validation-message">*Kraj musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="addressEditForm.get('country')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 60 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+                  'border-red-400': (form.submitted && addressEditForm.get('city')?.invalid),
+                  'border-primary-400': !(form.submitted && addressEditForm.get('city')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="addressEditForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
+            <p *ngIf="addressEditForm.get('city')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+                  'border-red-400': (form.submitted && addressEditForm.get('zip')?.invalid),
+                  'border-primary-400': !(form.submitted && addressEditForm.get('zip')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="addressEditForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
+            <p *ngIf="addressEditForm.get('zip')?.hasError('minlength')" class="validation-message">*ZIP musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="addressEditForm.get('zip')?.hasError('maxlength')" class="validation-message">*ZIP musi się składać z maksymalnie 15 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+                  'border-red-400': (form.submitted && addressEditForm.get('street')?.invalid),
+                  'border-primary-400': !(form.submitted && addressEditForm.get('street')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="addressEditForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>
+            <p *ngIf="addressEditForm.get('street')?.hasError('maxlength')" class="validation-message">*Ulica musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-row gap-2">
+          <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+            Zatwierdź
+          </button>
+          <button (click)="toggleAddressEditMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+            Odrzuć
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
   <div *ngIf="usersService.isAdmin() || company.isCurrentUserOwner" class="flex flex-col gap-2">
     <div class="flex flex-row justify-between items-baseline">

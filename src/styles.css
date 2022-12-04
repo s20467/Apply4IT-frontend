@@ -283,6 +283,23 @@ input, textarea, select {
   stroke-width: 30;
 }
 
+.delete-button * {
+  @apply stroke-gray-500;
+  stroke-width: 19;
+}
+
+.delete-button:hover * {
+  @apply stroke-rose-500;
+}
+
+.edit-button * {
+  @apply stroke-gray-500;
+  stroke-width: 20;
+}
+
+.edit-button:hover * {
+  @apply stroke-amber-400;
+}
 
 /*.drop-shadow-md-inner{*/
 /*  -webkit-box-shadow:inset 0 0 3px rgb(0 0 0 / 0.07);*/
