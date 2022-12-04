@@ -61,6 +61,12 @@ export class CompaniesService {
     return this.http.delete(this.urlBase + "companies/" + companyId);
   }
 
+  uploadLogo(companyId: number, logoFile: File) {
+    const formData = new FormData();
+    formData.append("logo", logoFile, logoFile.name);
+    return this.http.post(this.urlBase + "companies/" + companyId + "/upload-image", formData)
+  }
+
 
 
   emitCompaniesChanged() {

@@ -21,8 +21,11 @@ export class CompanyDetailsComponent implements OnInit {
   isRecruiterAddFormSubmitted = false;
   isDescriptionEditMode = false;
   isAddressEditMode = false;
+  isUploadLogoMode: boolean;
+  logoFileToUpload: File | null = null;
   descriptionEditForm: FormGroup;
   addressEditForm: FormGroup;
+  uploadLogoForm: FormGroup;
   @ViewChild("descriptionInput") descriptionInputTextarea: ElementRef<HTMLTextAreaElement>;
 
   constructor(
@@ -124,6 +127,19 @@ export class CompanyDetailsComponent implements OnInit {
     }
   }
 
+  toggleUploadLogoMode() {
+    if(this.isUploadLogoMode) {
+      this.isUploadLogoMode = false;
+      this.logoFileToUpload = null;
+    }
+    else {
+      this.uploadLogoForm = new FormGroup({
+        logo: new FormControl()
+      })
+      this.isUploadLogoMode = true;
+    }
+  }
+
   autoGrowTextarea(e: any) {
     e.target.style.height = "0px";
     e.target.style.height = (e.target.scrollHeight)+"px";
@@ -153,6 +169,27 @@ export class CompanyDetailsComponent implements OnInit {
         this.companiesService.emitCompaniesChanged();
       });
       this.location.back();
+    }
+  }
+
+  uploadLogo() {
+    if(this.uploadLogoForm.valid && this.logoFileToUpload != null){
+      this.companiesService.uploadLogo(this.company.id, this.logoFileToUpload).subscribe({
+        next: () => {
+          this.isUploadLogoMode = false
+          this.companiesService.emitCompaniesChanged();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.uploadLogoForm.setErrors({"UnknownServerError": true});
+        }
+      });
+    }
+  }
+
+  handleFileInput(event: Event) {
+    let file = (event.target as HTMLInputElement).files?.item(0);
+    if(file !== undefined) {
+      this.logoFileToUpload = file;
     }
   }
 }

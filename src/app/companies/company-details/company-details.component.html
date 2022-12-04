@@ -10,8 +10,46 @@
     </svg>
   </button>
   <div class="flex flex-row gap-6 items-center">
-    <img class="w-[8rem]" src="data:image/png;base64,{{ company.logoPhoto }}" alt="Company logo">
+    <div class="w-[8rem] relative">
+      <button *ngIf="!isUploadLogoMode" (click)="toggleUploadLogoMode()" class="upload-image-button absolute bottom-0 left-0" type="button">
+        <svg class="z-20 inner-upload-icon absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#000000" viewBox="0 0 256 256">
+  <!--        <rect width="256" height="256" fill="none"></rect>-->
+          <polyline points="86 82 128 40 170 82" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
+          <line x1="128" y1="152" x2="128" y2="40" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          <path d="M216,152v56a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        </svg>
+        <svg class="z-10 outer-upload-icon absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#000000" viewBox="0 0 256 256">
+          <!--        <rect width="256" height="256" fill="none"></rect>-->
+          <polyline points="86 82 128 40 170 82" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
+          <line x1="128" y1="152" x2="128" y2="40" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          <path d="M216,152v56a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        </svg>
+      </button>
+      <img src="data:image/png;base64,{{ company.logoPhoto }}" alt="Company logo">
+    </div>
     <p class="h3-custom text-gray-700">{{ company.name }}</p>
+  </div>
+  <div *ngIf="isUploadLogoMode">
+    <form [formGroup]="uploadLogoForm" (ngSubmit)="uploadLogo()" #form="ngForm" class="flex flex-col gap-2 mb-4 mt-[-1rem]">
+      <div>
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && uploadLogoForm.get('logo')?.invalid),
+            'border-primary-400': !(form.submitted && uploadLogoForm.get('logo')?.invalid) }">
+          <input accept=".png,.jpg,.jpeg" (change)="handleFileInput($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="logo-input" type="file" [formControlName]="'logo'">
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="uploadLogoForm.get('logo')?.hasError('UnknownServerError')" class="validation-message">*Niezany błąd serwera. Spróbuj podać inny plik lub spróbuj ponownie później.</p>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2">
+        <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+          Zatwierdź
+        </button>
+        <button (click)="toggleUploadLogoMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+          Odrzuć
+        </button>
+      </div>
+    </form>
   </div>
   <div class="text-body-reg text-gray-900 relative">
     <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" (click)="toggleDescriptionEditMode()" class="edit-button absolute top-[-2rem] right-0">
@@ -32,7 +70,7 @@
             <textarea #descriptionInput (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'"></textarea>
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
-            <p *ngIf="descriptionEditForm.get('description')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 2000 znaków</p>
+            <p *ngIf="descriptionEditForm.get('description')?.hasError('maxlength')" class="validation-message">*Opis musi się składać z maksymalnie 2000 znaków</p>
           </div>
         </div>
         <div class="flex flex-row gap-2">
