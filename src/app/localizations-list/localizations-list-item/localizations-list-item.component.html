@@ -1,0 +1,55 @@
+<div *ngIf="!isLocalizationEditMode" class="bg-white drop-shadow-md rounded flex flex-row py-3 px-6 justify-between items-center">
+  <div>
+    <p class="h4-custom text-gray-600">{{localization.name}}</p>
+  </div>
+  <div class="flex flex-row gap-4">
+    <button class="edit-button" (click)="toggleLocalizationEditMode()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+    </button>
+    <button class="delete-button" (click)="deleteLocalization()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isLocalizationEditMode" class="bg-white drop-shadow-md rounded py-3 px-6">
+  <form [formGroup]="localizationEditForm" (ngSubmit)="editLocalization()" #form="ngForm" class="flex flex-row gap-2 items-start">
+    <div class="w-full">
+      <div [ngClass]="{
+            'border-red-400': (form.submitted && localizationEditForm.get('localization')?.invalid),
+            'border-primary-400': !(form.submitted && localizationEditForm.get('localization')?.invalid) }"
+           class="border-b-4 flex flex-col">
+        <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" type="text" formControlName="localization" autofocus>
+      </div>
+      <div *ngIf="form.submitted" class="flex flex-col">
+        <p *ngIf="localizationEditForm.get('localization')?.hasError('required')" class="validation-message">*Nazwa lokalizacji nie może być pusty</p>
+        <p *ngIf="localizationEditForm.get('localization')?.hasError('maxlength')" class="validation-message">*Nazwa lokalizacji musi się składać z maksymalnie 50 znaków</p>
+        <p *ngIf="localizationEditForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+      </div>
+    </div>
+    <button class="reject-button rounded-md bg-primary-400 hover:bg-primary-300 p-0.5 mt-2" type="submit">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <polyline points="216 72 104 184 48 128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
+      </svg>
+    </button>
+    <button class="confirm-button rounded-md bg-rose-400 hover:bg-rose-300 p-0.5 mt-2" type="button" (click)="toggleLocalizationEditMode()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="200" y1="56" x2="56" y2="200" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="200" y1="200" x2="56" y2="56" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+    </button>
+  </form>
+</div>

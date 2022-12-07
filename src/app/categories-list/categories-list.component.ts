@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UsersService } from "../shared/service/users.service";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
-import {CategoryFullDto} from "../shared/model/category-full-dto.model";
-import {CategoriesService} from "../shared/service/categories.service";
-import {Subscription} from "rxjs";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { CategoryFullDto } from "../shared/model/category-full-dto.model";
+import { CategoriesService } from "../shared/service/categories.service";
+import { Subscription } from "rxjs";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-categories-list',

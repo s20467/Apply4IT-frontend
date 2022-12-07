@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { CategoryFullDto } from "../model/category-full-dto.model";
-import {Subject} from "rxjs";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,7 @@ export class CategoriesService {
     return this.http.get<CategoryFullDto[]>(this.urlBase + "categories");
   }
 
-  emitCategoriesChanged() {
-    this.categoriesChanged.next(null);
-  }
-
   editCategory(editedCategory: CategoryFullDto) {
-    console.log(editedCategory)
     return this.http.put(this.urlBase + "categories", editedCategory);
   }
 
@@ -35,5 +30,10 @@ export class CategoriesService {
 
   deleteCategory(categoryId: number) {
     return this.http.delete(this.urlBase + "categories/" + categoryId);
+  }
+
+
+  emitCategoriesChanged() {
+    this.categoriesChanged.next(null);
   }
 }

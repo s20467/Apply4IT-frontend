@@ -29,6 +29,8 @@ import { RecruitersListItemComponent } from './companies/company-details/recruit
 import { CompanyRecruitersListComponent } from './companies/company-recruiters-list/company-recruiters-list.component';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { CategoriesListItemComponent } from './categories-list/categories-list-item/categories-list-item.component';
+import { LocalizationsListComponent } from './localizations-list/localizations-list.component';
+import { LocalizationsListItemComponent } from './localizations-list/localizations-list-item/localizations-list-item.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { CategoriesListItemComponent } from './categories-list/categories-list-i
     RecruitersListItemComponent,
     CompanyRecruitersListComponent,
     CategoriesListComponent,
-    CategoriesListItemComponent
+    CategoriesListItemComponent,
+    LocalizationsListComponent,
+    LocalizationsListItemComponent
   ],
   imports: [
     BrowserModule,

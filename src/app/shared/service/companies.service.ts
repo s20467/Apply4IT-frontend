@@ -33,7 +33,6 @@ export class CompaniesService {
 
   searchCompaniesByName(companyName: string | null, pageNumber: number) {
     let params = new HttpParams().set('page', pageNumber);
-    console.log({nameLike: companyName})
     return this.http.post<Page<CompanyListItemDto>>(this.urlBase + "companies/search", {nameLike: companyName}, { params: params });
   }
 
