@@ -1,0 +1,44 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500">Wszystkie kategorie</div>
+  <div class="flex flex-col gap-6">
+    <div *ngFor="let category of categories">
+      <app-categories-list-item [category]="category"></app-categories-list-item>
+    </div>
+  </div>
+  <div *ngIf="!isCategoryCreateMode">
+    <button (click)="toggleCategoryCreateMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+      <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+        <!--            <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+      <p>Dodaj kategorię</p>
+    </button>
+  </div>
+  <div *ngIf="isCategoryCreateMode">
+    <form [formGroup]="categoryCreateForm" (ngSubmit)="createCategory()" #form="ngForm" class="flex flex-col gap-2">
+      <div class="w-full">
+        <label class="h4-custom text-gray-500" for="category-input">Tytuł nowej kategorii:</label>
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && categoryCreateForm.get('category')?.invalid),
+            'border-primary-400': !(form.submitted && categoryCreateForm.get('category')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <input id="category-input" class="text-body-reg-bold text-gray-700 border-none bg-transparent" type="text" formControlName="category" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="categoryCreateForm.get('category')?.hasError('required')" class="validation-message">*Tytuł kategorii nie może być pusty</p>
+          <p *ngIf="categoryCreateForm.get('category')?.hasError('maxlength')" class="validation-message">*Tytuł kategorii musi się składać z maksymalnie 50 znaków</p>
+          <p *ngIf="categoryCreateForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2">
+        <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+          Zatwierdź
+        </button>
+        <button (click)="toggleCategoryCreateMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+          Odrzuć
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import {CompaniesComponent} from "./companies/companies.component";
 import {CompaniesListComponent} from "./companies/companies-list/companies-list.component";
 import {CompanyDetailsComponent} from "./companies/company-details/company-details.component";
 import {CompanyRecruitersListComponent} from "./companies/company-recruiters-list/company-recruiters-list.component";
+import {CategoriesListComponent} from "./categories-list/categories-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -25,7 +26,9 @@ const routes: Routes = [
       {path: 'list', component: CompaniesListComponent},
       {path: ':companyId/details', component: CompanyDetailsComponent},
       {path: ':companyId/recruiters', component: CompanyRecruitersListComponent}
-    ]}
+    ]},
+  {path: 'categories', component: CategoriesListComponent},
+  {path: 'categories/list', component: CategoriesListComponent}
 ];
 
 @NgModule({

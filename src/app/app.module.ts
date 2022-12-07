@@ -27,6 +27,8 @@ import { CompanyDetailsComponent } from './companies/company-details/company-det
 import { LatestOffersListItemComponent } from './companies/company-details/latest-offers-list-item/latest-offers-list-item.component';
 import { RecruitersListItemComponent } from './companies/company-details/recruiters-list-item/recruiters-list-item.component';
 import { CompanyRecruitersListComponent } from './companies/company-recruiters-list/company-recruiters-list.component';
+import { CategoriesListComponent } from './categories-list/categories-list.component';
+import { CategoriesListItemComponent } from './categories-list/categories-list-item/categories-list-item.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { CompanyRecruitersListComponent } from './companies/company-recruiters-l
     CompanyDetailsComponent,
     LatestOffersListItemComponent,
     RecruitersListItemComponent,
-    CompanyRecruitersListComponent
+    CompanyRecruitersListComponent,
+    CategoriesListComponent,
+    CategoriesListItemComponent
   ],
   imports: [
     BrowserModule,

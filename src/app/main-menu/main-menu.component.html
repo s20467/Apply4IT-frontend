@@ -137,7 +137,7 @@
         </svg>
         Stwórz konto
       </li></a>
-      <a *ngIf="usersService.isAdmin()" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a [routerLink]="['categories']" *ngIf="usersService.isAdmin()" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--          <rect width="256" height="256" fill="none"></rect>-->
           <line x1="96" y1="64" x2="216" y2="64" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
@@ -147,9 +147,9 @@
           <line x1="40" y1="128" x2="56" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
           <line x1="40" y1="192" x2="56" y2="192" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
         </svg>
-        Edytuj technologie
+        Edytuj kategorie
       </li></a>
-      <a *ngIf="usersService.isAdmin()" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a [routerLink]="['localizations']" *ngIf="usersService.isAdmin()" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--          <rect width="256" height="256" fill="none"></rect>-->
           <circle cx="128" cy="104" r="32" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle>
@@ -157,7 +157,7 @@
         </svg>
         Edytuj Lokalizacje
       </li></a>
-      <a class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a *ngIf="usersService.isAdmin()" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
 <!--          <rect width="256" height="256" fill="none"></rect>-->
           <circle cx="80" cy="104" r="40" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle>
