@@ -5,4 +5,43 @@
       <app-recruiters-list-item [recruiter]="recruiter" [companyId]="companyId"></app-recruiters-list-item>
     </div>
   </div>
+  <div *ngIf="!isRecruiterAddMode">
+    <button (click)="toggleRecruiterAddMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+      <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+        <!--            <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+      <p>Dodaj rekrutera</p>
+    </button>
+  </div>
+  <div *ngIf="isRecruiterAddMode">
+    <form [formGroup]="recruiterAddForm" (ngSubmit)="addRecruiter()" #form="ngForm" class="flex flex-col gap-2">
+      <div class="w-full">
+        <label class="h4-custom text-gray-500" for="email-input">Dodaj jako rekrutera tej firmy:</label>
+        <div [ngClass]="{
+              'border-red-400': (form.submitted && recruiterAddForm.get('email')?.invalid),
+              'border-primary-400': !(form.submitted && recruiterAddForm.get('email')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <input id="email-input" class="text-body-reg-bold text-gray-700 border-none bg-transparent" type="text" formControlName="email" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="recruiterAddForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
+          <p *ngIf="recruiterAddForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
+          <p *ngIf="recruiterAddForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 20 znaków</p>
+          <p *ngIf="recruiterAddForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
+          <p *ngIf="recruiterAddForm.hasError('UserNotFound')" class="validation-message">*Użytkownik z podanym adresem email nie istnieje</p>
+          <p *ngIf="recruiterAddForm.hasError('AlreadyRecruiter')" class="validation-message">*Użytkownik jest już przypisany jako rekruter</p>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2">
+        <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+          Zatwierdź
+        </button>
+        <button (click)="toggleRecruiterAddMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+          Odrzuć
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
