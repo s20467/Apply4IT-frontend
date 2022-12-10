@@ -31,6 +31,8 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
 import { CategoriesListItemComponent } from './categories-list/categories-list-item/categories-list-item.component';
 import { LocalizationsListComponent } from './localizations-list/localizations-list.component';
 import { LocalizationsListItemComponent } from './localizations-list/localizations-list-item/localizations-list-item.component';
+import { AdminsListComponent } from './admins-list/admins-list.component';
+import { AdminsListItemComponent } from './admins-list/admins-list-item/admins-list-item.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { LocalizationsListItemComponent } from './localizations-list/localizatio
     CategoriesListComponent,
     CategoriesListItemComponent,
     LocalizationsListComponent,
-    LocalizationsListItemComponent
+    LocalizationsListItemComponent,
+    AdminsListComponent,
+    AdminsListItemComponent
   ],
   imports: [
     BrowserModule,

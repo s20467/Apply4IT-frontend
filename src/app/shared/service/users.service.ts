@@ -6,6 +6,7 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import jwt_decode from 'jwt-decode'
 import {tap} from "rxjs/operators";
+import {UserMinimalDto} from "../model/user-minimal-dto.model";
 
 interface AuthTokensResponse{
   access_token: string;
@@ -17,8 +18,9 @@ interface AuthTokensResponse{
 })
 export class UsersService {
 
-  private UrlBase: string = environment.apiUrlBase;
+  private urlBase: string = environment.apiUrlBase;
   authenticationStatusChanged: Subject<boolean> = new Subject<boolean>();
+  adminsChanged = new Subject();
 
   currentUser: UserFullDto | null = null;
 
@@ -36,7 +38,7 @@ export class UsersService {
   }
 
   login(username: string, password: string){
-    return this.http.post<AuthTokensResponse>(this.UrlBase + 'login', {username: username, password: password}).pipe(
+    return this.http.post<AuthTokensResponse>(this.urlBase + 'login', {username: username, password: password}).pipe(
       tap((response: AuthTokensResponse) => {
         localStorage.setItem("apply4it_access_token", response.access_token);
         localStorage.setItem("apply4it_refresh_token", response.refresh_token);
@@ -70,8 +72,25 @@ export class UsersService {
     return this.currentUser.authorities.includes("ROLE_ADMIN");
   }
 
+  getAdmins() {
+    return this.http.get<UserMinimalDto[]>(this.urlBase + "admins");
+  }
+
+  addAdmin(userEmail: any) {
+    return this.http.post(this.urlBase + "admins/" + userEmail, null);
+  }
+
+  removeAdmin(userEmail: any) {
+    return this.http.delete(this.urlBase + "admins/" + userEmail);
+  }
+
+
+
   emitAuthenticationStatusChanged(){
     this.authenticationStatusChanged.next(!!this.currentUser);
   }
 
+  emitAdminsChanged() {
+    this.adminsChanged.next(null);
+  }
 }

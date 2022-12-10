@@ -1,13 +1,13 @@
 <div class="bg-white drop-shadow-md rounded flex flex-col py-3 px-6 company-list-item">
   <div class="w-full flex flex-row gap-6 justify-stretch items-center">
-    <img *ngIf="recruiter.photo == null" class=" w-[6rem]" src="/assets/images/user.png">
-    <img *ngIf="recruiter.photo != null" class=" w-[6rem]" src="data:image/png;base64,{{ recruiter.photo }}">
+    <img *ngIf="admin.photo == null" class=" w-[6rem]" src="/assets/images/user.png">
+    <img *ngIf="admin.photo != null" class=" w-[6rem]" src="data:image/png;base64,{{ admin.photo }}">
     <div class="flex flex-col justify-center w-full">
-      <p class="h4-custom text-gray-700">{{ recruiter.firstName + " " + recruiter.lastName }}</p>
-      <p class="text-body-reg-semibold text-gray-500">{{ recruiter.email }}</p>
+      <p class="h4-custom text-gray-700">{{ admin.firstName + " " + admin.lastName }}</p>
+      <p class="text-body-reg-semibold text-gray-500">{{ admin.email }}</p>
     </div>
     <div class="justify-self-end">
-      <button (click)="removeRecruiter()" class="delete-user-button">
+      <button (click)="removeAdmin()" class="delete-user-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#000000" viewBox="0 0 256 256">
           <!--                <rect width="256" height="256" fill="none"></rect>-->
           <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>

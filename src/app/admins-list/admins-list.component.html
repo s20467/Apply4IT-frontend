@@ -1,0 +1,47 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500">Wszyscy admini</div>
+  <div class="flex flex-col gap-6">
+    <div *ngFor="let admin of admins">
+      <app-admins-list-item [admin]="admin"></app-admins-list-item>
+    </div>
+  </div>
+  <div *ngIf="!isAdminAddMode">
+    <button (click)="toggleAdminAddMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+      <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+        <!--            <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+      </svg>
+      <p>Dodaj admina</p>
+    </button>
+  </div>
+  <div *ngIf="isAdminAddMode">
+    <form [formGroup]="adminAddForm" (ngSubmit)="addAdmin()" #form="ngForm" class="flex flex-col gap-2">
+      <div class="w-full">
+        <label class="h4-custom text-gray-500" for="email-input">Dodaj jako admina:</label>
+        <div [ngClass]="{
+              'border-red-400': (form.submitted && adminAddForm.get('email')?.invalid),
+              'border-primary-400': !(form.submitted && adminAddForm.get('email')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <input id="email-input" class="text-body-reg-bold text-gray-700 border-none bg-transparent" type="text" formControlName="email" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="adminAddForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
+          <p *ngIf="adminAddForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
+          <p *ngIf="adminAddForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 20 znaków</p>
+          <p *ngIf="adminAddForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
+          <p *ngIf="adminAddForm.hasError('UserNotFound')" class="validation-message">*Użytkownik z podanym adresem email nie istnieje</p>
+          <p *ngIf="adminAddForm.hasError('AlreadyAdmin')" class="validation-message">*Użytkownik jest już adminem</p>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2">
+        <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+          Zatwierdź
+        </button>
+        <button (click)="toggleAdminAddMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+          Odrzuć
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
