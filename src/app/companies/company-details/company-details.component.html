@@ -1,16 +1,24 @@
 <div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16 bg-white drop-shadow-md p-12 relative">
-  <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" class="delete-button absolute top-8 right-12" (click)="deleteCompany()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
-      <!--        <rect width="256" height="256" fill="none"></rect>-->
-      <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-      <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-      <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-      <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-      <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
-    </svg>
-  </button>
+  <div class="top-8 right-12 absolute flex flex-row gap-2">
+    <button *ngIf="usersService.isAdmin() && !company.enabled" class="enable-button" (click)="enableCompany()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000000" viewBox="0 0 256 256">
+<!--        <rect width="256" height="256" fill="none"></rect>-->
+        <polyline points="216 72 104 184 48 128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
+      </svg>
+    </button>
+    <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" class="delete-button" (click)="deleteCompany()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
+        <!--        <rect width="256" height="256" fill="none"></rect>-->
+        <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+        <path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+      </svg>
+    </button>
+  </div>
   <div class="flex flex-row gap-6 items-center">
-    <div class="w-[8rem] relative">
+    <div *ngIf="company.enabled" class="w-[8rem] relative">
       <button *ngIf="!isUploadLogoMode" (click)="toggleUploadLogoMode()" class="upload-image-button absolute bottom-0 left-0" type="button">
         <svg class="z-20 inner-upload-icon absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#000000" viewBox="0 0 256 256">
   <!--        <rect width="256" height="256" fill="none"></rect>-->
@@ -25,7 +33,7 @@
           <path d="M216,152v56a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
         </svg>
       </button>
-      <img src="data:image/png;base64,{{ company.logoPhoto }}" alt="Company logo">
+      <img *ngIf="company.enabled" src="data:image/png;base64,{{ company.logoPhoto }}" alt="Company logo">
     </div>
     <p class="h3-custom text-gray-700">{{ company.name }}</p>
   </div>
@@ -52,7 +60,7 @@
     </form>
   </div>
   <div class="text-body-reg text-gray-900 relative">
-    <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" (click)="toggleDescriptionEditMode()" class="edit-button absolute top-[-2rem] right-0">
+    <button *ngIf="company.enabled && ((usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin())" (click)="toggleDescriptionEditMode()" class="edit-button absolute top-[-2rem] right-0">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
         <!--        <rect width="256" height="256" fill="none"></rect>-->
         <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
@@ -84,8 +92,12 @@
       </form>
     </div>
   </div>
+  <div *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()">
+    <p class="h4-custom text-gray-600">Email kontaktowy:</p>
+    <p class="text-body-reg text-gray-900">{{ company.contactEmail }}</p>
+  </div>
   <div class="relative">
-    <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" (click)="toggleAddressEditMode()" class="edit-button absolute top-0 right-0">
+    <button *ngIf="company.enabled && ((usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin())" (click)="toggleAddressEditMode()" class="edit-button absolute top-0 right-0">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
         <!--        <rect width="256" height="256" fill="none"></rect>-->
         <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
@@ -163,14 +175,14 @@
       </form>
     </div>
   </div>
-  <div *ngIf="usersService.isAdmin() || company.isCurrentUserOwner" class="flex flex-col gap-2">
+  <div *ngIf="company.enabled && (usersService.isAdmin() || company.isCurrentUserOwner)" class="flex flex-col gap-2">
     <div class="flex flex-row justify-between items-baseline">
       <p class="h3-custom text-gray-700">Rekruterzy firmy:</p>
       <button (click)="goToAllCompanyRecruiters()" class="link-reg text-gray-500 hover:text-gray-400">Pokaż wszystkich></button>
     </div>
     <div class="bg-gray-100 p-4">
       <div *ngIf="company.recruitersSample.length == 0">
-        <p class="text-center text-body-reg-semibold text-gray-500">List rekruterów jest pusta</p>
+        <p class="text-center text-body-reg-semibold text-gray-500">Lista rekruterów jest pusta</p>
       </div>
       <div *ngIf="company.recruitersSample.length != 0" class="flex flex-col gap-4">
         <app-recruiters-list-item *ngFor="let recruiter of company.recruitersSample" [recruiter]="recruiter" [companyId]="company.id"></app-recruiters-list-item>
@@ -216,13 +228,18 @@
       </form>
     </div>
   </div>
-  <div class="flex flex-col gap-2 mt-6">
+  <div *ngIf="company.enabled" class="flex flex-col gap-2 mt-6">
     <div class="flex flex-row justify-between items-baseline">
       <p class="h3-custom text-gray-700">Najnowsze ogłoszenia firmy:</p>
       <button class="link-reg text-gray-500 hover:text-gray-400">Pokaż wszystkie></button>
     </div>
     <div class="bg-gray-100 flex flex-col gap-4 p-4">
-      <app-latest-offers-list-item *ngFor="let offer of company.latestOffersSample" [offer]="offer"></app-latest-offers-list-item>
+      <div *ngIf="company.latestOffersSample.length == 0">
+        <p class="text-center text-body-reg-semibold text-gray-500">Firma nie wystawiła żadnych ogłoszeń</p>
+      </div>
+      <div *ngIf="company.latestOffersSample.length != 0" class="flex flex-col gap-4">
+        <app-latest-offers-list-item *ngFor="let offer of company.latestOffersSample" [offer]="offer"></app-latest-offers-list-item>
+      </div>
     </div>
     <button (click)="goToAllCompanyOffers()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
       <p>Pokaż wszystkie</p>

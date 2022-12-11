@@ -42,6 +42,15 @@ export class CompaniesService {
     return this.http.post<Page<CompanyListItemDto>>(this.urlBase + "companies/search", companySearchSpecification, { params: params });
   }
 
+  searchNotEnabledCompaniesByName(companyName: string | null, pageNumber: number) {
+    let params = new HttpParams().set('page', pageNumber);
+    let companySearchSpecification = <CompanySearchSpecification>{
+      nameLike: companyName,
+      enabledEqual: false
+    }
+    return this.http.post<Page<CompanyListItemDto>>(this.urlBase + "companies/search", companySearchSpecification, { params: params });
+  }
+
   getRecruiters(companyId: number) {
     return this.http.get<UserMinimalDto[]>(this.urlBase + "companies/" + companyId + "/recruiters");
   }
@@ -78,6 +87,10 @@ export class CompaniesService {
 
   checkIfCompanyNameIsFree(companyName: string) {
     return this.http.get<boolean>(this.urlBase + "companies/" + companyName + "/is-name-free");
+  }
+
+  enableCompany(companyId: number) {
+    return this.http.put(this.urlBase + "companies/" + companyId + "/enable", null);
   }
 
 
@@ -126,4 +139,5 @@ export class CompaniesService {
     currentCompanyParams.currentPage = 0;
     return { companyParams: JSON.stringify(currentCompanyParams) }
   }
+
 }

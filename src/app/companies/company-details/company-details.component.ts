@@ -192,4 +192,12 @@ export class CompanyDetailsComponent implements OnInit {
       this.logoFileToUpload = file;
     }
   }
+
+  enableCompany() {
+    if(confirm("Czy na pewno chcesz zatwierdzić tę firmę?")) {
+      this.companiesService.enableCompany(this.company.id).subscribe(() => {
+        this.companiesService.emitCompaniesChanged();
+      })
+    }
+  }
 }

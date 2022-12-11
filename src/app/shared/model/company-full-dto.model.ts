@@ -9,6 +9,7 @@ export class CompanyFullDto {
   logoPhoto: string;
   address: Address;
   enabled: boolean;
+  contactEmail: string;
 
   latestOffersSample: OfferMinimalDto[];
 

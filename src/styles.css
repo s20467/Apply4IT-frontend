@@ -292,6 +292,15 @@ input, textarea, select {
   @apply stroke-rose-500;
 }
 
+.enable-button * {
+  @apply stroke-gray-500;
+  stroke-width: 19;
+}
+
+.enable-button:hover * {
+  @apply stroke-emerald-500;
+}
+
 .edit-button * {
   @apply stroke-gray-500;
   stroke-width: 20;

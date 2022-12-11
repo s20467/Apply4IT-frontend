@@ -16,6 +16,9 @@ import { CompanyRegistrationComponent } from "./companies/company-registration/c
 import {
   CompanyRegistrationSuccessComponent
 } from "./companies/company-registration/company-registration-success/company-registration-success.component";
+import {
+  CompaniesToRegisterListComponent
+} from "./companies/companies-to-register-list/companies-to-register-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -32,6 +35,7 @@ const routes: Routes = [
       {path: 'list', component: CompaniesListComponent},
       {path: 'register', component: CompanyRegistrationComponent},
       {path: 'registration-success', component: CompanyRegistrationSuccessComponent},
+      {path: 'registered', component: CompaniesToRegisterListComponent},
       {path: ':companyId/details', component: CompanyDetailsComponent},
       {path: ':companyId/recruiters', component: CompanyRecruitersListComponent}
     ]},

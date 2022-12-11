@@ -35,6 +35,7 @@ import { AdminsListComponent } from './admins-list/admins-list.component';
 import { AdminsListItemComponent } from './admins-list/admins-list-item/admins-list-item.component';
 import { CompanyRegistrationComponent } from './companies/company-registration/company-registration.component';
 import { CompanyRegistrationSuccessComponent } from './companies/company-registration/company-registration-success/company-registration-success.component';
+import { CompaniesToRegisterListComponent } from './companies/companies-to-register-list/companies-to-register-list.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { CompanyRegistrationSuccessComponent } from './companies/company-registr
     AdminsListComponent,
     AdminsListItemComponent,
     CompanyRegistrationComponent,
-    CompanyRegistrationSuccessComponent
+    CompanyRegistrationSuccessComponent,
+    CompaniesToRegisterListComponent
   ],
   imports: [
     BrowserModule,
