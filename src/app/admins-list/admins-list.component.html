@@ -28,7 +28,7 @@
         <div *ngIf="form.submitted" class="flex flex-col">
           <p *ngIf="adminAddForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
           <p *ngIf="adminAddForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
-          <p *ngIf="adminAddForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 20 znaków</p>
+          <p *ngIf="adminAddForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 40 znaków</p>
           <p *ngIf="adminAddForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
           <p *ngIf="adminAddForm.hasError('UserNotFound')" class="validation-message">*Użytkownik z podanym adresem email nie istnieje</p>
           <p *ngIf="adminAddForm.hasError('AlreadyAdmin')" class="validation-message">*Użytkownik jest już adminem</p>

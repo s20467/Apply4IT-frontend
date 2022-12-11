@@ -40,7 +40,7 @@ export class CompanyRecruitersListComponent implements OnInit {
     }
     else {
       this.recruiterAddForm = new FormGroup({
-        'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]),
+        'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.email]),
       });
       this.isRecruiterAddMode = true;
     }

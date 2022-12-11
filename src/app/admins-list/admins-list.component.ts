@@ -35,7 +35,7 @@ export class AdminsListComponent implements OnInit {
     }
     else {
       this.adminAddForm = new FormGroup({
-        'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]),
+        'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.email]),
       });
       this.isAdminAddMode = true;
     }

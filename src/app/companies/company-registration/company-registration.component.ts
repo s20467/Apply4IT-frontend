@@ -31,7 +31,7 @@ export class CompanyRegistrationComponent implements OnInit {
     this.companyRegistrationForm = new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(50)], [CompanyAsyncValidators.companyNameTakenValidator(this.companiesService)]),
       description: new FormControl(null, [Validators.maxLength(2000)]),
-      email: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]),
+      email: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.email]),
       country: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(70)]),
       city: new FormControl(null, [Validators.required, Validators.maxLength(200)]),
       zip: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),

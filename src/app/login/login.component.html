@@ -13,7 +13,7 @@
         <div *ngIf="form.submitted" class="flex flex-col">
           <p *ngIf="loginForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
           <p *ngIf="loginForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
-          <p *ngIf="loginForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 20 znaków</p>
+          <p *ngIf="loginForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 40 znaków</p>
           <p *ngIf="loginForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
         </div>
       </div>

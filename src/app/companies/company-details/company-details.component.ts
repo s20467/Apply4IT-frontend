@@ -39,7 +39,7 @@ export class CompanyDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.recruiterAddForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]),
+      'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.email]),
     });
 
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -68,7 +68,7 @@ export class CompanyDetailsComponent implements OnInit {
           this.isRecruiterAddFormSubmitted = false;
           this.isRecruiterAddedSuccess = true;
           this.recruiterAddForm = new FormGroup({
-            'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]),
+            'email': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.email]),
           });
           new Promise(() => setTimeout(() => {this.isRecruiterAddedSuccess = false}, 5000));
         },
