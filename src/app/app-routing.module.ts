@@ -11,7 +11,11 @@ import { CompanyDetailsComponent } from "./companies/company-details/company-det
 import { CompanyRecruitersListComponent } from "./companies/company-recruiters-list/company-recruiters-list.component";
 import { CategoriesListComponent } from "./categories-list/categories-list.component";
 import { LocalizationsListComponent } from "./localizations-list/localizations-list.component";
-import {AdminsListComponent} from "./admins-list/admins-list.component";
+import { AdminsListComponent } from "./admins-list/admins-list.component";
+import { CompanyRegistrationComponent } from "./companies/company-registration/company-registration.component";
+import {
+  CompanyRegistrationSuccessComponent
+} from "./companies/company-registration/company-registration-success/company-registration-success.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -26,6 +30,8 @@ const routes: Routes = [
   {path: 'companies', component: CompaniesComponent, children:[
       {path: '', component: CompaniesListComponent},
       {path: 'list', component: CompaniesListComponent},
+      {path: 'register', component: CompanyRegistrationComponent},
+      {path: 'registration-success', component: CompanyRegistrationSuccessComponent},
       {path: ':companyId/details', component: CompanyDetailsComponent},
       {path: ':companyId/recruiters', component: CompanyRecruitersListComponent}
     ]},

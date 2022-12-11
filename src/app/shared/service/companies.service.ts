@@ -10,6 +10,8 @@ import { CompanyParams } from "../model/company-params.model";
 import { CompanyFullDto } from "../model/company-full-dto.model";
 import {UserMinimalDto} from "../model/user-minimal-dto.model";
 import {Address} from "../model/address.model";
+import {CompanySearchSpecification} from "../model/company-search-specification.model";
+import {CompanyRegistrationDto} from "../model/company-registration-dto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +35,11 @@ export class CompaniesService {
 
   searchCompaniesByName(companyName: string | null, pageNumber: number) {
     let params = new HttpParams().set('page', pageNumber);
-    return this.http.post<Page<CompanyListItemDto>>(this.urlBase + "companies/search", {nameLike: companyName}, { params: params });
+    let companySearchSpecification = <CompanySearchSpecification>{
+      nameLike: companyName,
+      enabledEqual: true
+    }
+    return this.http.post<Page<CompanyListItemDto>>(this.urlBase + "companies/search", companySearchSpecification, { params: params });
   }
 
   getRecruiters(companyId: number) {
@@ -64,6 +70,14 @@ export class CompaniesService {
     const formData = new FormData();
     formData.append("logo", logoFile, logoFile.name);
     return this.http.post(this.urlBase + "companies/" + companyId + "/upload-image", formData)
+  }
+
+  registerCompany(companyRegistrationDto: CompanyRegistrationDto) {
+    return this.http.post<number>(this.urlBase + "companies/register", companyRegistrationDto);
+  }
+
+  checkIfCompanyNameIsFree(companyName: string) {
+    return this.http.get<boolean>(this.urlBase + "companies/" + companyName + "/is-name-free");
   }
 
 
@@ -112,5 +126,4 @@ export class CompaniesService {
     currentCompanyParams.currentPage = 0;
     return { companyParams: JSON.stringify(currentCompanyParams) }
   }
-
 }

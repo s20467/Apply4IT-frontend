@@ -33,6 +33,8 @@ import { LocalizationsListComponent } from './localizations-list/localizations-l
 import { LocalizationsListItemComponent } from './localizations-list/localizations-list-item/localizations-list-item.component';
 import { AdminsListComponent } from './admins-list/admins-list.component';
 import { AdminsListItemComponent } from './admins-list/admins-list-item/admins-list-item.component';
+import { CompanyRegistrationComponent } from './companies/company-registration/company-registration.component';
+import { CompanyRegistrationSuccessComponent } from './companies/company-registration/company-registration-success/company-registration-success.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { AdminsListItemComponent } from './admins-list/admins-list-item/admins-l
     LocalizationsListComponent,
     LocalizationsListItemComponent,
     AdminsListComponent,
-    AdminsListItemComponent
+    AdminsListItemComponent,
+    CompanyRegistrationComponent,
+    CompanyRegistrationSuccessComponent
   ],
   imports: [
     BrowserModule,

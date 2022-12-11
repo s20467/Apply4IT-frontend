@@ -1,0 +1,109 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Rejestrowanie firmy</div>
+  <div class="bg-white p-16">
+    <form [formGroup]="companyRegistrationForm" (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col gap-20">
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('name')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('name')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="name-input">Nazwa firmy:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="name-input" type="text" [formControlName]="'name'" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="companyRegistrationForm.get('name')?.hasError('required')" class="validation-message">*Nazwa firmy nie może być pusta</p>
+          <p *ngIf="companyRegistrationForm.get('name')?.hasError('minlength')" class="validation-message">*Nazwa firmy musi się składać z co najmniej 5 znaków</p>
+          <p *ngIf="companyRegistrationForm.get('name')?.hasError('maxlength')" class="validation-message">*Nazwa firmy się składać z maksymalnie 35 znaków</p>
+          <p *ngIf="companyRegistrationForm.get('name')?.hasError('companyNameTaken')" class="validation-message">*Nazwa firmy jest już zajęta</p>
+        </div>
+      </div>
+      <div>
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('description')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('description')?.invalid) }">
+          <label class="h4-custom text-gray-500" for="description-input">Opis:</label>
+          <textarea (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'"></textarea>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="companyRegistrationForm.get('description')?.hasError('maxlength')" class="validation-message">*Opis musi się składać z maksymalnie 2000 znaków</p>
+        </div>
+      </div>
+      <div>
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('email')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('email')?.invalid) }"
+             class="border-b-4 flex flex-col mb-2">
+          <label class="h4-custom text-gray-500" for="email-input">Kontaktowy adres email:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="email-input" type="text" formControlName="email" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="companyRegistrationForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
+          <p *ngIf="companyRegistrationForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
+          <p *ngIf="companyRegistrationForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 20 znaków</p>
+          <p *ngIf="companyRegistrationForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <p class="h4-custom text-gray-500">Lokalizacja siedziby:</p>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('country')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('country')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="country-input">Kraj:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="companyRegistrationForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
+            <p *ngIf="companyRegistrationForm.get('country')?.hasError('minlength')" class="validation-message">*Kraj musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="companyRegistrationForm.get('country')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 60 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('city')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('city')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="companyRegistrationForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
+            <p *ngIf="companyRegistrationForm.get('city')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('zip')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('zip')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="companyRegistrationForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
+            <p *ngIf="companyRegistrationForm.get('zip')?.hasError('minlength')" class="validation-message">*ZIP musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="companyRegistrationForm.get('zip')?.hasError('maxlength')" class="validation-message">*ZIP musi się składać z maksymalnie 15 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && companyRegistrationForm.get('street')?.invalid),
+            'border-primary-400': !(form.submitted && companyRegistrationForm.get('street')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="companyRegistrationForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>
+            <p *ngIf="companyRegistrationForm.get('street')?.hasError('maxlength')" class="validation-message">*Ulica musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zatwierdź</button>
+        <p *ngIf="companyRegistrationForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+      </div>
+    </form>
+  </div>
+</div>

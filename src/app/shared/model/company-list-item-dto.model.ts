@@ -4,4 +4,5 @@ export class CompanyListItemDto{
   name: string;
   logoPhoto: string;
   offersNumber: number;
+  enabled: boolean;
 }

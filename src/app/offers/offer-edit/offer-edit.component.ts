@@ -189,7 +189,6 @@ export class OfferEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.offerEditForm)
     if(this.offerEditForm.valid) {
       if(!this.isEditMode) {
         this.offersService.createOffer(this.getOfferCreationRequestDtoFromForm()).subscribe({
