@@ -1,0 +1,163 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Rejestracja konta</div>
+  <div class="bg-white p-16">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col gap-20">
+      <div class="flex flex-col gap-4">
+        <div>
+          <div [ngClass]="{
+              'border-red-400': (form.submitted && registrationForm.get('firstName')?.invalid),
+              'border-primary-400': !(form.submitted && registrationForm.get('firstName')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="first-name-input">Imię:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="first-name-input" type="text" formControlName="firstName" autofocus>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('firstName')?.hasError('required')" class="validation-message">*Imię nie może być puste</p>
+            <p *ngIf="registrationForm.get('firstName')?.hasError('minlength')" class="validation-message">*Imię musi się składać z co najmniej 2 znaków</p>
+            <p *ngIf="registrationForm.get('firstName')?.hasError('maxlength')" class="validation-message">*Imię musi się składać z maksymalnie 30 znaków</p>
+          </div>
+        </div>
+        <div>
+          <div [ngClass]="{
+              'border-red-400': (form.submitted && registrationForm.get('lastName')?.invalid),
+              'border-primary-400': !(form.submitted && registrationForm.get('lastName')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="last-name-input">Nazwisko:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="last-name-input" type="text" formControlName="lastName">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('lastName')?.hasError('required')" class="validation-message">*Nazwisko nie może być puste</p>
+            <p *ngIf="registrationForm.get('lastName')?.hasError('minlength')" class="validation-message">*Nazwisko musi się składać z co najmniej 2 znaków</p>
+            <p *ngIf="registrationForm.get('lastName')?.hasError('maxlength')" class="validation-message">*Nazwisko musi się składać z maksymalnie 50 znaków</p>
+          </div>
+        </div>
+        <div>
+          <div [ngClass]="{
+              'border-red-400': (form.submitted && registrationForm.get('email')?.invalid),
+              'border-primary-400': !(form.submitted && registrationForm.get('email')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="email-input">Adres email:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="email-input" type="text" formControlName="email">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
+            <p *ngIf="registrationForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="registrationForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 40 znaków</p>
+            <p *ngIf="registrationForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
+            <p *ngIf="registrationForm.get('email')?.hasError('emailTaken')" class="validation-message">*Podany adres email został użyty do rejestracji innego konta</p>
+          </div>
+        </div>
+        <div>
+          <div [ngClass]="{
+              'border-red-400': (form.submitted && registrationForm.get('birthDate')?.invalid),
+              'border-primary-400': !(form.submitted && registrationForm.get('birthDate')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="birth-date-input">Data urodzenia:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="birth-date-input" type="date" [formControlName]="'birthDate'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('birthDate')?.hasError('required')" class="validation-message">*Musisz wybrać datę urodzenia</p>
+            <p *ngIf="registrationForm.get('birthDate')?.hasError('birthDateTooLate')" class="validation-message">*Data urodzenia musi być wcześniejsza od daty dzisiejszej</p>
+            <p *ngIf="registrationForm.get('birthDate')?.hasError('birthDateTooEarly')" class="validation-message">*Data urodzenia musi być póżniejsza od 1900</p>
+          </div>
+        </div>
+      </div>
+      <div [formGroupName]="'passwordGroup'" class="flex flex-col gap-4">
+        <div>
+          <div [ngClass]="{
+                'border-red-400': (form.submitted && passwordGroup.get('password')?.invalid),
+                'border-primary-400': !(form.submitted && passwordGroup.get('password')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="password-input">Hasło:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="password-input" type="password" formControlName="password">
+          </div>
+          <div class="flex flex-col">
+            <div *ngIf="form.submitted" class="flex flex-col">
+              <p *ngIf="passwordGroup.get('password')?.hasError('required')" class="validation-message">*Hasło nie może być puste</p>
+              <p *ngIf="passwordGroup.get('password')?.hasError('minlength')" class="validation-message">*Hasło musi się składać z co najmniej 4 znaków</p>
+              <p *ngIf="passwordGroup.get('password')?.hasError('maxlength')" class="validation-message">*Hasło musi się składać z co nawyżej 20 znaków</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div [ngClass]="{
+                'border-red-400': (form.submitted && (passwordGroup.get('passwordRepeat')?.invalid || passwordGroup.hasError('incorrectPasswordRepeat'))),
+                'border-primary-400': !(form.submitted && (passwordGroup.get('passwordRepeat')?.invalid || passwordGroup.hasError('incorrectPasswordRepeat'))) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="password-repeat-input">Powtórz hasło:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="password-repeat-input" type="password" formControlName="passwordRepeat">
+          </div>
+          <div class="flex flex-col">
+            <div *ngIf="form.submitted" class="flex flex-col">
+              <p *ngIf="passwordGroup.get('passwordRepeat')?.hasError('required')" class="validation-message">*Hasło nie może być puste</p>
+              <p *ngIf="passwordGroup.get('passwordRepeat')?.hasError('minlength')" class="validation-message">*Hasło musi się składać z co najmniej 4 znaków</p>
+              <p *ngIf="passwordGroup.get('passwordRepeat')?.hasError('maxlength')" class="validation-message">*Hasło musi się składać z co nawyżej 20 znaków</p>
+              <p *ngIf="passwordGroup.hasError('incorrectPasswordRepeat')" class="validation-message">*Powtórzone hasło musi takie samo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <p class="h4-custom text-gray-500">Adres zamieszkania:</p>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && registrationForm.get('country')?.invalid),
+            'border-primary-400': !(form.submitted && registrationForm.get('country')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="country-input">Kraj:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
+            <p *ngIf="registrationForm.get('country')?.hasError('minlength')" class="validation-message">*Kraj musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="registrationForm.get('country')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 60 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && registrationForm.get('city')?.invalid),
+            'border-primary-400': !(form.submitted && registrationForm.get('city')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
+            <p *ngIf="registrationForm.get('city')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && registrationForm.get('zip')?.invalid),
+            'border-primary-400': !(form.submitted && registrationForm.get('zip')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
+            <p *ngIf="registrationForm.get('zip')?.hasError('minlength')" class="validation-message">*ZIP musi się składać z co najmniej 3 znaków</p>
+            <p *ngIf="registrationForm.get('zip')?.hasError('maxlength')" class="validation-message">*ZIP musi się składać z maksymalnie 15 znaków</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div [ngClass]="{
+            'border-red-400': (form.submitted && registrationForm.get('street')?.invalid),
+            'border-primary-400': !(form.submitted && registrationForm.get('street')?.invalid) }"
+               class="border-b-4 flex flex-col">
+            <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'">
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="registrationForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>
+            <p *ngIf="registrationForm.get('street')?.hasError('maxlength')" class="validation-message">*Ulica musi się składać z maksymalnie 200 znaków</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zatwierdź</button>
+        <p *ngIf="registrationForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+      </div>
+    </form>
+  </div>
+</div>

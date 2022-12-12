@@ -14,4 +14,8 @@ export class CompanyRegistrationSuccessComponent implements OnInit {
     new Promise(() => setTimeout(() => {this.router.navigate(["/offers"])}, 15000));
   }
 
+  goToHomePage() {
+    this.router.navigate(["/offers"]);
+  }
+
 }

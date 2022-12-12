@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import jwt_decode from 'jwt-decode'
 import {tap} from "rxjs/operators";
 import {UserMinimalDto} from "../model/user-minimal-dto.model";
+import {UserCreationDto} from "../model/user-creation-dto.model";
 
 interface AuthTokensResponse{
   access_token: string;
@@ -21,6 +22,7 @@ export class UsersService {
   private urlBase: string = environment.apiUrlBase;
   authenticationStatusChanged: Subject<boolean> = new Subject<boolean>();
   adminsChanged = new Subject();
+  usersChanged = new Subject();
 
   currentUser: UserFullDto | null = null;
 
@@ -84,6 +86,14 @@ export class UsersService {
     return this.http.delete(this.urlBase + "admins/" + userEmail);
   }
 
+  checkIfEmailIsFree(email: string) {
+    return this.http.get<boolean>(this.urlBase + "users/" + email + "/is-email-free");
+  }
+
+  createUser(newUser: UserCreationDto) {
+    return this.http.post(this.urlBase + "users", newUser);
+  }
+
 
 
   emitAuthenticationStatusChanged(){
@@ -92,5 +102,9 @@ export class UsersService {
 
   emitAdminsChanged() {
     this.adminsChanged.next(null);
+  }
+
+  emitUsersChanged() {
+    this.usersChanged.next(null);
   }
 }

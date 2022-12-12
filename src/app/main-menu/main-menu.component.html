@@ -137,7 +137,7 @@
         </svg>
         Stwórz konto
       </li></a>
-      <a [routerLink]="['companies', 'registered']" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
+      <a *ngIf="usersService.isAdmin()" [routerLink]="['companies', 'registered']" class="main-menu-link"><li (click)="toggleMainMenuOpen()">
         <div class="relative w-[26px] h-[26px]">
           <svg class="absolute left-0 bottom-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
             <!--            <rect width="256" height="256" fill="none"></rect>-->

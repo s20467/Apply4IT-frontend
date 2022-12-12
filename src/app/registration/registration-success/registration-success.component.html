@@ -1,0 +1,24 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Rejestracja konta</div>
+  <div class="bg-white p-16 flex flex-col gap-8">
+    <p class="h3-custom text-gray-700">Rejestrowanie konta zakończone sukcesem.</p>
+    <div class="flex flex-col gap-4 text-body-reg-semibold text-gray-800">
+      <p>
+        Możesz już zalogować się na swoje nowo utworzone konto.
+        Pamiętaj, aby po zalogowaniu uzupełnić swoje dane, takie jak np. zdjęcie czy plik CV.
+        <br>Dziękujemy za zaufanie.
+      </p>
+      <p>
+        W ciągu 15 sekund zostaniesz przekierowany na stronę główną.
+      </p>
+    </div>
+    <div class="flex flex-col gap-4">
+      <button (click)="goToLoginPage()" class="flex flex-row justify-center items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+        Przejdź do logowania
+      </button>
+      <button (click)="goToHomePage()" class="flex flex-row justify-center items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
+        Przejdź na stronę główną
+      </button>
+    </div>
+  </div>
+</div>

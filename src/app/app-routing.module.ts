@@ -19,10 +19,14 @@ import {
 import {
   CompaniesToRegisterListComponent
 } from "./companies/companies-to-register-list/companies-to-register-list.component";
+import {RegistrationComponent} from "./registration/registration.component";
+import {RegistrationSuccessComponent} from "./registration/registration-success/registration-success.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegistrationComponent},
+  {path: 'registration-success', component: RegistrationSuccessComponent},
   {path: 'offers', component: OffersComponent, children:[
       {path: '', component: OffersListComponent},
       {path: 'list', component: OffersListComponent},
