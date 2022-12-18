@@ -50,6 +50,7 @@ import { OfferApplyComponent } from './offers/offer-apply/offer-apply.component'
 import { SavedOffersComponent } from './offers/saved-offers/saved-offers.component';
 import { MyApplicationsComponent } from './offers/my-applications/my-applications.component';
 import { MyOffersComponent } from './offers/my-offers/my-offers.component';
+import { MyCompaniesComponent } from './companies/my-companies/my-companies.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { MyOffersComponent } from './offers/my-offers/my-offers.component';
     OfferApplyComponent,
     SavedOffersComponent,
     MyApplicationsComponent,
-    MyOffersComponent
+    MyOffersComponent,
+    MyCompaniesComponent
   ],
   imports: [
     BrowserModule,

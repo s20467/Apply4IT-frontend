@@ -8,10 +8,10 @@ import { CompanyListItemDto } from "../model/company-list-item-dto.model";
 import { Params } from "@angular/router";
 import { CompanyParams } from "../model/company-params.model";
 import { CompanyFullDto } from "../model/company-full-dto.model";
-import {UserMinimalDto} from "../model/user-minimal-dto.model";
-import {Address} from "../model/address.model";
-import {CompanySearchSpecification} from "../model/company-search-specification.model";
-import {CompanyRegistrationDto} from "../model/company-registration-dto.model";
+import { UserMinimalDto } from "../model/user-minimal-dto.model";
+import { Address } from "../model/address.model";
+import { CompanySearchSpecification } from "../model/company-search-specification.model";
+import { CompanyRegistrationDto } from "../model/company-registration-dto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class CompaniesService {
   constructor(private http: HttpClient) { }
 
   getCompanyById(companyId: number) {
-    return this.http.get<CompanyFullDto>(this.urlBase + "companies/" + companyId);
+    return this.http.get<CompanyFullDto>(this.urlBase + "companies/" + companyId + "/details");
   }
 
   getCompaniesOwnedAndRecruiting() {
@@ -91,6 +91,10 @@ export class CompaniesService {
 
   enableCompany(companyId: number) {
     return this.http.put(this.urlBase + "companies/" + companyId + "/enable", null);
+  }
+
+  getMyCompanies() {
+    return this.http.get<CompanyListItemDto[]>(this.urlBase + "companies/owned");
   }
 
 

@@ -30,6 +30,7 @@ import { CandidatesListComponent } from "./users/candidates-list/candidates-list
 import { SavedOffersComponent } from "./offers/saved-offers/saved-offers.component";
 import { MyApplicationsComponent } from "./offers/my-applications/my-applications.component";
 import { MyOffersComponent } from "./offers/my-offers/my-offers.component";
+import {MyCompaniesComponent} from "./companies/my-companies/my-companies.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -62,6 +63,7 @@ const routes: Routes = [
       {path: 'register', component: CompanyRegistrationComponent},
       {path: 'registration-success', component: CompanyRegistrationSuccessComponent},
       {path: 'registered', component: CompaniesToRegisterListComponent},
+      {path: 'my-companies', component: MyCompaniesComponent},
       {path: ':companyId/details', component: CompanyDetailsComponent},
       {path: ':companyId/recruiters', component: CompanyRecruitersListComponent}
     ]},
