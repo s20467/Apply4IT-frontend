@@ -1,0 +1,11 @@
+.download-cv-icon *{
+  @apply stroke-primary-500;
+}
+
+.app-candidates-list-item:hover .caret-go-to-icon *{
+  @apply stroke-secondary-400;
+}
+
+.download-cv-icon:hover *{
+  @apply stroke-primary-400 text-primary-400;
+}

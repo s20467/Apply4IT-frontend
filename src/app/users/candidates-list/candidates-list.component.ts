@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserMinimalDto } from "../../shared/model/user-minimal-dto.model";
-import { FormGroup } from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
-import {UsersService} from "../../shared/service/users.service";
+import { ActivatedRoute } from "@angular/router";
+import { OffersService } from "../../shared/service/offers.service";
+import { UserCandidateDto } from "../../shared/model/user-candidate-dto.model";
 
 @Component({
   selector: 'app-candidates-list',
@@ -11,11 +10,17 @@ import {UsersService} from "../../shared/service/users.service";
 })
 export class CandidatesListComponent implements OnInit {
 
-  candidates: [];
+  candidates: UserCandidateDto[];
 
-  constructor(private activatedRoute: ActivatedRoute, private usersService: UsersService) { }
+  constructor(private activatedRoute: ActivatedRoute, private offersService: OffersService) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      let offerId: number = +this.activatedRoute.snapshot.params['offerId'];
+      this.offersService.getOfferCandidates(offerId).subscribe(candidates => {
+        this.candidates = candidates;
+      })
+    });
   }
 
 }

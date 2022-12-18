@@ -13,6 +13,8 @@ import { Params } from "@angular/router";
 import { OfferFilters } from "../model/offer-filters.model";
 import { OfferParams } from "../model/offer-params.model";
 import { OfferCreationRequestDto } from "../model/offer-creation-request-dto.model";
+import {UserMinimalDto} from "../model/user-minimal-dto.model";
+import { UserCandidateDto } from "../model/user-candidate-dto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +71,14 @@ export class OffersService {
       formData.append("cv", cvFile, cvFile.name);
       return this.http.post(this.urlBase + "offers/" + offerId + "/apply", formData);
     }
+  }
+
+  getOfferCandidates(offerId: number) {
+    return this.http.get<UserCandidateDto[]>(this.urlBase + "offers/" + offerId + "/candidates");
+  }
+
+  downloadApplicationCv(applicationId: number) {
+    return this.http.get(this.urlBase + "applications/" + applicationId + "/cv", {responseType: 'blob'});
   }
 
 

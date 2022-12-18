@@ -26,6 +26,7 @@ import { UserProfileComponent } from "./users/user-profile/user-profile.componen
 import { UserEducationEditComponent } from "./users/user-profile/user-education-edit/user-education-edit.component";
 import { UserExperienceEditComponent } from "./users/user-profile/user-experience-edit/user-experience-edit.component";
 import { OfferApplyComponent } from "./offers/offer-apply/offer-apply.component";
+import { CandidatesListComponent } from "./users/candidates-list/candidates-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -46,6 +47,7 @@ const routes: Routes = [
       {path: 'create', component: OfferEditComponent},
       {path: ':offerId/details', component: OfferDetailsComponent},
       {path: ':offerId/apply', component: OfferApplyComponent},
+      {path: ':offerId/candidates', component: CandidatesListComponent},
       {path: ':offerId/edit', component: OfferEditComponent}
     ]},
   {path: 'companies', component: CompaniesComponent, children:[
