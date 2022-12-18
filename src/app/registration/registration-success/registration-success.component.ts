@@ -11,11 +11,10 @@ export class RegistrationSuccessComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    new Promise(() => setTimeout(() => {this.router.navigate(["/offers"])}, 15000));
   }
 
-  goToLoginPage() { //todo change to go to myProfile i wtedy automatyczne przekierowanie na login w ngoninit
-    this.router.navigate(["/login"]);
+  goToLoginPage() {
+    this.router.navigate(["/users", "my-profile"]);
   }
 
   goToHomePage() {

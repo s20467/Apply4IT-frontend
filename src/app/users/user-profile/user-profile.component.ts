@@ -8,8 +8,6 @@ import { UserFullDto } from "../../shared/model/user-full-dto.model";
 import { HttpErrorResponse } from "@angular/common/http";
 import { UserPatchDto } from "../../shared/model/user-patch-dto.model";
 import { Address } from "../../shared/model/address.model";
-import {UserEducationEditComponent} from "./user-education-edit/user-education-edit.component";
-import {UserExperienceEditComponent} from "./user-experience-edit/user-experience-edit.component";
 
 @Component({
   selector: 'app-user-profile',
@@ -41,34 +39,34 @@ export class UserProfileComponent implements OnInit {
     if(!this.usersService.isLoggedIn()) {
       this.router.navigate(['/login']);
     }
-    this.activatedRoute.url.subscribe((urlSegments) => {
-      if(urlSegments[urlSegments.length-1].path == "my-profile") {
-        this.currentUserMode = true;
-        this.usersService.getCurrentUserDetails().subscribe((user) => {
-          this.setUser(user);
-        });
-      }
-      else {
-        this.currentUserMode = false;
-        let userEmail = this.activatedRoute.snapshot.params['userEmail'];
-        this.usersService.getUserDetailsByEmail(userEmail).subscribe((user: UserFullDto) => {
-          this.setUser(user);
-        });
-      }
-    });
-    this.usersService.usersChanged.subscribe(() => {
-      if(this.currentUserMode) {
-        this.usersService.getCurrentUserDetails().subscribe((user) => {
-          this.setUser(user);
-        });
-      }
-      else {
-        let userEmail = this.activatedRoute.snapshot.params['userEmail'];
-        this.usersService.getUserDetailsByEmail(userEmail).subscribe((user: UserFullDto) => {
-          this.setUser(user);
-        });
-      }
-    });
+    else {
+      this.activatedRoute.url.subscribe((urlSegments) => {
+        if (urlSegments[urlSegments.length - 1].path == "my-profile") {
+          this.currentUserMode = true;
+          this.usersService.getCurrentUserDetails().subscribe((user) => {
+            this.setUser(user);
+          });
+        } else {
+          this.currentUserMode = false;
+          let userEmail = this.activatedRoute.snapshot.params['userEmail'];
+          this.usersService.getUserDetailsByEmail(userEmail).subscribe((user: UserFullDto) => {
+            this.setUser(user);
+          });
+        }
+      });
+      this.usersService.usersChanged.subscribe(() => {
+        if (this.currentUserMode) {
+          this.usersService.getCurrentUserDetails().subscribe((user) => {
+            this.setUser(user);
+          });
+        } else {
+          let userEmail = this.activatedRoute.snapshot.params['userEmail'];
+          this.usersService.getUserDetailsByEmail(userEmail).subscribe((user: UserFullDto) => {
+            this.setUser(user);
+          });
+        }
+      });
+    }
   }
 
   setUser(user: UserFullDto) {
