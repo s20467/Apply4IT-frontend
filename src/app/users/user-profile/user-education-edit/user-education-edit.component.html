@@ -19,8 +19,8 @@
       </div>
       <div [formGroupName]="'specializationGroup'">
         <div class="border-b-4 flex flex-col" [ngClass]="{
-            'border-red-400': (form.submitted && educationEditForm.get('specialization')?.invalid),
-            'border-primary-400': !(form.submitted && educationEditForm.get('specialization')?.invalid) }">
+            'border-red-400': (form.submitted && educationEditForm.get('specializationGroup')?.invalid),
+            'border-primary-400': !(form.submitted && educationEditForm.get('specializationGroup')?.invalid) }">
           <div class="flex flex-row justify-between">
             <label class="h4-custom text-gray-500" for="specialization-input">Specjalizacja:</label>
             <label class="h4-custom text-gray-500" for="no-specialization-input">Brak specjalizacji:</label>
@@ -31,9 +31,10 @@
           </div>
         </div>
         <div *ngIf="form.submitted" class="flex flex-col">
-          <p *ngIf="educationEditForm.get('specialization')?.hasError('required')" class="validation-message">*Nazwa specjalizacji nie może być pusta</p>
-          <p *ngIf="educationEditForm.get('specialization')?.hasError('minlength')" class="validation-message">*Nazwa specjalizacji musi się składać z co najmniej 2 znaków</p>
-          <p *ngIf="educationEditForm.get('specialization')?.hasError('maxlength')" class="validation-message">*Nazwa specjalizacji się składać z maksymalnie 50 znaków</p>
+          <p *ngIf="educationEditForm.get('specializationGroup')?.get('specialization')?.hasError('required')" class="validation-message">*Nazwa specjalizacji nie może być pusta</p>
+          <p *ngIf="educationEditForm.get('specializationGroup')?.get('specialization')?.hasError('minlength')" class="validation-message">*Nazwa specjalizacji musi się składać z co najmniej 2 znaków</p>
+          <p *ngIf="educationEditForm.get('specializationGroup')?.get('specialization')?.hasError('maxlength')" class="validation-message">*Nazwa specjalizacji się składać z maksymalnie 50 znaków</p>
+          <p *ngIf="educationEditForm.get('specializationGroup')?.hasError('conditionalSpecializationRequired')" class="validation-message">*Musisz podać nazwę specjalizacji lub zaznaczyć opcję 'Brak specjalizacji'</p>
         </div>
       </div>
       <div class="flex flex-col gap-1">

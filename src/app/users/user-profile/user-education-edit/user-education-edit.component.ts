@@ -40,7 +40,7 @@ export class UserEducationEditComponent implements OnInit {
           specializationGroup: new FormGroup({
             specialization: new FormControl(null, [Validators.minLength(2), Validators.maxLength(50)]),
             noSpecialization: new FormControl(false),
-          }),
+          }, [this.conditionalSpecializationRequiredValidator]),
           universityName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
           period: new FormGroup({
             startDate: new FormControl(null, [Validators.required, dateAfterTodayValidator]),
@@ -63,7 +63,7 @@ export class UserEducationEditComponent implements OnInit {
             specializationGroup: new FormGroup({
               specialization: new FormControl(education.specialization, [Validators.minLength(2), Validators.maxLength(50)]),
               noSpecialization: new FormControl(education.specialization == null)
-            }),
+            }, [this.conditionalSpecializationRequiredValidator]),
             universityName: new FormControl(education.universityName, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
             period: new FormGroup({
               startDate: new FormControl(education.startDate, [Validators.required, dateAfterTodayValidator]),
@@ -77,6 +77,17 @@ export class UserEducationEditComponent implements OnInit {
       }
     });
   }
+
+  conditionalSpecializationRequiredValidator: ValidatorFn =
+    (control: AbstractControl): ValidationErrors | null => {
+      let endDateGroupValue = (control as FormGroup).value;
+      let specialization = endDateGroupValue["specialization"];
+      let noSpecialization = endDateGroupValue["noSpecialization"];
+      if(!noSpecialization && (specialization == null || specialization == "")) {
+        return { conditionalSpecializationRequired: true };
+      }
+      return null;
+    }
 
   conditionalEndDateRequiredValidator: ValidatorFn =
     (control: AbstractControl): ValidationErrors | null => {
