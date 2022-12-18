@@ -1,0 +1,93 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col">
+  <div *ngIf="!isEditMode" class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Nowe doświadczenie</div>
+  <div *ngIf="isEditMode" class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Edytowanie doświadczenia</div>
+  <div class="bg-white p-16">
+    <form [formGroup]="experienceEditForm" (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col gap-16">
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && experienceEditForm.get('job')?.invalid),
+            'border-primary-400': !(form.submitted && experienceEditForm.get('job')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="job-input">Stanowisko:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="job-input" type="text" [formControlName]="'job'" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="experienceEditForm.get('job')?.hasError('required')" class="validation-message">*Nazwa stanowiska nie może być pusta</p>
+          <p *ngIf="experienceEditForm.get('job')?.hasError('minlength')" class="validation-message">*Nazwa stanowiska musi się składać z co najmniej 2 znaków</p>
+          <p *ngIf="experienceEditForm.get('job')?.hasError('maxlength')" class="validation-message">*Nazwa stanowiska się składać z maksymalnie 50 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && experienceEditForm.get('companyName')?.invalid),
+            'border-primary-400': !(form.submitted && experienceEditForm.get('companyName')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="company-name-input">Nazwa firmy:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="company-name-input" type="text" [formControlName]="'companyName'">
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="experienceEditForm.get('companyName')?.hasError('required')" class="validation-message">*Nazwa firmy nie może być pusta</p>
+          <p *ngIf="experienceEditForm.get('companyName')?.hasError('minlength')" class="validation-message">*Nazwa firmy musi się składać z co najmniej 2 znaków</p>
+          <p *ngIf="experienceEditForm.get('companyName')?.hasError('maxlength')" class="validation-message">*Nazwa firmy się składać z maksymalnie 50 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && experienceEditForm.get('description')?.invalid),
+            'border-primary-400': !(form.submitted && experienceEditForm.get('description')?.invalid) }">
+          <label class="h4-custom text-gray-500" for="description-input">Opis:</label>
+          <textarea #descriptionInput (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'"></textarea>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="experienceEditForm.get('description')?.hasError('maxlength')" class="validation-message">*Opis musi się składać z maksymalnie 2000 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1" [formGroupName]="'period'">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && experienceEditForm.get('period')?.get('startDate')?.invalid),
+            'border-primary-400': !(form.submitted && experienceEditForm.get('period')?.get('startDate')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="start-date-input">Data rozpoczęcia:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="start-date-input" type="date" [formControlName]="'startDate'">
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="experienceEditForm.get('period')?.get('startDate')?.hasError('required')" class="validation-message">*Data rozpoczęcia nie może być pusta</p>
+          <p *ngIf="experienceEditForm.get('period')?.get('startDate')?.hasError('dateAfterToday')" class="validation-message">*Data rozpoczęcia musi być wcześniejsza od daty dzisiejszej</p>
+        </div>
+      </div>
+      <div [formGroupName]="'period'">
+        <div [formGroupName]="'endDateGroup'">
+          <div class="border-b-4 flex flex-col" [ngClass]="{
+              'border-red-400': (form.submitted && (
+                experienceEditForm.get('period')?.get('endDateGroup')?.get('endDate')?.invalid ||
+                experienceEditForm.get('period')?.get('endDateGroup')?.hasError('conditionalEndDateRequired') ||
+                experienceEditForm.get('period')?.hasError('startDateAfterEndDate')
+              )),
+              'border-primary-400': !(form.submitted && (
+                experienceEditForm.get('period')?.get('endDateGroup')?.get('endDate')?.invalid ||
+                experienceEditForm.get('period')?.get('endDateGroup')?.hasError('conditionalEndDateRequired') ||
+                experienceEditForm.get('period')?.hasError('startDateAfterEndDate')
+              )) }">
+            <div class="flex flex-row justify-between">
+              <label class="h4-custom text-gray-500" for="end-date-input">Data zakończenia:</label>
+              <label class="h4-custom text-gray-500" for="no-end-date-input">W trakcie:</label>
+            </div>
+            <div class="flex flex-row items-center pr-2">
+              <input [attr.disabled]="endDateDisabled ? '' : null" class="text-body-reg-bold text-gray-700 border-none bg-transparent w-full" id="end-date-input" type="date" [formControlName]="'endDate'">
+              <input (change)="toggleNoEndDate()" class="cursor-pointer border-[2.5px] rounded-sm border-gray-400 w-[21px] h-[21px]" id="no-end-date-input" type="checkbox" [formControlName]="'notFinishedYet'">
+            </div>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="experienceEditForm.get('period')?.get('endDateGroup')?.get('endDate')?.hasError('dateAfterToday')" class="validation-message">*Data zakończenia musi być wcześniejsza od daty dzisiejszej</p>
+            <p *ngIf="experienceEditForm.get('period')?.get('endDateGroup')?.hasError('conditionalEndDateRequired')" class="validation-message">*Musisz podać datę zakończenia lub zaznaczyć opcję 'W trakcie'</p>
+            <p *ngIf="experienceEditForm.get('period')?.hasError('startDateAfterEndDate')" class="validation-message">*Data zakończenia nie może być wcześniejsza od daty rozpoczęcia</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zatwierdź</button>
+        <p *ngIf="experienceEditForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+      </div>
+    </form>
+  </div>
+</div>

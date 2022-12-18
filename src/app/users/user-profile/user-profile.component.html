@@ -1,12 +1,6 @@
 <div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16 bg-white drop-shadow-md p-12 relative">
   <div class="top-8 right-12 absolute flex flex-row gap-2">
-    <button *ngIf="usersService.isAdmin() && !company.enabled" class="enable-button" (click)="enableCompany()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000000" viewBox="0 0 256 256">
-<!--        <rect width="256" height="256" fill="none"></rect>-->
-        <polyline points="216 72 104 184 48 128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
-      </svg>
-    </button>
-    <button *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()" class="delete-button" (click)="deleteCompany()">
+    <button *ngIf="(usersService.isLoggedIn() && user.email == usersService.currentUser?.email) || usersService.isAdmin()" class="delete-button" (click)="deleteUser()">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
         <!--        <rect width="256" height="256" fill="none"></rect>-->
         <line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
@@ -18,10 +12,10 @@
     </button>
   </div>
   <div class="flex flex-row gap-6 items-center">
-    <div *ngIf="company.enabled" class="w-[8rem] relative">
-      <button *ngIf="!isUploadLogoMode" (click)="toggleUploadLogoMode()" class="upload-image-button absolute bottom-0 left-0" type="button">
+    <div class="w-[8rem] relative">
+      <button *ngIf="!isUploadPhotoMode" (click)="toggleUploadPhotoMode()" class="upload-image-button absolute bottom-0 left-0" type="button">
         <svg class="z-20 inner-upload-icon absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#000000" viewBox="0 0 256 256">
-  <!--        <rect width="256" height="256" fill="none"></rect>-->
+          <!--        <rect width="256" height="256" fill="none"></rect>-->
           <polyline points="86 82 128 40 170 82" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
           <line x1="128" y1="152" x2="128" y2="40" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
           <path d="M216,152v56a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
@@ -33,44 +27,42 @@
           <path d="M216,152v56a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
         </svg>
       </button>
-      <div *ngIf="company.enabled">
-        <img *ngIf="company.logoPhoto == null" src="/assets/images/company-logo.png">
-        <img *ngIf="company.logoPhoto != null" src="data:image/png;base64,{{ company.logoPhoto }}" alt="Company logo">
-      </div>
+      <img *ngIf="user.photo == null" src="/assets/images/user.png">
+      <img *ngIf="user.photo != null" src="data:image/png;base64,{{ user.photo }}" alt="User photo">
     </div>
-    <p class="h3-custom text-gray-700">{{ company.name }}</p>
+    <p class="h3-custom text-gray-700">{{ user.firstName + " " + user.lastName }}</p>
   </div>
-  <div *ngIf="isUploadLogoMode">
-    <form [formGroup]="uploadLogoForm" (ngSubmit)="uploadLogo()" #form="ngForm" class="flex flex-col gap-2 mb-4 mt-[-1rem]">
+  <div *ngIf="isUploadPhotoMode">
+    <form [formGroup]="uploadPhotoForm" (ngSubmit)="uploadPhoto()" #form="ngForm" class="flex flex-col gap-2 mb-4 mt-[-1rem]">
       <div>
         <div class="border-b-4 flex flex-col" [ngClass]="{
-            'border-red-400': (form.submitted && uploadLogoForm.get('logo')?.invalid),
-            'border-primary-400': !(form.submitted && uploadLogoForm.get('logo')?.invalid) }">
-          <input accept=".png,.jpg,.jpeg" (change)="handleFileInput($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="logo-input" type="file" [formControlName]="'logo'">
+            'border-red-400': (form.submitted && uploadPhotoForm.get('photo')?.invalid),
+            'border-primary-400': !(form.submitted && uploadPhotoForm.get('photo')?.invalid) }">
+          <input accept=".png,.jpg,.jpeg" (change)="handleFileInput($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="photo-input" type="file" [formControlName]="'photo'">
         </div>
         <div *ngIf="form.submitted" class="flex flex-col">
-          <p *ngIf="uploadLogoForm.get('logo')?.hasError('UnknownServerError')" class="validation-message">*Niezany błąd serwera. Spróbuj podać inny plik lub spróbuj ponownie później.</p>
+          <p *ngIf="uploadPhotoForm.get('photo')?.hasError('UnknownServerError')" class="validation-message">*Niezany błąd serwera. Spróbuj podać inny plik lub spróbuj ponownie później.</p>
         </div>
       </div>
       <div class="flex flex-row gap-2">
         <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
           Zatwierdź
         </button>
-        <button (click)="toggleUploadLogoMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
+        <button (click)="toggleUploadPhotoMode()" class="flex flex-row justify-center gap-2 items-center p-1 bg-rose-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-rose-300" type="button">
           Odrzuć
         </button>
       </div>
     </form>
   </div>
   <div class="text-body-reg text-gray-900 relative">
-    <button *ngIf="company.enabled && ((usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin())" (click)="toggleDescriptionEditMode()" class="edit-button absolute top-[-2rem] right-0">
+    <button *ngIf="(usersService.isLoggedIn() && user.email == usersService.currentUser?.email) || usersService.isAdmin()" (click)="toggleDescriptionEditMode()" class="edit-button absolute top-[-2rem] right-0">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
         <!--        <rect width="256" height="256" fill="none"></rect>-->
         <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
         <line x1="136" y1="64" x2="192" y2="120" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
       </svg>
     </button>
-    <p *ngIf="!isDescriptionEditMode">{{ company.description }}</p>
+    <p *ngIf="!isDescriptionEditMode">{{ user.description }}</p>
     <div *ngIf="isDescriptionEditMode">
       <form [formGroup]="descriptionEditForm" (ngSubmit)="editDescription()" #form="ngForm" class="flex flex-col gap-2">
         <div>
@@ -95,12 +87,16 @@
       </form>
     </div>
   </div>
-  <div *ngIf="(usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin()">
-    <p class="h4-custom text-gray-600">Email kontaktowy:</p>
-    <p class="text-body-reg text-gray-900">{{ company.contactEmail }}</p>
+  <div>
+    <p class="h4-custom text-gray-600">Adres email:</p>
+    <p class="text-body-reg text-gray-900">{{ user.email }}</p>
+  </div>
+  <div>
+    <p class="h4-custom text-gray-600">Data urodzenia:</p>
+    <p class="text-body-reg text-gray-900">{{ user.birthdate }}</p>
   </div>
   <div class="relative">
-    <button *ngIf="company.enabled && ((usersService.isLoggedIn() && company.isCurrentUserOwner) || usersService.isAdmin())" (click)="toggleAddressEditMode()" class="edit-button absolute top-0 right-0">
+    <button *ngIf="(usersService.isLoggedIn() && user.email == usersService.currentUser?.email) || usersService.isAdmin()" (click)="toggleAddressEditMode()" class="edit-button absolute top-0 right-0">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256">
         <!--        <rect width="256" height="256" fill="none"></rect>-->
         <path d="M92.7,216H48a8,8,0,0,1-8-8V163.3a7.9,7.9,0,0,1,2.3-5.6l120-120a8,8,0,0,1,11.4,0l44.6,44.6a8,8,0,0,1,0,11.4l-120,120A7.9,7.9,0,0,1,92.7,216Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
@@ -108,8 +104,8 @@
       </svg>
     </button>
     <div *ngIf="!isAddressEditMode">
-      <p class="h4-custom text-gray-600">Lokalizacja siedziby:</p>
-      <p class="text-body-reg text-gray-900">{{ company.address.country + ', ' + company.address.city + ', ' + company.address.zip + ', ' + company.address.street }}</p>
+      <p class="h4-custom text-gray-600">Adres:</p>
+      <p class="text-body-reg text-gray-900">{{ user.address.country + ', ' + user.address.city + ', ' + user.address.zip + ', ' + user.address.street }}</p>
     </div>
     <div *ngIf="isAddressEditMode">
       <form [formGroup]="addressEditForm" (ngSubmit)="editAddress()" #form="ngForm" class="flex flex-col gap-4">
@@ -178,78 +174,46 @@
       </form>
     </div>
   </div>
-  <div *ngIf="company.enabled && (usersService.isAdmin() || company.isCurrentUserOwner)" class="flex flex-col gap-2">
-    <div class="flex flex-row justify-between items-baseline">
-      <p class="h3-custom text-gray-700">Rekruterzy firmy:</p>
-      <button (click)="goToAllCompanyRecruiters()" class="link-reg text-gray-500 hover:text-gray-400">Pokaż wszystkich></button>
-    </div>
+  <div class="flex flex-col gap-2">
+    <p class="h3-custom text-gray-700">Doświadczenie:</p>
     <div class="bg-gray-100 p-4">
-      <div *ngIf="company.recruitersSample.length == 0">
-        <p class="text-center text-body-reg-semibold text-gray-500">Lista rekruterów jest pusta</p>
+      <div *ngIf="user.experiences.length == 0">
+        <p class="text-center text-body-reg-semibold text-gray-500">Ten użytkownik nie dodał żadnego doświadczenia</p>
       </div>
-      <div *ngIf="company.recruitersSample.length != 0" class="flex flex-col gap-4">
-        <app-recruiters-list-item *ngFor="let recruiter of company.recruitersSample" [recruiter]="recruiter" [companyId]="company.id"></app-recruiters-list-item>
+      <div *ngIf="user.experiences.length != 0" class="flex flex-col gap-4">
+        <app-user-experiences-list-item *ngFor="let experience of user.experiences" [experience]="experience" [userEmail]="user.email"></app-user-experiences-list-item>
       </div>
     </div>
-    <button (click)="goToAllCompanyRecruiters()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
-      <p>Pokaż wszystkich</p>
-      <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
-        <!--      <rect width="256" height="256" fill="none"></rect>-->
-        <polyline points="96 48 176 128 96 208" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
-      </svg>
-    </button>
-    <div class="mt-2">
-      <form [formGroup]="recruiterAddForm" (ngSubmit)="addRecruiter()" #form="ngForm" class="flex flex-col gap-2">
-        <div>
-          <div [ngClass]="{
-              'border-red-400': (isRecruiterAddFormSubmitted && recruiterAddForm.get('email')?.invalid),
-              'border-primary-400': !(isRecruiterAddFormSubmitted && recruiterAddForm.get('email')?.invalid) }"
-               class="border-b-4 flex flex-col">
-            <label class="h4-custom text-gray-500" for="email-input">Dodaj jako rekrutera tej firmy:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent placeholder-gray-400" id="email-input" type="text" formControlName="email" placeholder="Wpisz email użytkownika by dodać jako rekrutera">
-          </div>
-          <div>
-            <div *ngIf="isRecruiterAddFormSubmitted" class="flex flex-col">
-              <p *ngIf="recruiterAddForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
-              <p *ngIf="recruiterAddForm.get('email')?.hasError('minlength')" class="validation-message">*Adres email musi się składać z co najmniej 3 znaków</p>
-              <p *ngIf="recruiterAddForm.get('email')?.hasError('maxlength')" class="validation-message">*Adres email musi się składać z maksymalnie 40 znaków</p>
-              <p *ngIf="recruiterAddForm.get('email')?.hasError('email')" class="validation-message">*Niewłaściwy adres email</p>
-              <p *ngIf="recruiterAddForm.hasError('UserNotFound')" class="validation-message">*Użytkownik z podanym adresem email nie istnieje</p>
-              <p *ngIf="recruiterAddForm.hasError('AlreadyRecruiter')" class="validation-message">*Użytkownik jest już przypisany jako rekruter</p>
-            </div>
-          </div>
-          <p *ngIf="isRecruiterAddedSuccess" class="text-green-500 text-body-reg-bold">Użytkownik został dodany jako rekruter</p>
-        </div>
-        <button class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="submit">
-          <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
-            <!--            <rect width="256" height="256" fill="none"></rect>-->
-            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-            <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-          </svg>
-          <p>Dodaj</p>
-        </button>
-      </form>
+    <div *ngIf="usersService.isAdmin() || (usersService.isLoggedIn() &&  user.email == usersService.currentUser?.email)" class="mt-2">
+      <button (click)="goToExperienceCreate()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+        <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+          <!--            <rect width="256" height="256" fill="none"></rect>-->
+          <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        </svg>
+        <p>Dodaj doświadczenie</p>
+      </button>
     </div>
   </div>
-  <div *ngIf="company.enabled" class="flex flex-col gap-2 mt-6">
-    <div class="flex flex-row justify-between items-baseline">
-      <p class="h3-custom text-gray-700">Najnowsze ogłoszenia firmy:</p>
-      <button class="link-reg text-gray-500 hover:text-gray-400">Pokaż wszystkie></button>
-    </div>
-    <div class="bg-gray-100 flex flex-col gap-4 p-4">
-      <div *ngIf="company.latestOffersSample.length == 0">
-        <p class="text-center text-body-reg-semibold text-gray-500">Firma nie wystawiła żadnych ogłoszeń</p>
+  <div class="flex flex-col gap-2">
+    <p class="h3-custom text-gray-700">Wykształcenie:</p>
+    <div class="bg-gray-100 p-4">
+      <div *ngIf="user.educations.length == 0">
+        <p class="text-center text-body-reg-semibold text-gray-500">Ten użytkownik nie dodał żadnego wykształcenia</p>
       </div>
-      <div *ngIf="company.latestOffersSample.length != 0" class="flex flex-col gap-4">
-        <app-latest-offers-list-item *ngFor="let offer of company.latestOffersSample" [offer]="offer"></app-latest-offers-list-item>
+      <div *ngIf="user.educations.length != 0" class="flex flex-col gap-4">
+        <app-user-educations-list-item *ngFor="let education of user.educations" [education]="education" [userEmail]="user.email"></app-user-educations-list-item>
       </div>
     </div>
-    <button (click)="goToAllCompanyOffers()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
-      <p>Pokaż wszystkie</p>
-      <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
-        <!--      <rect width="256" height="256" fill="none"></rect>-->
-        <polyline points="96 48 176 128 96 208" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
-      </svg>
-    </button>
+    <div *ngIf="usersService.isAdmin() || (usersService.isLoggedIn() &&  user.email == usersService.currentUser?.email)" class="mt-2">
+      <button (click)="goToEducationCreate()" class="flex flex-row justify-center gap-2 items-center p-1 bg-primary-400 rounded text-body-reg-semibold text-gray-50 w-full hover:bg-primary-300" type="button">
+        <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+          <!--            <rect width="256" height="256" fill="none"></rect>-->
+          <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+          <line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+        </svg>
+        <p>Dodaj wykształcenie</p>
+      </button>
+    </div>
   </div>
 </div>

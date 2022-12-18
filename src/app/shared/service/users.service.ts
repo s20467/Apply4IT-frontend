@@ -8,6 +8,10 @@ import jwt_decode from 'jwt-decode'
 import {tap} from "rxjs/operators";
 import {UserMinimalDto} from "../model/user-minimal-dto.model";
 import {UserCreationDto} from "../model/user-creation-dto.model";
+import {Address} from "../model/address.model";
+import {UserPatchDto} from "../model/user-patch-dto.model";
+import {EducationFullDto} from "../model/education-full-dto.model";
+import {ExperienceFullDto} from "../model/experience-full-dto.model";
 
 interface AuthTokensResponse{
   access_token: string;
@@ -92,6 +96,70 @@ export class UsersService {
 
   createUser(newUser: UserCreationDto) {
     return this.http.post(this.urlBase + "users", newUser);
+  }
+
+  getCurrentUserDetails() {
+    return this.http.get<UserFullDto>(this.urlBase + "users/current-user-details");
+  }
+
+  getUserDetailsByEmail(userEmail: string) {
+    return this.http.get<UserFullDto>("users/" + userEmail + "/user-details");
+  }
+
+  uploadPhotoByEmail(userEmail: string, photoFile: File) {
+    const formData = new FormData();
+    formData.append("photo", photoFile, photoFile.name);
+    return this.http.post(this.urlBase + "users/" + userEmail + "/upload-photo", formData)
+  }
+
+  uploadCurrentUserPhoto(photoFile: File) {
+    const formData = new FormData();
+    formData.append("photo", photoFile, photoFile.name);
+    return this.http.post(this.urlBase + "users/upload-photo", formData)
+  }
+
+  // patchCurrentUser(userPatchDto: UserPatchDto) {
+  //   return this.http.patch(this.urlBase + "users/" + , userPatchDto);
+  // }
+
+  patchUser(userEmail: string, userPatchDto: UserPatchDto) {
+    return this.http.patch(this.urlBase + "users/" + userEmail, userPatchDto);
+  }
+
+  deleteUser(userEmail: string) {
+    return this.http.delete(this.urlBase + "users/" + userEmail);
+  }
+
+  deleteUserEducation(userEmail: string, educationId: number) {
+    return this.http.delete(this.urlBase + "users/" + userEmail + "/education/" + educationId);
+  }
+
+  deleteUserExperience(userEmail: string, experienceId: number) {
+    return this.http.delete(this.urlBase + "users/" + userEmail + "/experience/" + experienceId);
+  }
+
+  getUserEducation(userEmail: any, educationId: number) {
+    return this.http.get<EducationFullDto>(this.urlBase + "users/" + userEmail + "/education/" + educationId);
+  }
+
+  getUserExperience(userEmail: any, experienceId: number) {
+    return this.http.get<ExperienceFullDto>(this.urlBase + "users/" + userEmail + "/experience/" + experienceId);
+  }
+
+  createUserEducation(userEmail: any, educationFullDto: EducationFullDto) {
+    return this.http.post(this.urlBase + "users/" + userEmail + "/education", educationFullDto);
+  }
+
+  createUserExperience(userEmail: any, experienceFullDto: ExperienceFullDto) {
+    return this.http.post(this.urlBase + "users/" + userEmail + "/experience", experienceFullDto);
+  }
+
+  editUserEducation(userEmail: any, educationId: number, educationFullDto: EducationFullDto) {
+    return this.http.put(this.urlBase + "users/" + userEmail + "/education/" + educationId, educationFullDto);
+  }
+
+  editUserExperience(userEmail: any, experienceId: number, experienceFullDto: ExperienceFullDto) {
+    return this.http.put(this.urlBase + "users/" + userEmail + "/experience/" + experienceId, experienceFullDto);
   }
 
 

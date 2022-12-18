@@ -19,14 +19,25 @@ import {
 import {
   CompaniesToRegisterListComponent
 } from "./companies/companies-to-register-list/companies-to-register-list.component";
-import {RegistrationComponent} from "./registration/registration.component";
-import {RegistrationSuccessComponent} from "./registration/registration-success/registration-success.component";
+import { RegistrationComponent } from "./registration/registration.component";
+import { RegistrationSuccessComponent } from "./registration/registration-success/registration-success.component";
+import { UsersComponent } from "./users/users.component";
+import { UserProfileComponent } from "./users/user-profile/user-profile.component";
+import { UserEducationEditComponent } from "./users/user-profile/user-education-edit/user-education-edit.component";
+import { UserExperienceEditComponent } from "./users/user-profile/user-experience-edit/user-experience-edit.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'registration-success', component: RegistrationSuccessComponent},
+  {path: 'users', component: UsersComponent, children:[
+      {path: 'my-profile', component: UserProfileComponent},
+      {path: ':userEmail/education/create', component: UserEducationEditComponent},
+      {path: ':userEmail/experience/create', component: UserExperienceEditComponent},
+      {path: ':userEmail/education/:educationId/edit', component: UserEducationEditComponent},
+      {path: ':userEmail/experience/:experienceId/edit', component: UserExperienceEditComponent}
+    ]},
   {path: 'offers', component: OffersComponent, children:[
       {path: '', component: OffersListComponent},
       {path: 'list', component: OffersListComponent},

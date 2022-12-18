@@ -27,7 +27,8 @@
   </div>
   <div class="flex flex-col">
     <div class="w-full flex flex-row gap-6 items-start">
-      <img class="w-[8rem]" src="data:image/png;base64,{{ offer.company.logoPhoto }}">
+      <img *ngIf="offer.company.logoPhoto == null" class=" w-[8rem]" src="/assets/images/company-logo.png">
+      <img *ngIf="offer.company.logoPhoto != null" class="w-[8rem]" src="data:image/png;base64,{{ offer.company.logoPhoto }}">
       <div id="offer-details-container" class="self-end  flex flex-col border-b-[1px] border-gray-300 gap-1.5 w-full pb-3">
         <div class="flex flex-row justify-between items-start">
           <div class="h3-custom text-gray-700 w-5/6">{{ offer.title }}</div>

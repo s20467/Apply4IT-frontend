@@ -1,6 +1,7 @@
 <div (click)="goToCompanyDetails()" class="bg-white drop-shadow-md rounded flex flex-col py-3 pl-6 cursor-pointer company-list-item">
   <div class="w-full flex flex-row gap-6 justify-stretch items-center">
-    <img class=" w-[6rem]" src="data:image/png;base64,{{ company.logoPhoto }}">
+    <img *ngIf="company.logoPhoto == null" class=" w-[6rem]" src="/assets/images/company-logo.png">
+    <img *ngIf="company.logoPhoto != null" class=" w-[6rem]" src="data:image/png;base64,{{ company.logoPhoto }}">
     <div class="flex flex-col justify-center w-full">
       <p class="h4-custom text-gray-700">{{ company.name }}</p>
       <p class="text-body-reg-semibold text-gray-500">Otwartych ofert: {{ company.offersNumber }}</p>

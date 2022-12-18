@@ -38,6 +38,12 @@ import { CompanyRegistrationSuccessComponent } from './companies/company-registr
 import { CompaniesToRegisterListComponent } from './companies/companies-to-register-list/companies-to-register-list.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationSuccessComponent } from './registration/registration-success/registration-success.component';
+import { UsersComponent } from './users/users.component';
+import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { UserEducationsListItemComponent } from './users/user-profile/user-educations-list-item/user-educations-list-item.component';
+import { UserExperiencesListItemComponent } from './users/user-profile/user-experiences-list-item/user-experiences-list-item.component';
+import { UserEducationEditComponent } from './users/user-profile/user-education-edit/user-education-edit.component';
+import { UserExperienceEditComponent } from './users/user-profile/user-experience-edit/user-experience-edit.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +78,13 @@ import { RegistrationSuccessComponent } from './registration/registration-succes
     CompanyRegistrationSuccessComponent,
     CompaniesToRegisterListComponent,
     RegistrationComponent,
-    RegistrationSuccessComponent
+    RegistrationSuccessComponent,
+    UsersComponent,
+    UserProfileComponent,
+    UserEducationsListItemComponent,
+    UserExperiencesListItemComponent,
+    UserEducationEditComponent,
+    UserExperienceEditComponent
   ],
   imports: [
     BrowserModule,

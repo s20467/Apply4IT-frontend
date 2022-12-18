@@ -1,0 +1,101 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col">
+  <div *ngIf="!isEditMode" class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Nowe doświadczenie</div>
+  <div *ngIf="isEditMode" class="h1-custom text-gray-600 border-b-4 border-primary-500 mb-16">Edytowanie doświadczenia</div>
+  <div class="bg-white p-16">
+    <form [formGroup]="educationEditForm" (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col gap-16">
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && educationEditForm.get('major')?.invalid),
+            'border-primary-400': !(form.submitted && educationEditForm.get('major')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="major-input">Kierunek studiów:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="major-input" type="text" [formControlName]="'major'" autofocus>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="educationEditForm.get('major')?.hasError('required')" class="validation-message">*Nazwa kierunku nie może być pusta</p>
+          <p *ngIf="educationEditForm.get('major')?.hasError('minlength')" class="validation-message">*Nazwa kierunku musi się składać z co najmniej 2 znaków</p>
+          <p *ngIf="educationEditForm.get('major')?.hasError('maxlength')" class="validation-message">*Nazwa kierunku się składać z maksymalnie 50 znaków</p>
+        </div>
+      </div>
+      <div [formGroupName]="'specializationGroup'">
+        <div class="border-b-4 flex flex-col" [ngClass]="{
+            'border-red-400': (form.submitted && educationEditForm.get('specialization')?.invalid),
+            'border-primary-400': !(form.submitted && educationEditForm.get('specialization')?.invalid) }">
+          <div class="flex flex-row justify-between">
+            <label class="h4-custom text-gray-500" for="specialization-input">Specjalizacja:</label>
+            <label class="h4-custom text-gray-500" for="no-specialization-input">Brak specjalizacji:</label>
+          </div>
+          <div class="flex flex-row items-center pr-2">
+            <input [attr.disabled]="specializationDisabled ? '' : null" [attr.placeholder]="specializationDisabled ? 'Brak specjalizacji' : null" class="text-body-reg-bold text-gray-700 border-none bg-transparent w-full" id="specialization-input" type="text" [formControlName]="'specialization'">
+            <input (change)="toggleNoSpecialization()" class="cursor-pointer border-[2.5px] rounded-sm border-gray-400 w-[21px] h-[21px]" id="no-specialization-input" type="checkbox" [formControlName]="'noSpecialization'">
+          </div>
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="educationEditForm.get('specialization')?.hasError('required')" class="validation-message">*Nazwa specjalizacji nie może być pusta</p>
+          <p *ngIf="educationEditForm.get('specialization')?.hasError('minlength')" class="validation-message">*Nazwa specjalizacji musi się składać z co najmniej 2 znaków</p>
+          <p *ngIf="educationEditForm.get('specialization')?.hasError('maxlength')" class="validation-message">*Nazwa specjalizacji się składać z maksymalnie 50 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && educationEditForm.get('universityName')?.invalid),
+            'border-primary-400': !(form.submitted && educationEditForm.get('universityName')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="university-name-input">Uczelnia:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="university-name-input" type="text" [formControlName]="'universityName'">
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="educationEditForm.get('universityName')?.hasError('required')" class="validation-message">*Nazwa uczelni nie może być pusta</p>
+          <p *ngIf="educationEditForm.get('universityName')?.hasError('minlength')" class="validation-message">*Nazwa uczelni musi się składać z co najmniej 2 znaków</p>
+          <p *ngIf="educationEditForm.get('universityName')?.hasError('maxlength')" class="validation-message">*Nazwa uczelni się składać z maksymalnie 50 znaków</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1" [formGroupName]="'period'">
+        <div [ngClass]="{
+            'border-red-400': (form.submitted && educationEditForm.get('period')?.get('startDate')?.invalid),
+            'border-primary-400': !(form.submitted && educationEditForm.get('period')?.get('startDate')?.invalid) }"
+             class="border-b-4 flex flex-col">
+          <label class="h4-custom text-gray-500" for="start-date-input">Data rozpoczęcia:</label>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="start-date-input" type="date" [formControlName]="'startDate'">
+        </div>
+        <div *ngIf="form.submitted" class="flex flex-col">
+          <p *ngIf="educationEditForm.get('period')?.get('startDate')?.hasError('required')" class="validation-message">*Data rozpoczęcia nie może być pusta</p>
+          <p *ngIf="educationEditForm.get('period')?.get('startDate')?.hasError('dateAfterToday')" class="validation-message">*Data rozpoczęcia musi być wcześniejsza od daty dzisiejszej</p>
+        </div>
+      </div>
+      <div [formGroupName]="'period'">
+        <div [formGroupName]="'endDateGroup'">
+          <div class="border-b-4 flex flex-col" [ngClass]="{
+              'border-red-400': (form.submitted && (
+                educationEditForm.get('period')?.get('endDateGroup')?.get('endDate')?.invalid ||
+                educationEditForm.get('period')?.get('endDateGroup')?.hasError('conditionalEndDateRequired') ||
+                educationEditForm.get('period')?.hasError('startDateAfterEndDate')
+              )),
+              'border-primary-400': !(form.submitted && (
+                educationEditForm.get('period')?.get('endDateGroup')?.get('endDate')?.invalid ||
+                educationEditForm.get('period')?.get('endDateGroup')?.hasError('conditionalEndDateRequired') ||
+                educationEditForm.get('period')?.hasError('startDateAfterEndDate')
+              )) }">
+            <div class="flex flex-row justify-between">
+              <label class="h4-custom text-gray-500" for="end-date-input">Data zakończenia:</label>
+              <label class="h4-custom text-gray-500" for="no-end-date-input">W trakcie:</label>
+            </div>
+            <div class="flex flex-row items-center pr-2">
+              <input [attr.disabled]="endDateDisabled ? '' : null" class="text-body-reg-bold text-gray-700 border-none bg-transparent w-full" id="end-date-input" type="date" [formControlName]="'endDate'">
+              <input (change)="toggleNoEndDate()" class="cursor-pointer border-[2.5px] rounded-sm border-gray-400 w-[21px] h-[21px]" id="no-end-date-input" type="checkbox" [formControlName]="'notFinishedYet'">
+            </div>
+          </div>
+          <div *ngIf="form.submitted" class="flex flex-col">
+            <p *ngIf="educationEditForm.get('period')?.get('endDateGroup')?.get('endDate')?.hasError('dateAfterToday')" class="validation-message">*Data zakończenia musi być wcześniejsza od daty dzisiejszej</p>
+            <p *ngIf="educationEditForm.get('period')?.get('endDateGroup')?.hasError('conditionalEndDateRequired')" class="validation-message">*Musisz podać datę zakończenia lub zaznaczyć opcję 'W trakcie'</p>
+            <p *ngIf="educationEditForm.get('period')?.hasError('startDateAfterEndDate')" class="validation-message">*Data zakończenia nie może być wcześniejsza od daty rozpoczęcia</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300" type="submit">Zatwierdź</button>
+        <p *ngIf="educationEditForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
+      </div>
+    </form>
+  </div>
+</div>
