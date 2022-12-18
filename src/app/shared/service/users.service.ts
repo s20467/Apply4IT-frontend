@@ -103,7 +103,7 @@ export class UsersService {
   }
 
   getUserDetailsByEmail(userEmail: string) {
-    return this.http.get<UserFullDto>("users/" + userEmail + "/user-details");
+    return this.http.get<UserFullDto>(this.urlBase + "users/" + userEmail + "/user-details");
   }
 
   uploadPhotoByEmail(userEmail: string, photoFile: File) {

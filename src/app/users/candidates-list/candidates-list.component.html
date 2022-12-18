@@ -1,0 +1,8 @@
+<div class="w-[46rem] max-w-[90vw] mx-auto mt-12 flex flex-col gap-8 mb-16">
+  <div class="h1-custom text-gray-600 border-b-4 border-primary-500">Wszyscy kandydaci</div>
+  <div class="flex flex-col gap-6">
+    <div *ngFor="let candidate of candidates">
+      <app-candidates-list-item [candidate]="candidate"></app-candidates-list-item>
+    </div>
+  </div>
+</div>

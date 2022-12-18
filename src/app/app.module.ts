@@ -44,6 +44,9 @@ import { UserEducationsListItemComponent } from './users/user-profile/user-educa
 import { UserExperiencesListItemComponent } from './users/user-profile/user-experiences-list-item/user-experiences-list-item.component';
 import { UserEducationEditComponent } from './users/user-profile/user-education-edit/user-education-edit.component';
 import { UserExperienceEditComponent } from './users/user-profile/user-experience-edit/user-experience-edit.component';
+import { CandidatesListComponent } from './users/candidates-list/candidates-list.component';
+import { CandidatesListItemComponent } from './users/candidates-list/candidates-list-item/candidates-list-item.component';
+import { OfferApplyComponent } from './offers/offer-apply/offer-apply.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +87,10 @@ import { UserExperienceEditComponent } from './users/user-profile/user-experienc
     UserEducationsListItemComponent,
     UserExperiencesListItemComponent,
     UserEducationEditComponent,
-    UserExperienceEditComponent
+    UserExperienceEditComponent,
+    CandidatesListComponent,
+    CandidatesListItemComponent,
+    OfferApplyComponent
   ],
   imports: [
     BrowserModule,

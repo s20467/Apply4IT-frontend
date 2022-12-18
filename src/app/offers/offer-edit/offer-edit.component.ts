@@ -133,7 +133,7 @@ export class OfferEditComponent implements OnInit {
   }
 
   async refreshTextAreas() {
-    await new Promise(f => setTimeout(f, 1)); //todo not async
+    await new Promise(f => setTimeout(f, 1));
     let textareas = this.elem.nativeElement.querySelectorAll('textarea');
     textareas.forEach((textarea: any) => {
       textarea.style.height = "0px";

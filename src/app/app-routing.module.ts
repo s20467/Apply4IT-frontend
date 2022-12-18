@@ -25,6 +25,7 @@ import { UsersComponent } from "./users/users.component";
 import { UserProfileComponent } from "./users/user-profile/user-profile.component";
 import { UserEducationEditComponent } from "./users/user-profile/user-education-edit/user-education-edit.component";
 import { UserExperienceEditComponent } from "./users/user-profile/user-experience-edit/user-experience-edit.component";
+import { OfferApplyComponent } from "./offers/offer-apply/offer-apply.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path: 'registration-success', component: RegistrationSuccessComponent},
   {path: 'users', component: UsersComponent, children:[
       {path: 'my-profile', component: UserProfileComponent},
+      {path: ':userEmail/profile', component: UserProfileComponent},
       {path: ':userEmail/education/create', component: UserEducationEditComponent},
       {path: ':userEmail/experience/create', component: UserExperienceEditComponent},
       {path: ':userEmail/education/:educationId/edit', component: UserEducationEditComponent},
@@ -43,6 +45,7 @@ const routes: Routes = [
       {path: 'list', component: OffersListComponent},
       {path: 'create', component: OfferEditComponent},
       {path: ':offerId/details', component: OfferDetailsComponent},
+      {path: ':offerId/apply', component: OfferApplyComponent},
       {path: ':offerId/edit', component: OfferEditComponent}
     ]},
   {path: 'companies', component: CompaniesComponent, children:[

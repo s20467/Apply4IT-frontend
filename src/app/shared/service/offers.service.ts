@@ -60,6 +60,19 @@ export class OffersService {
     return this.http.put<number>(this.urlBase + "offers/" + offerId, offer)
   }
 
+  applyForOffer(offerId: number, cvFile: File | null) {
+    if(cvFile == null) {
+      return this.http.post(this.urlBase + "offers/" + offerId + "/apply", null);
+    }
+    else {
+      const formData = new FormData();
+      formData.append("cv", cvFile, cvFile.name);
+      return this.http.post(this.urlBase + "offers/" + offerId + "/apply", formData);
+    }
+  }
+
+
+
 
   emitOffersChanged() {
     this.offersChanged.next(null);
@@ -73,6 +86,8 @@ export class OffersService {
   emitOffersNumberOfPagesInitialized(numberOfPages: number) {
     this.offersNumberOfPagesInitialized.next(numberOfPages);
   }
+
+
 
 
 
@@ -180,5 +195,4 @@ export class OffersService {
     currentOfferParams.currentPage = 0;
     return { offerParams: JSON.stringify(currentOfferParams) }
   }
-
 }
