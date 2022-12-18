@@ -47,6 +47,9 @@ import { UserExperienceEditComponent } from './users/user-profile/user-experienc
 import { CandidatesListComponent } from './users/candidates-list/candidates-list.component';
 import { CandidatesListItemComponent } from './users/candidates-list/candidates-list-item/candidates-list-item.component';
 import { OfferApplyComponent } from './offers/offer-apply/offer-apply.component';
+import { SavedOffersComponent } from './offers/saved-offers/saved-offers.component';
+import { MyApplicationsComponent } from './offers/my-applications/my-applications.component';
+import { MyOffersComponent } from './offers/my-offers/my-offers.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +93,10 @@ import { OfferApplyComponent } from './offers/offer-apply/offer-apply.component'
     UserExperienceEditComponent,
     CandidatesListComponent,
     CandidatesListItemComponent,
-    OfferApplyComponent
+    OfferApplyComponent,
+    SavedOffersComponent,
+    MyApplicationsComponent,
+    MyOffersComponent
   ],
   imports: [
     BrowserModule,

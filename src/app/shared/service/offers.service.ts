@@ -35,7 +35,7 @@ export class OffersService {
   }
 
   getOfferById(offerId: number) {
-    return this.http.get<OfferFullDto>(this.urlBase + "offers/" + offerId);
+    return this.http.get<OfferFullDto>(this.urlBase + "offers/" + offerId + "/details");
   }
 
   deleteOffer(offerId: number) {
@@ -79,6 +79,18 @@ export class OffersService {
 
   downloadApplicationCv(applicationId: number) {
     return this.http.get(this.urlBase + "applications/" + applicationId + "/cv", {responseType: 'blob'});
+  }
+
+  getSavedOffers() {
+    return this.http.get<OfferMinimalDto[]>(this.urlBase + "offers/saved");
+  }
+
+  getAppliedForOffers() {
+    return this.http.get<OfferMinimalDto[]>(this.urlBase + "offers/applied-for");
+  }
+
+  getMyOffers() {
+    return this.http.get<OfferMinimalDto[]>(this.urlBase + "offers/my-offers");
   }
 
 

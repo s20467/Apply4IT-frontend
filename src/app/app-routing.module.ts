@@ -27,6 +27,9 @@ import { UserEducationEditComponent } from "./users/user-profile/user-education-
 import { UserExperienceEditComponent } from "./users/user-profile/user-experience-edit/user-experience-edit.component";
 import { OfferApplyComponent } from "./offers/offer-apply/offer-apply.component";
 import { CandidatesListComponent } from "./users/candidates-list/candidates-list.component";
+import { SavedOffersComponent } from "./offers/saved-offers/saved-offers.component";
+import { MyApplicationsComponent } from "./offers/my-applications/my-applications.component";
+import { MyOffersComponent } from "./offers/my-offers/my-offers.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'offers/list', pathMatch: 'full'},
@@ -45,6 +48,9 @@ const routes: Routes = [
       {path: '', component: OffersListComponent},
       {path: 'list', component: OffersListComponent},
       {path: 'create', component: OfferEditComponent},
+      {path: 'saved', component: SavedOffersComponent},
+      {path: 'applied-for', component: MyApplicationsComponent},
+      {path: 'my-offers', component: MyOffersComponent},
       {path: ':offerId/details', component: OfferDetailsComponent},
       {path: ':offerId/apply', component: OfferApplyComponent},
       {path: ':offerId/candidates', component: CandidatesListComponent},
