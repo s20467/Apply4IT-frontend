@@ -21,11 +21,17 @@ export class JwtRefreshInterceptor implements HttpInterceptor{
           map(x => x),
           catchError((error) => {
             if (error instanceof HttpErrorResponse && error.status == HttpStatusCode.Unauthorized) {
-              return this.getRefreshedTokenRequest().pipe(
+              return this.getRefreshTokenRequest().pipe(
                 switchMap((response: AccessTokenResponse) => {
                   this.setAccessToken(response.access_token)
                   return this.http.request(req);
-                }));
+                }),
+                catchError(error => {
+                  this.usersService.logout();
+                  this.router.navigate(["/login"]);
+                  return throwError(error);
+                })
+              );
             }
             return throwError(error);
           })
@@ -36,7 +42,7 @@ export class JwtRefreshInterceptor implements HttpInterceptor{
     }
 
 
-  getRefreshedTokenRequest() {
+  getRefreshTokenRequest() {
     return this.http.get<AccessTokenResponse>(environment.apiUrlBase + 'refresh-token', {headers: new HttpHeaders({'Authorization': 'Bearer ' + localStorage.getItem('apply4it_refresh_token')})});
   }
 
