@@ -5,11 +5,8 @@ import { map, Observable, switchMap, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsersService } from "./users.service";
+import { AccessTokenResponse } from "../model/access-token-response.model";
 
-
-interface AccessTokenResponse{
-    access_token: string;
-}
 
 @Injectable({
     providedIn: 'root'

@@ -19,9 +19,7 @@ export class JwtInterceptor implements HttpInterceptor{
     constructor(private usersService: UsersService, private http: HttpClient, private router: Router){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      // console.log("token interceptor " + req.url);
         if(this.usersService.isLoggedIn()  && !req.url.endsWith('refresh-token')){
-          // console.log("token interceptor " + req.url);
             return next.handle(req.clone(
                 { headers: req.headers.append('Authorization', 'Bearer ' + localStorage.getItem('apply4it_access_token')) }
             ))

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import { Subject } from "rxjs";
 import { UserFullDto } from "../model/user-full-dto.model";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Router } from "@angular/router";
 import jwt_decode from 'jwt-decode'
 import {tap} from "rxjs/operators";
 import {UserMinimalDto} from "../model/user-minimal-dto.model";
 import {UserCreationDto} from "../model/user-creation-dto.model";
-import {Address} from "../model/address.model";
 import {UserPatchDto} from "../model/user-patch-dto.model";
 import {EducationFullDto} from "../model/education-full-dto.model";
 import {ExperienceFullDto} from "../model/experience-full-dto.model";
+import {AccessTokenResponse} from "../model/access-token-response.model";
 
 interface AuthTokensResponse{
   access_token: string;
@@ -31,16 +31,34 @@ export class UsersService {
   currentUser: UserFullDto | null = null;
 
   constructor(private http: HttpClient, private router: Router) {
-    let access_token: string | null = localStorage.getItem('apply4it_access_token');
-    if(access_token) {
-      let decodedJwt = jwt_decode(access_token);
-      this.currentUser = new UserFullDto();
-      // @ts-ignore
-      this.currentUser.email = decodedJwt['sub'];
-      // @ts-ignore
-      this.currentUser.authorities = decodedJwt['authorities'];
-      this.emitAuthenticationStatusChanged()
-    }
+    new Promise(() => setTimeout(() => {
+      this.refreshToken();
+      let access_token: string | null = localStorage.getItem('apply4it_access_token');
+      if(access_token) {
+        let decodedJwt = jwt_decode(access_token);
+        this.currentUser = new UserFullDto();
+        // @ts-ignore
+        this.currentUser.email = decodedJwt['sub'];
+        // @ts-ignore
+        this.currentUser.authorities = decodedJwt['authorities'];
+        this.emitAuthenticationStatusChanged()
+      }
+    }, 1));
+  }
+
+  refreshToken() {
+    this.http.get<AccessTokenResponse>(environment.apiUrlBase + 'refresh-token',
+      {headers: new HttpHeaders({'Authorization': 'Bearer ' + localStorage.getItem('apply4it_refresh_token')})})
+      .subscribe({
+        next: response => {
+          localStorage.setItem('apply4it_access_token', response.access_token);
+        },
+        error: error => {
+          localStorage.removeItem("apply4it_access_token");
+          localStorage.removeItem("apply4it_refresh_token");
+          this.currentUser = null;
+        }
+      });
   }
 
   login(username: string, password: string){
