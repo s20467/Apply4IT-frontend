@@ -23,7 +23,7 @@
               'border-primary-400': !(form.submitted && loginForm.get('password')?.invalid) }"
              class="border-b-4 flex flex-col mb-2">
           <label class="h4-custom text-gray-500" for="password-input">Hasło:</label>
-          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="password-input" type="password" formControlName="password" autofocus>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="password-input" type="password" formControlName="password">
         </div>
         <div class="flex flex-col">
           <div *ngIf="form.submitted" class="flex flex-col">

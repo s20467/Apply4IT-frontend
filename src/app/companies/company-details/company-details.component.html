@@ -78,7 +78,7 @@
             'border-red-400': (form.submitted && descriptionEditForm.get('description')?.invalid),
             'border-primary-400': !(form.submitted && descriptionEditForm.get('description')?.invalid) }">
             <label class="h4-custom text-gray-500" for="description-input">Opis:</label>
-            <textarea #descriptionInput (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'"></textarea>
+            <textarea #descriptionInput (keyup)="autoGrowTextarea($event)" class="h-10 overflow-hidden text-body-reg-bold text-gray-700 border-none bg-transparent" id="description-input" type="text" [formControlName]="'description'" autofocus></textarea>
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="descriptionEditForm.get('description')?.hasError('maxlength')" class="validation-message">*Opis musi się składać z maksymalnie 2000 znaków</p>
@@ -133,7 +133,7 @@
                   'border-primary-400': !(form.submitted && addressEditForm.get('city')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
@@ -146,7 +146,7 @@
                   'border-primary-400': !(form.submitted && addressEditForm.get('zip')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
@@ -160,7 +160,7 @@
                   'border-primary-400': !(form.submitted && addressEditForm.get('street')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>

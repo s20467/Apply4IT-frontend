@@ -11,7 +11,6 @@ export class CompanyRegistrationSuccessComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    new Promise(() => setTimeout(() => {this.router.navigate(["/offers"])}, 15000));
   }
 
   goToHomePage() {

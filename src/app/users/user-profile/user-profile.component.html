@@ -129,7 +129,7 @@
                   'border-primary-400': !(form.submitted && addressEditForm.get('city')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
@@ -142,7 +142,7 @@
                   'border-primary-400': !(form.submitted && addressEditForm.get('zip')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
@@ -156,7 +156,7 @@
                   'border-primary-400': !(form.submitted && addressEditForm.get('street')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>

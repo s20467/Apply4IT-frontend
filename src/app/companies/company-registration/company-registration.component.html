@@ -34,7 +34,7 @@
             'border-primary-400': !(form.submitted && companyRegistrationForm.get('email')?.invalid) }"
              class="border-b-4 flex flex-col mb-2">
           <label class="h4-custom text-gray-500" for="email-input">Kontaktowy adres email:</label>
-          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="email-input" type="text" formControlName="email" autofocus>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="email-input" type="text" formControlName="email">
         </div>
         <div *ngIf="form.submitted" class="flex flex-col">
           <p *ngIf="companyRegistrationForm.get('email')?.hasError('required')" class="validation-message">*Adres email nie może być puste</p>
@@ -51,7 +51,7 @@
             'border-primary-400': !(form.submitted && companyRegistrationForm.get('country')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="country-input">Kraj:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="companyRegistrationForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
@@ -65,7 +65,7 @@
             'border-primary-400': !(form.submitted && companyRegistrationForm.get('city')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="companyRegistrationForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
@@ -78,7 +78,7 @@
             'border-primary-400': !(form.submitted && companyRegistrationForm.get('zip')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="companyRegistrationForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
@@ -92,7 +92,7 @@
             'border-primary-400': !(form.submitted && companyRegistrationForm.get('street')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="companyRegistrationForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>

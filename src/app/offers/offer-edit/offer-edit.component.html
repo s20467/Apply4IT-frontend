@@ -191,7 +191,7 @@
             'border-primary-400': !(form.submitted && offerEditForm.get('closingDate')?.invalid) }"
              class="border-b-4 flex flex-col">
           <label class="h4-custom text-gray-500" for="closing-date-input">Aktywna do:</label>
-          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="closing-date-input" type="date" [formControlName]="'closingDate'" autofocus>
+          <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="closing-date-input" type="date" [formControlName]="'closingDate'">
         </div>
         <div *ngIf="form.submitted" class="flex flex-col">
           <p *ngIf="offerEditForm.get('closingDate')?.hasError('required')" class="validation-message">*Musisz wybrać datę zamknięcia ogłoszenia</p>
@@ -220,7 +220,7 @@
             'border-primary-400': !(form.submitted && offerEditForm.get('country')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="country-input">Kraj:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="country-input" type="text" [formControlName]="'country'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="offerEditForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
@@ -234,7 +234,7 @@
             'border-primary-400': !(form.submitted && offerEditForm.get('city')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="city-input">Miasto:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="city-input" type="text" [formControlName]="'city'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="offerEditForm.get('city')?.hasError('required')" class="validation-message">*Miasto nie może być puste</p>
@@ -247,7 +247,7 @@
             'border-primary-400': !(form.submitted && offerEditForm.get('zip')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="zip-input">ZIP:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="zip-input" type="text" [formControlName]="'zip'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="offerEditForm.get('zip')?.hasError('required')" class="validation-message">*ZIP nie może być pusty</p>
@@ -261,7 +261,7 @@
             'border-primary-400': !(form.submitted && offerEditForm.get('street')?.invalid) }"
                class="border-b-4 flex flex-col">
             <label class="h4-custom text-gray-500" for="street-input">Ulica:</label>
-            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'" autofocus>
+            <input class="text-body-reg-bold text-gray-700 border-none bg-transparent" id="street-input" type="text" [formControlName]="'street'">
           </div>
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="offerEditForm.get('street')?.hasError('required')" class="validation-message">*Ulica nie może być pusta</p>
