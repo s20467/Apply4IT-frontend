@@ -27,7 +27,7 @@ export class LocalizationsListItemComponent implements OnInit {
     }
     else {
       this.localizationEditForm = new FormGroup({
-        localization: new FormControl(this.localization.name, [Validators.required, Validators.maxLength(50)])
+        localization: new FormControl(this.localization.name, [Validators.required, Validators.maxLength(200)])
       })
       this.isLocalizationEditMode = true;
     }
