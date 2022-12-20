@@ -12,6 +12,7 @@ import {UserPatchDto} from "../model/user-patch-dto.model";
 import {EducationFullDto} from "../model/education-full-dto.model";
 import {ExperienceFullDto} from "../model/experience-full-dto.model";
 import {AccessTokenResponse} from "../model/access-token-response.model";
+import {OffersService} from "./offers.service";
 
 interface AuthTokensResponse{
   access_token: string;
@@ -30,20 +31,31 @@ export class UsersService {
 
   currentUser: UserFullDto | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {
-    new Promise(() => setTimeout(() => {
-      this.refreshToken();
-      let access_token: string | null = localStorage.getItem('apply4it_access_token');
-      if(access_token) {
-        let decodedJwt = jwt_decode(access_token);
-        this.currentUser = new UserFullDto();
-        // @ts-ignore
-        this.currentUser.email = decodedJwt['sub'];
-        // @ts-ignore
-        this.currentUser.authorities = decodedJwt['authorities'];
-        this.emitAuthenticationStatusChanged()
-      }
-    }, 1));
+  constructor(private http: HttpClient, private router: Router, private offersService: OffersService) {
+    let access_token: string | null = localStorage.getItem('apply4it_access_token');
+    if(access_token) {
+      let decodedJwt = jwt_decode(access_token);
+      this.currentUser = new UserFullDto();
+      // @ts-ignore
+      this.currentUser.email = decodedJwt['sub'];
+      // @ts-ignore
+      this.currentUser.authorities = decodedJwt['authorities'];
+      this.emitAuthenticationStatusChanged()
+
+      new Promise(() => setTimeout(() => {
+        this.refreshToken();
+        let access_token: string | null = localStorage.getItem('apply4it_access_token');
+        if(access_token) {
+          let decodedJwt = jwt_decode(access_token);
+          this.currentUser = new UserFullDto();
+          // @ts-ignore
+          this.currentUser.email = decodedJwt['sub'];
+          // @ts-ignore
+          this.currentUser.authorities = decodedJwt['authorities'];
+          this.emitAuthenticationStatusChanged()
+        }
+      }, 1));
+    }
   }
 
   refreshToken() {
@@ -184,6 +196,7 @@ export class UsersService {
 
   emitAuthenticationStatusChanged(){
     this.authenticationStatusChanged.next(!!this.currentUser);
+    this.offersService.emitOffersChanged();
   }
 
   emitAdminsChanged() {
