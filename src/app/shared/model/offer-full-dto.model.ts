@@ -23,4 +23,5 @@ export class OfferFullDto{
   applicationsNumber: number | null;
   remotePossibility: boolean;
   isSavedByCurrentUser: boolean;
+  hasCurrentUserApplied: boolean | null;
 }

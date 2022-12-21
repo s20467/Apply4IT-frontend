@@ -140,5 +140,6 @@
       </div>
     </div>
   </div>
-  <button (click)="goToApplyForm()" class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300">Aplikuj</button>
+  <button *ngIf="!offer.hasCurrentUserApplied" (click)="goToApplyForm()" class="p-1 bg-primary-400 rounded h4-custom text-gray-50 w-full hover:bg-primary-300">Aplikuj</button>
+  <button *ngIf="offer.hasCurrentUserApplied" class="p-1 bg-emerald-500 rounded h4-custom text-gray-50 w-full cursor-default">Aplikacja wysłana</button>
 </div>
