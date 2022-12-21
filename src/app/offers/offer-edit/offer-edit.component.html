@@ -25,8 +25,9 @@
             <option *ngFor="let company of companies" [ngValue]="company.id">{{ company.name }}</option>
           </select>
         </div>
-        <div *ngIf="form.submitted" class="flex flex-col">
-          <p *ngIf="offerEditForm.get('company')?.hasError('required')" class="validation-message">*Musisz wybrać firmę</p>
+        <div class="flex flex-col">
+          <p *ngIf="form.submitted && offerEditForm.get('company')?.hasError('required')" class="validation-message">*Musisz wybrać firmę</p>
+          <p *ngIf="companies.length == 0" class="validation-message">*Nie posiadasz żadnej zarejestrowanej firmy ani nie jesteś rekruterem</p>
         </div>
       </div>
       <div>
