@@ -234,7 +234,7 @@
   <div *ngIf="company.enabled" class="flex flex-col gap-2 mt-6">
     <div class="flex flex-row justify-between items-baseline">
       <p class="h3-custom text-gray-700">Najnowsze ogłoszenia firmy:</p>
-      <button class="link-reg text-gray-500 hover:text-gray-400">Pokaż wszystkie></button>
+      <button (click)="goToAllCompanyOffers()" class="link-reg text-gray-500 hover:text-gray-400">Pokaż wszystkie></button>
     </div>
     <div class="bg-gray-100 flex flex-col gap-4 p-4">
       <div *ngIf="company.latestOffersSample.length == 0">
