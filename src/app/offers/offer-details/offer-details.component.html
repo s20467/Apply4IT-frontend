@@ -134,7 +134,7 @@
           <p class="text-body-reg text-gray-900">{{ offer.closingDate }}</p>
         </div>
       </div>
-      <div *ngIf="usersService.isLoggedIn() && offer.applicationsNumber != null">
+      <div *ngIf="((usersService.isLoggedIn() && isAuthor) || usersService.isAdmin()) && offer.applicationsNumber != null">
         <p class="h4-custom text-gray-600 mb-[-0.3rem]">Liczba kandydatów: {{ offer.applicationsNumber }}</p>
         <a [routerLink]="['/offers', offer.id, 'candidates']" class="link-reg text-primary-400 cursor-pointer hover:text-primary-300">Przejdź do listy kandydatów></a>
       </div>
