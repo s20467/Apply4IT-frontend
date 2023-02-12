@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { OffersService } from "../../shared/service/offers.service";
 import { UsersService } from "../../shared/service/users.service";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { OfferFullDto } from "../../shared/model/offer-full-dto.model";
+import { Location } from "@angular/common";
 
 @Component({
   selector: 'app-offer-details',
@@ -18,7 +19,8 @@ export class OfferDetailsComponent implements OnInit {
     private offersService: OffersService,
     public usersService: UsersService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +63,7 @@ export class OfferDetailsComponent implements OnInit {
       this.offersService.deleteOffer(this.offer.id).subscribe(() => {
         this.offersService.emitOffersChanged();
       });
-      this.router.navigate([""])
+      this.location.back();
     }
   }
 

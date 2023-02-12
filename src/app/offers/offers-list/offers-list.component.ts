@@ -44,7 +44,7 @@ export class OffersListComponent implements OnInit, OnDestroy {
   }
 
   goToAllOffers() {
-    this.router.navigate(["/offers"]);
+    this.router.navigate([""]);
   }
 
   ngOnDestroy() {

@@ -34,7 +34,7 @@
       </div>
       <div *ngIf="form.submitted" class="flex flex-col">
         <p *ngIf="localizationEditForm.get('localization')?.hasError('required')" class="validation-message">*Nazwa lokalizacji nie może być pusty</p>
-        <p *ngIf="localizationEditForm.get('localization')?.hasError('maxlength')" class="validation-message">*Nazwa lokalizacji musi się składać z maksymalnie 50 znaków</p>
+        <p *ngIf="localizationEditForm.get('localization')?.hasError('maxlength')" class="validation-message">*Nazwa lokalizacji musi się składać z maksymalnie 200 znaków</p>
         <p *ngIf="localizationEditForm.hasError('UnknownServerError')" class="validation-message">*Nieznany błąd serwera. Spróbuj ponownie później</p>
       </div>
     </div>

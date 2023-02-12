@@ -124,7 +124,7 @@
           <div *ngIf="form.submitted" class="flex flex-col">
             <p *ngIf="addressEditForm.get('country')?.hasError('required')" class="validation-message">*Kraj nie może być pusty</p>
             <p *ngIf="addressEditForm.get('country')?.hasError('minlength')" class="validation-message">*Kraj musi się składać z co najmniej 3 znaków</p>
-            <p *ngIf="addressEditForm.get('country')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 60 znaków</p>
+            <p *ngIf="addressEditForm.get('country')?.hasError('maxlength')" class="validation-message">*Kraj musi się składać z maksymalnie 70 znaków</p>
           </div>
         </div>
         <div class="flex flex-col gap-1">

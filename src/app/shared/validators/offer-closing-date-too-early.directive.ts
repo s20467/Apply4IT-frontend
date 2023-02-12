@@ -4,7 +4,10 @@ import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
 export const offerClosingDateTooEarly: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
     let dateValue = new Date(control.value);
-    if(dateValue <= new Date()) {
+    dateValue.setHours(0,0,0,0);
+    let now = new Date();
+    now.setHours(0,0,0,0);
+    if(dateValue <= now) {
       return { closingDateTooEarly: true };
     }
     return null;

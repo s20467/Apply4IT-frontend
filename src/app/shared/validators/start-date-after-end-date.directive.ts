@@ -7,7 +7,7 @@ export const startDateAfterEndDateValidator: ValidatorFn =
     let startDate = new Date(formGroup.value["startDate"]);
     let notFinishedYet = formGroup.value["endDateGroup"]["notFinishedYet"];
     let endDate = new Date(formGroup.value["endDateGroup"]["endDate"])
-    if(!notFinishedYet && startDate > endDate) {
+    if(!notFinishedYet && startDate >= endDate) {
       return { startDateAfterEndDate: true };
     }
     return null;
