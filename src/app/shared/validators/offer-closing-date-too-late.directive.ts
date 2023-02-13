@@ -8,7 +8,7 @@ export const offerClosingDateTooLate: ValidatorFn =
     let dateThreshold = new Date();
     dateThreshold.setHours(0,0,0,0);
     dateThreshold.setFullYear(dateThreshold.getFullYear() + 1)
-    if(dateValue > dateThreshold) {
+    if(dateValue >= dateThreshold) {
       return { closingDateTooLate: true };
     }
     return null;
