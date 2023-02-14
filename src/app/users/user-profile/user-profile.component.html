@@ -13,7 +13,7 @@
   </div>
   <div class="flex flex-row gap-6 items-center">
     <div class="w-[8rem] relative">
-      <button *ngIf="!isUploadPhotoMode" (click)="toggleUploadPhotoMode()" class="upload-image-button absolute bottom-0 left-0" type="button">
+      <button *ngIf="!isUploadPhotoMode && ((usersService.isLoggedIn() && user.email == usersService.currentUser?.email) || usersService.isAdmin())" (click)="toggleUploadPhotoMode()" class="upload-image-button absolute bottom-0 left-0" type="button">
         <svg class="z-20 inner-upload-icon absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#000000" viewBox="0 0 256 256">
           <!--        <rect width="256" height="256" fill="none"></rect>-->
           <polyline points="86 82 128 40 170 82" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
