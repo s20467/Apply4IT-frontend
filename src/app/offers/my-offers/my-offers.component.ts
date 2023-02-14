@@ -26,7 +26,7 @@ export class MyOffersComponent implements OnInit {
     else {
       this.offersService.getMyOffers().subscribe(offers => {
         this.offers = offers.sort((o1, o2) =>
-          Date.parse(o1.creationDate.toString()) - Date.parse(o2.creationDate.toString()))
+          Date.parse(o2.creationDate.toString()) - Date.parse(o1.creationDate.toString()))
       });
     }
   }

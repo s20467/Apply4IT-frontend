@@ -18,7 +18,9 @@ export class CandidatesListComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       let offerId: number = +this.activatedRoute.snapshot.params['offerId'];
       this.offersService.getOfferCandidates(offerId).subscribe(candidates => {
-        this.candidates = candidates;
+        this.candidates = candidates.sort((o1, o2) =>
+          (o1.firstName + o1.lastName).localeCompare(o2.firstName + o2.lastName)
+        );
       })
     });
   }
